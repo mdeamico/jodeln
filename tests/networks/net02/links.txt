@@ -1,0 +1,14 @@
+a,b,7,a-b,0
+a,c,3,a-c,0
+b,a,7,b-a,0
+b,c,1,b-c,0
+b,d,2,b-d,0
+b,e,6,b-e,0
+c,a,3,c-a,0
+c,b,1,c-b,0
+c,d,2,c-d,0
+d,c,2,d-c,0
+d,b,2,d-b,0
+d,e,4,d-e,0
+e,b,6,e-b,0
+e,d,4,e-d,0
