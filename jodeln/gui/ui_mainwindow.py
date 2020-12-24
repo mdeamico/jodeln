@@ -15,18 +15,20 @@ from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient)
 from PySide2.QtWidgets import *
 
+from .schematic_view import SchematicView
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 366)
+        MainWindow.resize(897, 494)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
-        MainWindow.setMaximumSize(QSize(16777215, 366))
+        MainWindow.setMaximumSize(QSize(16777215, 800))
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -205,6 +207,16 @@ class Ui_MainWindow(object):
 
 
         self.verticalLayout.addLayout(self.formLayout_2)
+
+        self.gridLayout_2 = QGridLayout()
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.gvSchematic = SchematicView(self.centralwidget)
+        self.gvSchematic.setObjectName(u"gvSchematic")
+
+        self.gridLayout_2.addWidget(self.gvSchematic, 0, 0, 1, 1)
+
+
+        self.verticalLayout.addLayout(self.gridLayout_2)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)

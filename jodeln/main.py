@@ -1,10 +1,12 @@
 import sys
+from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import QApplication, QMainWindow
 from PySide2.QtCore import QFile
 from PySide2.QtGui import QDoubleValidator
+from PySide2 import QtUiTools
 from gui.ui_mainwindow import Ui_MainWindow
 
-
+from gui import schematic_scene
 from model import Model
 
 class MainWindow(QMainWindow):
@@ -36,6 +38,14 @@ class MainWindow(QMainWindow):
         self.ui.leWeightGEH.setText("1")
         self.ui.leWeightODSSE.setText("0")
         self.ui.leWeightRouteRatio.setText("1")
+
+        # Setup graphics view
+        print("set scene?")
+        s_scene = schematic_scene.SchematicScene()
+        self.ui.gvSchematic.setScene(s_scene)
+
+        # Add graphic for testing
+        s_scene.addEllipse(10, 10, 200, 200)
         
     def load(self):
         """Load nodes, links, etc from user inputs."""
