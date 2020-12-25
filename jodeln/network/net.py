@@ -152,10 +152,10 @@ class NetNode():
         Unique identifier for the node.
     payload : List
         List of data to assign to the node.
-    x : str
-        x-coordinate of node. TODO: should be a float
-    y : str
-        y-coordinate of node. TODO: should be a float
+    x : float
+        x-coordinate of node. Defaults to zero.
+    y : float
+        y-coordinate of node. Defaults to zero.
     is_origin : bool
         Indicates if traffic can start their trip from this node (source node)
     is_destination : bool
@@ -180,8 +180,17 @@ class NetNode():
         self.payload = payload
         
         self.name = payload[0]
-        self.x = payload[1]
-        self.y = payload[2]
+        
+        try:
+            self.x = float(payload[1])
+        except ValueError:
+            self.x = 0
+        
+        try:
+            self.y = float(payload[2])
+        except ValueError:
+            self.y = 0
+        
         self.is_origin = int(payload[3]) == 1
         self.is_destination = int(payload[4]) == 1
 
