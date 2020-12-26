@@ -135,6 +135,17 @@ class Model():
         output_folder = _clean_folder_path(output_folder)
         net_write.export_route_list(self.net, output_folder)
 
+    def get_node_xy(self):
+        if not self.net:
+            return
+        
+        return {i: (node.x, node.y) for i, node in self.net.nodes.items()}
+
+    def get_links(self):
+        if not self.net:
+            return
+        
+        return [(i, j) for i, j, _ in self.net.links()]
 
 def _clean_file_path(file_path):
     """Check if a file exists and return a valid path, else None."""

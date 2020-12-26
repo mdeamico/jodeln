@@ -1,10 +1,12 @@
 import sys
+from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import QApplication, QMainWindow
 from PySide2.QtCore import QFile
 from PySide2.QtGui import QDoubleValidator
+from PySide2 import QtUiTools
 from gui.ui_mainwindow import Ui_MainWindow
 
-
+from gui import schematic_scene
 from model import Model
 
 class MainWindow(QMainWindow):
@@ -36,15 +38,22 @@ class MainWindow(QMainWindow):
         self.ui.leWeightGEH.setText("1")
         self.ui.leWeightODSSE.setText("0")
         self.ui.leWeightRouteRatio.setText("1")
+
+        # Setup graphics view
+        self.schematic_scene = schematic_scene.SchematicScene()
+        self.ui.gvSchematic.setScene(self.schematic_scene)
+
         
     def load(self):
         """Load nodes, links, etc from user inputs."""
-        self.model.load(node_file=self.ui.leNodes.text(),
-                        links_file=self.ui.leLinks.text(),
-                        od_seed_file=self.ui.leSeedOD.text(),
-                        turns_file=self.ui.leTurns.text(),
-                        od_routes_file=self.ui.leRoutes.text())
-    
+        load_successful = self.model.load(node_file=self.ui.leNodes.text(),
+                                          links_file=self.ui.leLinks.text(),
+                                          od_seed_file=self.ui.leSeedOD.text(),
+                                          turns_file=self.ui.leTurns.text(),
+                                          od_routes_file=self.ui.leRoutes.text())
+        if load_successful:
+            self.draw_network()
+
     def export_turns(self):
         """Export turns to csv."""
         self.model.export_turns(self.ui.leExportFolder.text())
@@ -68,6 +77,18 @@ class MainWindow(QMainWindow):
         self.model.export_od(self.ui.leExportFolder.text())
         self.model.export_od_by_route(self.ui.leExportFolder.text())
 
+    def draw_network(self):
+        print("drawing nodes")
+        nodes = self.model.get_node_xy()
+        for _, (x, y) in nodes.items():
+            self.schematic_scene.addEllipse(x - 2, y - 2, 4, 4)
+        
+        links = self.model.get_links()
+        for (i, j) in links:
+            self.schematic_scene.addLine(nodes[i][0],
+                                         nodes[i][1],
+                                         nodes[j][0],
+                                         nodes[j][1])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
