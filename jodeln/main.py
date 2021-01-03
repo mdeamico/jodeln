@@ -9,6 +9,8 @@ from gui.ui_mainwindow import Ui_MainWindow
 from gui import schematic_scene
 from model import Model
 
+from gui import od_tablemodel
+
 class MainWindow(QMainWindow):
     """Main window presented to the user when the program first starts."""
     def __init__(self):
@@ -54,6 +56,12 @@ class MainWindow(QMainWindow):
         if load_successful:
             self.draw_network()
 
+            od_data = self.model.get_od_data()
+            self.od_table_model = od_tablemodel.ODTableModel(od_data)
+            self.ui.tblOD.setModel(self.od_table_model)
+            self.ui.tblOD.selectionModel().selectionChanged.connect(self.on_od_table_selection)
+
+
     def export_turns(self):
         """Export turns to csv."""
         self.model.export_turns(self.ui.leExportFolder.text())
@@ -89,6 +97,27 @@ class MainWindow(QMainWindow):
                                          nodes[i][1],
                                          nodes[j][0],
                                          nodes[j][1])
+
+    def on_od_table_selection(self, selected, deselected):
+        """Function called when an item in the OD Table is selected.
+
+        Parameters
+        ----------
+        selected : QItemSelection
+            Currently selected item from the selectionModel.
+        deselected : QItemSelection
+            Items from the selectionModel that were previously selected, but 
+            are no longer selected.
+        """
+        selection = self.ui.tblOD.selectionModel().selectedIndexes()
+
+        if len(selection) > 0:
+            pass
+            # Get route for first selected OD pair, i.e. selection[0]
+            # route = self.od_table_model.get_routes_from_OD(selection[0])
+            # self.schematic_scene.color_route(route)
+            
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -147,6 +147,30 @@ class Model():
         
         return [(i, j) for i, j, _ in self.net.links()]
 
+    def get_od_data(self):
+        """Return basic info OD for each od route.
+        """
+        od_data = []
+        
+        for od in self.net.od:
+            o_name = self.net.nodes[od.origin].name
+            d_name = self.net.nodes[od.destination].name
+
+            for route in od.routes:
+                basic_info = {
+                    'origin': od.origin,
+                    'destination': od.destination,
+                    'o_name': o_name,
+                    'd_name': d_name,
+                    'route': route.name,
+                    'nodes': route.nodes
+                    }
+
+                od_data.append(basic_info)
+
+        return od_data
+
+
 def _clean_file_path(file_path):
     """Check if a file exists and return a valid path, else None."""
     if file_path is None:
