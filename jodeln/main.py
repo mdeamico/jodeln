@@ -4,6 +4,7 @@ from PySide2.QtWidgets import QApplication, QMainWindow
 from PySide2.QtCore import QFile
 from PySide2.QtGui import QDoubleValidator
 from PySide2 import QtUiTools
+from PySide2.QtWidgets import QAbstractItemView
 from gui.ui_mainwindow import Ui_MainWindow
 
 from gui import schematic_scene
@@ -44,6 +45,9 @@ class MainWindow(QMainWindow):
         # Setup graphics view
         self.schematic_scene = schematic_scene.SchematicScene()
         self.ui.gvSchematic.setScene(self.schematic_scene)
+
+        # Set table behaviors
+        self.ui.tblOD.setSelectionBehavior(QAbstractItemView.SelectRows)
 
         
     def load(self):
