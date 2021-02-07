@@ -56,8 +56,8 @@ class MainWindow(QMainWindow):
         if load_successful:
             self.draw_network()
 
-            od_data = self.model.get_od_data()
-            self.od_table_model = od_tablemodel.ODTableModel(od_data)
+            routes = self.model.get_route_list()
+            self.od_table_model = od_tablemodel.ODTableModel(routes)
             self.ui.tblOD.setModel(self.od_table_model)
             self.ui.tblOD.selectionModel().selectionChanged.connect(self.on_od_table_selection)
 

@@ -3,23 +3,25 @@
 from PySide2 import QtCore
 from PySide2.QtCore import Qt
 
+from typing import List
+from model import RouteInfo
 
 class ODTableModel(QtCore.QAbstractTableModel):
     """Model for showing a table of OD routes."""
-    def __init__(self, data):
+    def __init__(self, route_data):
         super(ODTableModel, self).__init__()
-        self._data = data
+        self._data = route_data # type: List[RouteInfo]
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
             if index.column() == 0:
-                return self._data[index.row()]['o_name']
+                return self._data[index.row()].o_name
             if index.column() == 1:
-                return self._data[index.row()]['d_name']
+                return self._data[index.row()].d_name
             if index.column() == 2:
-                return self._data[index.row()]['route']
+                return self._data[index.row()].name
             if index.column() == 3:
-                return str(self._data[index.row()]['nodes'])
+                return str(self._data[index.row()].nodes)
 
     def rowCount(self, index):
         return len(self._data)
@@ -39,7 +41,7 @@ class ODTableModel(QtCore.QAbstractTableModel):
             if section == 3:
                 return "Nodes"
 
-    def get_routes_from_OD(self, index):
+    def get_route_at_index(self, index):
         """Return routes for the OD at the selected index."""
-        od = self._data[index.row()]
-        return (od['origin'], od['destination'], od['route'])
+        route = self._data[index.row()]
+        return (route.origin, route.destination, route.name)
