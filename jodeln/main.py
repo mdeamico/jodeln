@@ -58,13 +58,15 @@ class MainWindow(QMainWindow):
                                           turns_file=self.ui.leTurns.text(),
                                           od_routes_file=self.ui.leRoutes.text())
         if load_successful:
-            self.draw_network()
+            self.schematic_scene.load_network(self.model.get_node_xy(), 
+                                             self.model.get_link_end_ids())
 
             routes = self.model.get_route_list()
             self.od_table_model = od_tablemodel.ODTableModel(routes)
             self.ui.tblOD.setModel(self.od_table_model)
             self.ui.tblOD.selectionModel().selectionChanged.connect(self.on_od_table_selection)
 
+            self.schematic_scene.load_routes(routes)
 
     def export_turns(self):
         """Export turns to csv."""
@@ -89,19 +91,6 @@ class MainWindow(QMainWindow):
         self.model.export_od(self.ui.leExportFolder.text())
         self.model.export_od_by_route(self.ui.leExportFolder.text())
 
-    def draw_network(self):
-        print("drawing nodes")
-        nodes = self.model.get_node_xy()
-        for _, (x, y) in nodes.items():
-            self.schematic_scene.addEllipse(x - 2, y - 2, 4, 4)
-        
-        links = self.model.get_links()
-        for (i, j) in links:
-            self.schematic_scene.addLine(nodes[i][0],
-                                         nodes[i][1],
-                                         nodes[j][0],
-                                         nodes[j][1])
-
     def on_od_table_selection(self, selected, deselected):
         """Function called when an item in the OD Table is selected.
 
@@ -113,14 +102,22 @@ class MainWindow(QMainWindow):
             Items from the selectionModel that were previously selected, but 
             are no longer selected.
         """
-        selection = self.ui.tblOD.selectionModel().selectedIndexes()
+        # boolean flag to indicate if the table selection affects schematic_scene
+        should_update_scene = False
 
-        if len(selection) > 0:
-            pass
-            # Get route for first selected OD pair, i.e. selection[0]
-            # route = self.od_table_model.get_routes_from_OD(selection[0])
-            # self.schematic_scene.color_route(route)
+        if len(deselected.indexes()) > 0:
+            route = self.od_table_model.get_route_at_index(deselected.indexes()[0])
+            self.schematic_scene.color_route(route, is_selected=False)              
+            should_update_scene = True
+
+        if len(selected.indexes()) > 0:
+            # Get route for first selected OD pair
+            route = self.od_table_model.get_route_at_index(selected.indexes()[0])
+            self.schematic_scene.color_route(route, is_selected=True)
+            should_update_scene = True
             
+        if should_update_scene:
+            self.schematic_scene.update()
 
 
 if __name__ == "__main__":
