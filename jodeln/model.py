@@ -149,12 +149,14 @@ class Model():
         net_write.export_route_list(self.net, output_folder)
 
     def get_node_xy(self):
+        """Return xy coordinates for each node."""
         if not self.net:
             return
         
         return {i: (node.x, node.y) for i, node in self.net.nodes.items()}
 
-    def get_links(self):
+    def get_link_end_ids(self):
+        """Return node ids for the start and end of each link."""
         if not self.net:
             return
         
