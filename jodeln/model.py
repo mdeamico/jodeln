@@ -2,6 +2,8 @@
 """
 
 import os
+from dataclasses import dataclass
+from typing import List
 
 from network import net_read
 from network import net_write
@@ -9,6 +11,17 @@ from network import net_write
 from od import od_read
 from od import od_write
 from od import od_estimation as odme
+
+
+@dataclass
+class RouteInfo:
+    """Basic OD information for a route."""
+    origin: int
+    destination: int
+    o_name: str
+    d_name: str
+    name: str
+    nodes: List
 
 
 class Model():
@@ -136,39 +149,38 @@ class Model():
         net_write.export_route_list(self.net, output_folder)
 
     def get_node_xy(self):
+        """Return xy coordinates for each node."""
         if not self.net:
             return
         
         return {i: (node.x, node.y) for i, node in self.net.nodes.items()}
 
-    def get_links(self):
+    def get_link_end_ids(self):
+        """Return node ids for the start and end of each link."""
         if not self.net:
             return
         
         return [(i, j) for i, j, _ in self.net.links()]
 
-    def get_od_data(self):
-        """Return basic info OD for each od route.
-        """
-        od_data = []
+    def get_route_list(self):
+        """Return basic OD information for each route."""
+        routes = [] # type: List[RouteInfo]
         
         for od in self.net.od:
             o_name = self.net.nodes[od.origin].name
             d_name = self.net.nodes[od.destination].name
 
             for route in od.routes:
-                basic_info = {
-                    'origin': od.origin,
-                    'destination': od.destination,
-                    'o_name': o_name,
-                    'd_name': d_name,
-                    'route': route.name,
-                    'nodes': route.nodes
-                    }
+                basic_info = RouteInfo(od.origin, 
+                                       od.destination, 
+                                       o_name,
+                                       d_name,
+                                       route.name,
+                                       route.nodes)
 
-                od_data.append(basic_info)
+                routes.append(basic_info)
 
-        return od_data
+        return routes
 
 
 def _clean_file_path(file_path):
