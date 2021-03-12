@@ -1,16 +1,81 @@
+from os import path
 import sys
 from PySide2.QtUiTools import QUiLoader
-from PySide2.QtWidgets import QApplication, QMainWindow
+from PySide2.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog
 from PySide2.QtCore import QFile
 from PySide2.QtGui import QDoubleValidator
 from PySide2 import QtUiTools
-from PySide2.QtWidgets import QAbstractItemView
+from PySide2.QtWidgets import QAbstractItemView, QDialogButtonBox
 from gui.ui_mainwindow import Ui_MainWindow
+from gui.ui_dialog_open import Ui_Dialog
 
 from gui import schematic_scene
 from model import Model
 
 from gui import od_tablemodel
+
+from dataclasses import dataclass
+
+@dataclass
+class FilePathCache():
+    """Contains file paths stored in the line edit widgets."""
+    nodes: str
+    links: str
+    turns: str
+    routes: str
+    seed_od: str
+
+
+class DialogOpen(QWidget):
+    """Dialog to open network files (node file, link file, etc)."""
+    def __init__(self):
+        super(DialogOpen, self).__init__()
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self)
+        
+        self.data = FilePathCache("", "", "", "", "")
+
+        self.ui.pbOpenNodes.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leNodes))
+        self.ui.pbOpenLinks.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leLinks))
+        self.ui.pbOpenTurns.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leTurns))
+        self.ui.pbOpenRoutes.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leRoutes))
+        self.ui.pbOpenSeedOD.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leSeedOD))
+
+    def store_data(self):
+        """Stores current list edit text in self.data.
+        
+        Cached data is helpful to reset the dialog when the user clicks Cancel.
+        """
+        self.data = self.get_data()
+
+    def get_data(self) -> FilePathCache:
+        """Accessor function to get data from the dialog."""
+        return FilePathCache(
+                    self.ui.leNodes.text(),
+                    self.ui.leLinks.text(),
+                    self.ui.leTurns.text(),
+                    self.ui.leRoutes.text(),
+                    self.ui.leSeedOD.text())
+
+    def accept(self):
+        """User clicks 'ok'."""
+        self.close()
+
+    def reject(self):
+        """User clicks 'cancel'."""
+        self.ui.leNodes.setText(self.data.nodes)
+        self.ui.leLinks.setText(self.data.links)
+        self.ui.leTurns.setText(self.data.turns)
+        self.ui.leRoutes.setText(self.data.routes)
+        self.ui.leSeedOD.setText(self.data.seed_od)
+        self.close()
+    
+    def on_pbOpenClick(self, line_edit):
+        """Open a standard file dialog; put file path in line edit."""
+        file_path, _ = QFileDialog.getOpenFileName(self, "Load Network")
+        line_edit.setText(file_path)
+
+
 
 class MainWindow(QMainWindow):
     """Main window presented to the user when the program first starts."""
@@ -19,11 +84,16 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        # Dialog Open
+        self.dialog_open = DialogOpen()
+        self.dialog_open.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.load)
+
         # Connect MainWindow view/controller to model
         self.model = Model()
 
         # Connect push buttons to slot functions
-        self.ui.pbLoad.clicked.connect(self.load)
+        self.ui.pbShowDialogOpen.clicked.connect(self.show_dialog_open)
+        #self.ui.pbLoad.clicked.connect(self.load)
         self.ui.pbExportTurns.clicked.connect(self.export_turns)
         self.ui.pbExportRoutes.clicked.connect(self.export_routes)
         self.ui.pbExportLinksAndTurnsByOD.clicked.connect(self.export_links_and_turns_by_od)
@@ -49,14 +119,23 @@ class MainWindow(QMainWindow):
         # Set table behaviors
         self.ui.tblOD.setSelectionBehavior(QAbstractItemView.SelectRows)
 
-        
+    def get_files(self):
+        """Test function for getting data from DialogOpen."""
+        print(f"Got Files! {self.dialog_open.get_data()}")
+    
+    def show_dialog_open(self):
+        self.dialog_open.store_data()
+        self.dialog_open.show()
+
     def load(self):
         """Load nodes, links, etc from user inputs."""
-        load_successful = self.model.load(node_file=self.ui.leNodes.text(),
-                                          links_file=self.ui.leLinks.text(),
-                                          od_seed_file=self.ui.leSeedOD.text(),
-                                          turns_file=self.ui.leTurns.text(),
-                                          od_routes_file=self.ui.leRoutes.text())
+        file_paths = self.dialog_open.get_data()
+        
+        load_successful = self.model.load(node_file=file_paths.nodes,
+                                          links_file=file_paths.links,
+                                          od_seed_file=file_paths.seed_od,
+                                          turns_file=file_paths.turns,
+                                          od_routes_file=file_paths.routes)
         if load_successful:
             self.schematic_scene.load_network(self.model.get_node_xy(), 
                                              self.model.get_link_end_ids())

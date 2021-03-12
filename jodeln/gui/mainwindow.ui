@@ -32,7 +32,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1,1,5">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,1,5">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
@@ -51,62 +51,9 @@
        <number>6</number>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QPushButton" name="pbShowDialogOpen">
         <property name="text">
-         <string>Nodes</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="leNodes"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Links</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="leLinks"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Turns</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="leTurns"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Routes</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="leRoutes"/>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="leSeedOD"/>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Seed OD</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QPushButton" name="pbLoad">
-        <property name="text">
-         <string>Load</string>
+         <string>Open</string>
         </property>
        </widget>
       </item>
@@ -145,23 +92,13 @@
       </item>
       <item row="1" column="1">
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="1">
-         <widget class="QPushButton" name="pbExportRoutes">
-          <property name="text">
-           <string>Export List of Routes</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QPushButton" name="pbEstimateOD">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="pbExportTurns">
+          <property name="toolTip">
+           <string/>
           </property>
           <property name="text">
-           <string>Estimate and Export OD</string>
+           <string>Export List of Turns</string>
           </property>
          </widget>
         </item>
@@ -172,13 +109,10 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="pbExportTurns">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Export List of Turns</string>
+        <item row="2" column="0" colspan="3">
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
@@ -214,14 +148,14 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item row="3" column="0">
            <widget class="QLabel" name="label_8">
             <property name="text">
              <string>OD SSE</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="3" column="1">
            <widget class="QLineEdit" name="leWeightODSSE">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -234,14 +168,14 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item row="4" column="0">
            <widget class="QLabel" name="label_9">
             <property name="text">
              <string>Route Ratio</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
+          <item row="4" column="1">
            <widget class="QLineEdit" name="leWeightRouteRatio">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -256,10 +190,23 @@
           </item>
          </layout>
         </item>
-        <item row="2" column="0" colspan="3">
-         <widget class="Line" name="line_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="pbExportRoutes">
+          <property name="text">
+           <string>Export List of Routes</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="pbEstimateOD">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Estimate and Export OD</string>
           </property>
          </widget>
         </item>
