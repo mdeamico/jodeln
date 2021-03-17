@@ -153,7 +153,7 @@ class Model():
         if not self.net:
             return
         
-        return {i: (node.x, node.y) for i, node in self.net.nodes.items()}
+        return {i: (node.x, node.y, node.name) for i, node in self.net.nodes.items()}
 
     def get_link_end_ids(self):
         """Return node ids for the start and end of each link."""
