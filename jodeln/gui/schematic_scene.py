@@ -24,7 +24,7 @@ class SchematicScene(QGraphicsScene):
     """
     
     def __init__(self):
-        super(SchematicScene, self).__init__()
+        super().__init__()
         self.links = {}
         self.routes = {}
 

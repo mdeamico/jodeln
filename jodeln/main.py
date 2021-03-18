@@ -25,7 +25,7 @@ class FilePathCache():
 class DialogOpen(QWidget):
     """Dialog to open network files (node file, link file, etc)."""
     def __init__(self):
-        super(DialogOpen, self).__init__()
+        super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         
@@ -76,7 +76,7 @@ class DialogOpen(QWidget):
 class MainWindow(QMainWindow):
     """Main window presented to the user when the program first starts."""
     def __init__(self):
-        super(MainWindow, self).__init__()
+        super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 

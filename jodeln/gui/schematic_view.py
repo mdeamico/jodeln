@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 class SchematicView(QGraphicsView):
     def __init__(self, parent = None):
-        super(SchematicView, self).__init__()
+        super().__init__()
         self.setDragMode(QGraphicsView.ScrollHandDrag)
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
     
