@@ -1,3 +1,4 @@
+name,x,y,is_origin,is_destination
 a,14,17,1,0
 b,14,29,1,0
 c,27,22,0,0
