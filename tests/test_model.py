@@ -25,9 +25,9 @@ class TestModel(unittest.TestCase):
         tests_path = pathlib.Path(__file__).parent.absolute()
         net_path = os.path.join(tests_path, "networks", "net01")
         
-        model.load(node_file=os.path.join(net_path, "nodes.txt"),
-                   links_file=os.path.join(net_path, "links.txt"),
-                   od_seed_file=os.path.join(net_path, "seed_matrix.txt"))
+        model.load(node_file=os.path.join(net_path, "nodes.csv"),
+                   links_file=os.path.join(net_path, "links.csv"),
+                   od_seed_file=os.path.join(net_path, "seed_matrix.csv"))
         
         res = model.estimate_od(1, 1, 1)
         print('res (before abs): ', res)
