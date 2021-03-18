@@ -90,13 +90,13 @@ def export_node_sequences(net, output_folder=None):
                     a = net.nodes[route.nodes[x]].name
                     b = net.nodes[route.nodes[x + 1]].name
                     c = net.nodes[route.nodes[x + 2]].name
-                    turn_writer.writerow([o_name, d_name, a, b, c])
-                    link_writer.writerow([o_name, d_name, a, b])
+                    turn_writer.writerow([o_name, d_name, route.name, a, b, c])
+                    link_writer.writerow([o_name, d_name, route.name, a, b])
 
                 # last link
                 b = net.nodes[route.nodes[x + 1]].name
                 c = net.nodes[route.nodes[x + 2]].name
-                link_writer.writerow([o_name, d_name, b, c])
+                link_writer.writerow([o_name, d_name, route.name, b, c])
 
     
 
