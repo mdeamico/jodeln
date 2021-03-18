@@ -42,7 +42,7 @@ class Model():
         #: dict: Seed OD matrix loaded from csv.
         self.od_seed = None
 
-    def load(self, node_file=None, links_file=None, od_seed_file=None, turns_file=None, od_routes_file=None):
+    def load(self, node_file=None, links_file=None, od_seed_file=None, turns_file=None, od_routes_file=None) -> None:
         """Populate network and od variables with user supplied data.
 
         Parameters
@@ -121,27 +121,27 @@ class Model():
         res = odme.estimate_od(self.net, self.od_seed, weight_total_geh, weight_odsse, weight_route_ratio)
         return res
 
-    def export_od(self, output_folder=None):
+    def export_od(self, output_folder=None) -> None:
         """Write estimated OD to csv."""
         output_folder = _clean_folder_path(output_folder)
         od_write.export_od_as_list(self.net, output_folder)
 
-    def export_turns(self, output_folder=None):
+    def export_turns(self, output_folder=None) -> None:
         """Write turns to csv."""
         output_folder = _clean_folder_path(output_folder)
         net_write.export_turns(self.net, output_folder)
 
-    def export_od_by_route(self, output_folder=None):
+    def export_od_by_route(self, output_folder=None) -> None:
         """Write estimated OD to csv, in list format, one row per OD pair."""
         output_folder = _clean_folder_path(output_folder)
         od_write.export_od_by_route(self.net, output_folder)
 
-    def export_node_sequence(self, output_folder=None):
+    def export_node_sequence(self, output_folder=None) -> None:
         """Write the links and turns on every OD route to csv."""
         output_folder = _clean_folder_path(output_folder)
         net_write.export_node_sequences(self.net, output_folder)
 
-    def export_route_list(self, output_folder=None):
+    def export_route_list(self, output_folder=None) -> None:
         """Export the nodes along each route. One row per route."""
         output_folder = _clean_folder_path(output_folder)
         net_write.export_route_list(self.net, output_folder)
@@ -181,7 +181,7 @@ class Model():
         return routes
 
 
-def _clean_file_path(file_path):
+def _clean_file_path(file_path: str) -> str:
     """Check if a file exists and return a valid path, else None."""
     if file_path is None:
         return None
@@ -193,7 +193,7 @@ def _clean_file_path(file_path):
     return file_path
 
 
-def _clean_folder_path(folder_path):
+def _clean_folder_path(folder_path: str) -> str:
     """Check if a folder exists and return a valid path, else None."""
     if folder_path is None:
         return None

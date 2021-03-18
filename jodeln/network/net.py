@@ -197,7 +197,7 @@ class NetNode():
         self.neighbors = {} # type: Dict[int, NetLinkData]
         self.up_neighbors = []
 
-    def add_neighbor(self, neighbor, link_data):
+    def add_neighbor(self, neighbor, link_data) -> None:
         """Connects two nodes to form an link.
 
         links are stored as an adjacency list.
@@ -247,7 +247,7 @@ class Network():
         self.od = [] # type: List[NetODpair]
         self.total_geh = 0
 
-    def add_node(self, payload):
+    def add_node(self, payload) -> None:
         """Add a node to the network graph.
 
         Parameters
@@ -258,7 +258,7 @@ class Network():
         key = len(self.nodes)
         self.nodes[key] = NetNode(key, payload)
 
-    def add_link(self, i_name, j_name, payload):
+    def add_link(self, i_name, j_name, payload) -> None:
         """Connects two nodes to form an link in the network graph.
 
         Parameters
@@ -327,7 +327,7 @@ class Network():
                                                      geh=0)
                     turn_counter += 1
 
-    def init_routes(self):
+    def init_routes(self) -> None:
         """Initialize routes by determining shortest route from all origins
         to all destinations."""
 
@@ -368,7 +368,7 @@ class Network():
             print(f'node name {node_name} not found')
             pass
 
-    def calc_network_geh(self):
+    def calc_network_geh(self) -> None:
         """Sum up the total geh of all the links & turns in the network."""
         
         self.total_geh = 0
@@ -389,7 +389,7 @@ class Network():
             t.geh = turn_geh
             self.total_geh += turn_geh
 
-    def init_seed_volumes(self, od_mat):
+    def init_seed_volumes(self, od_mat) -> None:
         """Assign route, link, and turn seed volumes based on an od matrix.
 
         Parameters
@@ -412,7 +412,7 @@ class Network():
         for _, t in self.turns_():
             t.seed_volume = t.assigned_volume
     
-    def set_link_and_turn_volume_from_route(self):
+    def set_link_and_turn_volume_from_route(self) -> None:
         """Calculate the volume on all links and turns based on the OD route volumes."""
         # reset link & turn volumes to zero
         for _, _, link in self.links_():
@@ -449,7 +449,7 @@ class Network():
                 k = route.nodes[x + 2]
                 self.link(j, k).assigned_volume += route.assigned_volume
    
-    def set_route_names(self):
+    def set_route_names(self) -> None:
         """Assign unique route names within each OD.
 
         Unique names are assigned by finding a unique link on the route. For example,
@@ -485,7 +485,7 @@ class Network():
 
 
 
-def _dijkstra(net, source):
+def _dijkstra(net: Network, source):
     """Uses dijkstra's algorithm to compute the shortest route between
     source and all destinations.
     

@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from ..network.net import Network
 
 
-def export_od_as_list(net: 'Network', output_folder=None):
+def export_od_as_list(net: 'Network', output_folder=None) -> None:
     """Save the estimated OD to a csv file with one row per OD pair.
     
     csv columns are:
@@ -58,7 +58,7 @@ def export_od_as_list(net: 'Network', output_folder=None):
 
 
 
-def export_od_by_route(net: 'Network', output_folder=None):
+def export_od_by_route(net: 'Network', output_folder=None) -> None:
     """Save the estimated OD to a csv file. One row per route.
 
     This export format allows showing the volume assigned to each route, if multiple 

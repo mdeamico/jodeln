@@ -4,7 +4,12 @@
 import csv
 from collections import OrderedDict
 
-def od_from_csv(od_csv, net):
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ..network.net import Network
+
+def od_from_csv(od_csv, net: 'Network'):
     """Creates an OD object from a csv OD matrix.
     
     csv is a square OD matrix (n rows = n columns), zones are ordered the same in the rows

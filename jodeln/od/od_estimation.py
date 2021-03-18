@@ -1,6 +1,11 @@
 import cma
 
-def objective_fn_prep_net_geh(net):
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ..network.net import Network
+
+def objective_fn_prep_net_geh(net: 'Network'):
     """ Prepare optimization objective function by estimating maximum network GEH.
 
     Warning: this function mutates net by directly assigning link and turn volumes.
@@ -30,7 +35,7 @@ def objective_fn_prep_net_geh(net):
 
 
 
-def objective_fn_prep_odsse(net):
+def objective_fn_prep_odsse(net: 'Network'):
     """Estimate maximum sum of sq error between seed and final od.
 
     Parameters
@@ -54,7 +59,7 @@ def objective_fn_prep_odsse(net):
 
 
 
-def objective_fn_prep_route_ratios(net):
+def objective_fn_prep_route_ratios(net: 'Network'):
     """Estimate maximum sum of route ratio differences.
 
     Parameters
@@ -101,7 +106,7 @@ def objective_fn_prep_route_ratios(net):
 
 
 
-def estimate_od(net, od_mat, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
+def estimate_od(net: 'Network', od_mat, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
     """Estimate an OD matrix based on a seed matrix and target volumes within 
     the network links/turns.
 
