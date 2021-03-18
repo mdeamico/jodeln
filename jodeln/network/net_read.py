@@ -57,11 +57,13 @@ def from_node_link_csv(node_csv, link_csv):
 
     with open(node_csv, newline='') as f:
         reader = csv.reader(f)
+        next(reader)
         for node_payload in reader:
             net.add_node(node_payload)
 
     with open(link_csv, newline='') as f:
         reader = csv.reader(f)
+        next(reader)
         for row in reader:
             i_name, j_name, *payload = row
             net.add_link(i_name, j_name, payload)
@@ -95,6 +97,7 @@ def import_turns(turn_csv, net: Network):
 
     with open(turn_csv, newline='') as f:
         reader = csv.reader(f)
+        next(reader)
         for row in reader:
             i_name, j_name, k_name, *payload = row
             i, _ = net.get_node_by_name(i_name)
@@ -138,6 +141,7 @@ def import_routes(route_csv, net: Network):
 
     with open(route_csv, newline='') as f:
         reader = csv.reader(f)
+        next(reader)
         for row in reader:
             o_name, d_name, user_ratio, *user_seq = row
 
