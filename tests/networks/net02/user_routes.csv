@@ -1,0 +1,3 @@
+o_node,d_node,target_ratio,sequence
+a,d,0.8,a,c,d
+a,d,0.2,a,b,d

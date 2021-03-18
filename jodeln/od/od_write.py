@@ -48,6 +48,7 @@ def export_od_as_list(net: 'Network', output_folder=None):
     with open(output_list_file, 'w', newline='') as list_f:
         
         list_writer = csv.writer(list_f)
+        list_writer.writerow(["o_node", "d_node", "volume"])
 
         for od in net.od:
             o_name = net.nodes[od.origin].name
@@ -101,6 +102,7 @@ def export_od_by_route(net: 'Network', output_folder=None):
     with open(output_list_file, 'w', newline='') as list_f:
         
         list_writer = csv.writer(list_f)
+        list_writer.writerow(["o_node", "d_node", "route", "volume"])
 
         for od in net.od:
             o_name = net.nodes[od.origin].name
