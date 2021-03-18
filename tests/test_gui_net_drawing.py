@@ -3,7 +3,7 @@ import sys
 import unittest
 from PySide2.QtWidgets import QApplication
 from PySide2.QtTest import QTest
-from PySide2.QtCore import Qt, QEventLoop, QTimer, QObject
+from PySide2.QtCore import Qt, QEventLoop, QTimer
 from PySide2.QtWidgets import QDialogButtonBox
 
 from context import jodeln

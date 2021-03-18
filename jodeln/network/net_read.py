@@ -14,8 +14,7 @@ but a separate Factory module (this file) seems more flexible.
 """
 
 import csv
-from .net import Network
-from .net import NetRoute
+from .net import Network, NetRoute
 
 
 def from_node_link_csv(node_csv, link_csv):

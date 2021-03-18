@@ -1,6 +1,5 @@
-from PySide2 import QtCore
 from PySide2.QtWidgets import QGraphicsItem
-from PySide2.QtCore import QPointF, QRectF
+from PySide2.QtCore import QRectF
 from typing import Optional
 
 from PySide2.QtGui import QPainter, QPen, QColor, QPainterPath, QFont

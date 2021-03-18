@@ -5,11 +5,9 @@ import os
 from dataclasses import dataclass
 from typing import List
 
-from network import net_read
-from network import net_write
+from network import net_read, net_write
 
-from od import od_read
-from od import od_write
+from od import od_read, od_write
 from od import od_estimation as odme
 
 
