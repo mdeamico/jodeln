@@ -19,10 +19,10 @@ def objective_fn_prep_net_geh(net):
     # Each volume is scaled by the mulitplier to simulate a worst-case estimation.
     multipler = 5
 
-    for i, j, e in net.links():
-        e.assigned_volume = e.seed_volume * multipler
+    for _, _, link in net.links():
+        link.assigned_volume = link.seed_volume * multipler
     
-    for (i, j, k), t in net.turns.items():
+    for _, t in net.turns.items():
         t.assigned_volume = t.seed_volume * multipler
 
     net.calc_network_geh()

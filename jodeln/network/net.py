@@ -358,14 +358,14 @@ class Network():
         self.total_geh = 0
         
         # calc link geh
-        for i, j, e in self.links(): 
+        for _, _, link in self.links(): 
             # TODO: handle case when link has no raw volume
-            link_geh = geh(e.target_volume, e.assigned_volume)
-            e.geh = link_geh
+            link_geh = geh(link.target_volume, link.assigned_volume)
+            link.geh = link_geh
             self.total_geh += link_geh
         
         # calc turn geh
-        for (i, j, k), t in self.turns.items():
+        for _, t in self.turns.items():
             # TODO: better handling when turn has no target volume
             if t.target_volume <= 0:
                 continue
@@ -390,19 +390,19 @@ class Network():
 
         self.set_link_and_turn_volume_from_route()
 
-        for i, j, e in self.links():
-            e.seed_volume = e.assigned_volume
+        for _, _, link in self.links():
+            link.seed_volume = link.assigned_volume
         
-        for (i, j, k), t in self.turns.items():
+        for _, t in self.turns.items():
             t.seed_volume = t.assigned_volume
     
     def set_link_and_turn_volume_from_route(self):
         """Calculate the volume on all links and turns based on the OD route volumes."""
         # reset link & turn volumes to zero
-        for i, j, e in self.links():
-            e.assigned_volume = 0
+        for _, _, link in self.links():
+            link.assigned_volume = 0
         
-        for (i, j, k), t in self.turns.items():
+        for _, t in self.turns.items():
             t.assigned_volume = 0
         
         # assign link & turn volumes
