@@ -117,9 +117,6 @@ class MainWindow(QMainWindow):
         self.ui.tblOD.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui.tblOD.setSelectionMode(QAbstractItemView.SingleSelection)
 
-    def get_files(self):
-        """Test function for getting data from DialogOpen."""
-        print(f"Got Files! {self.dialog_open.get_data()}")
     
     def show_dialog_open(self):
         self.dialog_open.store_data()
