@@ -158,7 +158,7 @@ class Model():
         if not self.net:
             return
         
-        return [(i, j) for i, j, _ in self.net.links()]
+        return [(i, j) for i, j, _ in self.net.links_()]
 
     def get_route_list(self):
         """Return basic OD information for each route."""

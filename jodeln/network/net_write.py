@@ -29,7 +29,8 @@ def export_turns(net, output_folder=None):
     with open(output_file, 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(["a_node", "b_node", "c_node"])
-        for (i, j, k), payload in net.turns.items():
+
+        for (i, j, k), _ in net.turns_():
             A = net.nodes[i].name
             B = net.nodes[j].name
             C = net.nodes[k].name
