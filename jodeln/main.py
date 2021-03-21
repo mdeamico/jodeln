@@ -89,7 +89,7 @@ class MainWindow(QMainWindow):
 
         # Connect push buttons to slot functions
         self.ui.pbShowDialogOpen.clicked.connect(self.show_dialog_open)
-        #self.ui.pbLoad.clicked.connect(self.load)
+        self.ui.pbExportFolder.clicked.connect(self.on_pbExportFolder_click)
         self.ui.pbExportTurns.clicked.connect(self.export_turns)
         self.ui.pbExportRoutes.clicked.connect(self.export_routes)
         self.ui.pbExportLinksAndTurnsByOD.clicked.connect(self.export_links_and_turns_by_od)
@@ -141,6 +141,15 @@ class MainWindow(QMainWindow):
             self.ui.tblOD.selectionModel().selectionChanged.connect(self.on_od_table_selection)
 
             self.schematic_scene.load_routes(routes)
+
+    def on_pbExportFolder_click(self) -> None:
+        """Open a standard file dialog for selecting the export folder."""
+        export_folder = QFileDialog.getExistingDirectory(
+            self, "Select Export Folder", 
+            "",
+            options=QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+
+        self.ui.leExportFolder.setText(export_folder)
 
     def export_turns(self) -> None:
         """Export turns to csv."""

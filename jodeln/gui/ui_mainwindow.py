@@ -63,15 +63,10 @@ class Ui_MainWindow(object):
         self.formLayout_2.setFieldGrowthPolicy(QFormLayout.AllNonFixedFieldsGrow)
         self.formLayout_2.setLabelAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
         self.formLayout_2.setVerticalSpacing(6)
-        self.label_6 = QLabel(self.centralwidget)
-        self.label_6.setObjectName(u"label_6")
-
-        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_6)
-
         self.leExportFolder = QLineEdit(self.centralwidget)
         self.leExportFolder.setObjectName(u"leExportFolder")
 
-        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.leExportFolder)
+        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.leExportFolder)
 
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
@@ -158,7 +153,12 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.pbEstimateOD, 3, 0, 1, 1)
 
 
-        self.formLayout_2.setLayout(1, QFormLayout.FieldRole, self.gridLayout)
+        self.formLayout_2.setLayout(2, QFormLayout.FieldRole, self.gridLayout)
+
+        self.pbExportFolder = QPushButton(self.centralwidget)
+        self.pbExportFolder.setObjectName(u"pbExportFolder")
+
+        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.pbExportFolder)
 
 
         self.verticalLayout.addLayout(self.formLayout_2)
@@ -209,7 +209,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Jodeln", None))
         self.pbShowDialogOpen.setText(QCoreApplication.translate("MainWindow", u"Open", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Export Folder", None))
 #if QT_CONFIG(tooltip)
         self.pbExportTurns.setToolTip("")
 #endif // QT_CONFIG(tooltip)
@@ -224,5 +223,6 @@ class Ui_MainWindow(object):
         self.leWeightRouteRatio.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.pbExportRoutes.setText(QCoreApplication.translate("MainWindow", u"Export List of Routes", None))
         self.pbEstimateOD.setText(QCoreApplication.translate("MainWindow", u"Estimate and Export OD", None))
+        self.pbExportFolder.setText(QCoreApplication.translate("MainWindow", u"Export Folder", None))
     # retranslateUi
 
