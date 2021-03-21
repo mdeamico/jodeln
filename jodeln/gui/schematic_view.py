@@ -19,16 +19,14 @@ class SchematicView(QGraphicsView):
         # https://stackoverflow.com/questions/58965209/zoom-on-mouse-position-qgraphicsview
         # https://stackoverflow.com/questions/19113532/qgraphicsview-zooming-in-and-out-under-mouse-position-using-mouse-wheel
 
-        if (event.modifiers() and  PySide2.QtCore.Qt.ControlModifier):
-            previous_anchor = self.transformationAnchor()
-            self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
-            
-            zoom_factor = 1.1
-            if event.angleDelta().y() <= 0:
-                zoom_factor = 0.9
-            
-            self.scale(zoom_factor, zoom_factor)
-            self.setTransformationAnchor(previous_anchor)
+        previous_anchor = self.transformationAnchor()
+        self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
+        
+        zoom_factor = 1.1
+        if event.angleDelta().y() <= 0:
+            zoom_factor = 0.9
+        
+        self.scale(zoom_factor, zoom_factor)
+        self.setTransformationAnchor(previous_anchor)
 
-        else:
-            return super().wheelEvent(event)
+        return super().wheelEvent(event)
