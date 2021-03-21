@@ -1,18 +1,14 @@
-from os import path
 import sys
-from PySide2.QtUiTools import QUiLoader
-from PySide2.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog
-from PySide2.QtCore import QFile
+from PySide2.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QFileDialog, 
+    QAbstractItemView, QDialogButtonBox)
 from PySide2.QtGui import QDoubleValidator, QPainter
-from PySide2 import QtUiTools
-from PySide2.QtWidgets import QAbstractItemView, QDialogButtonBox
+
 from gui.ui_mainwindow import Ui_MainWindow
 from gui.ui_dialog_open import Ui_Dialog
 
-from gui import schematic_scene
+from gui import schematic_scene, od_tablemodel
 from model import Model
-
-from gui import od_tablemodel
 
 from dataclasses import dataclass
 
@@ -29,7 +25,7 @@ class FilePathCache():
 class DialogOpen(QWidget):
     """Dialog to open network files (node file, link file, etc)."""
     def __init__(self):
-        super(DialogOpen, self).__init__()
+        super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         
@@ -41,7 +37,7 @@ class DialogOpen(QWidget):
         self.ui.pbOpenRoutes.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leRoutes))
         self.ui.pbOpenSeedOD.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leSeedOD))
 
-    def store_data(self):
+    def store_data(self) -> None:
         """Stores current list edit text in self.data.
         
         Cached data is helpful to reset the dialog when the user clicks Cancel.
@@ -57,11 +53,11 @@ class DialogOpen(QWidget):
                     self.ui.leRoutes.text(),
                     self.ui.leSeedOD.text())
 
-    def accept(self):
+    def accept(self) -> None:
         """User clicks 'ok'."""
         self.close()
 
-    def reject(self):
+    def reject(self) -> None:
         """User clicks 'cancel'."""
         self.ui.leNodes.setText(self.data.nodes)
         self.ui.leLinks.setText(self.data.links)
@@ -70,7 +66,7 @@ class DialogOpen(QWidget):
         self.ui.leSeedOD.setText(self.data.seed_od)
         self.close()
     
-    def on_pbOpenClick(self, line_edit):
+    def on_pbOpenClick(self, line_edit) -> None:
         """Open a standard file dialog; put file path in line edit."""
         file_path, _ = QFileDialog.getOpenFileName(self, "Load Network")
         line_edit.setText(file_path)
@@ -80,7 +76,7 @@ class DialogOpen(QWidget):
 class MainWindow(QMainWindow):
     """Main window presented to the user when the program first starts."""
     def __init__(self):
-        super(MainWindow, self).__init__()
+        super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
@@ -121,15 +117,12 @@ class MainWindow(QMainWindow):
         self.ui.tblOD.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui.tblOD.setSelectionMode(QAbstractItemView.SingleSelection)
 
-    def get_files(self):
-        """Test function for getting data from DialogOpen."""
-        print(f"Got Files! {self.dialog_open.get_data()}")
     
-    def show_dialog_open(self):
+    def show_dialog_open(self) -> None:
         self.dialog_open.store_data()
         self.dialog_open.show()
 
-    def load(self):
+    def load(self) -> None:
         """Load nodes, links, etc from user inputs."""
         file_paths = self.dialog_open.get_data()
         
@@ -149,19 +142,19 @@ class MainWindow(QMainWindow):
 
             self.schematic_scene.load_routes(routes)
 
-    def export_turns(self):
+    def export_turns(self) -> None:
         """Export turns to csv."""
         self.model.export_turns(self.ui.leExportFolder.text())
 
-    def export_routes(self):
+    def export_routes(self) -> None:
         """Export nodes on each route."""
         self.model.export_route_list(self.ui.leExportFolder.text())
 
-    def export_links_and_turns_by_od(self):
+    def export_links_and_turns_by_od(self) -> None:
         """Export links and turns along each OD pair."""
         self.model.export_node_sequence(self.ui.leExportFolder.text())
 
-    def estimate_od(self):
+    def estimate_od(self) -> None:
         """Run OD matrix estimation."""
         
         self.model.estimate_od(
@@ -172,7 +165,7 @@ class MainWindow(QMainWindow):
         self.model.export_od(self.ui.leExportFolder.text())
         self.model.export_od_by_route(self.ui.leExportFolder.text())
 
-    def on_od_table_selection(self, selected, deselected):
+    def on_od_table_selection(self, selected, deselected) -> None:
         """Function called when an item in the OD Table is selected.
 
         Parameters

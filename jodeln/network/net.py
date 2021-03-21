@@ -4,7 +4,7 @@
 import sys
 from dataclasses import dataclass
 from .geh import geh
-from typing import List, Dict
+from typing import List, Dict, Tuple, Generator
 from collections import Counter
 
 
@@ -197,7 +197,7 @@ class NetNode():
         self.neighbors = {} # type: Dict[int, NetLinkData]
         self.up_neighbors = []
 
-    def add_neighbor(self, neighbor, link_data):
+    def add_neighbor(self, neighbor, link_data) -> None:
         """Connects two nodes to form an link.
 
         links are stored as an adjacency list.
@@ -242,12 +242,12 @@ class Network():
 
     def __init__(self):
         self.nodes = {} # type: Dict[int, NetNode]
-        self.turns = {}  # type: Dict[int, TurnData]
+        self.turns = {}  # type: Dict[Tuple[int, int, int], TurnData]
         self.n_links = 0
         self.od = [] # type: List[NetODpair]
         self.total_geh = 0
 
-    def add_node(self, payload):
+    def add_node(self, payload) -> None:
         """Add a node to the network graph.
 
         Parameters
@@ -258,7 +258,7 @@ class Network():
         key = len(self.nodes)
         self.nodes[key] = NetNode(key, payload)
 
-    def add_link(self, i_name, j_name, payload):
+    def add_link(self, i_name, j_name, payload) -> None:
         """Connects two nodes to form an link in the network graph.
 
         Parameters
@@ -290,13 +290,29 @@ class Network():
         """Convenience function to access link properties."""
         return self.nodes[i].neighbors[j]
 
-    def links(self):
-        """Generator function to iterate through all the links."""
+    def links_(self) -> Generator[Tuple[int, int, NetLinkData], None, None]:
+        """Generator function to iterate through all the links.
+        
+        Function name has a trailing underscore for consistency with self.turns_()
+        """
         for i, node in self.nodes.items():
             for j, _ in node.neighbors.items():
                 yield (i, j, self.nodes[i].neighbors[j])
 
-    def init_turns(self):
+    def turns_(self) -> Generator[Tuple[Tuple[int, int, int], TurnData], None, None]:
+        """Generator function to itertae through all the turns.
+
+        Function name has a trailing underscore to avoid conflict with self.turns
+        variable name. Function is implemented to create consistent looking code 
+        when iterating through all the turns or iterating through all the links.
+        e.x.:
+           "for k, v in net.turns_()" or "for k, v in net.links_()"
+        """
+        for (i, j, k), turn in self.turns.items():
+            yield (i, j, k), turn
+
+
+    def init_turns(self) -> None:
         """Initialize all turns within the network."""
 
         turn_counter = 0
@@ -311,7 +327,7 @@ class Network():
                                                      geh=0)
                     turn_counter += 1
 
-    def init_routes(self):
+    def init_routes(self) -> None:
         """Initialize routes by determining shortest route from all origins
         to all destinations."""
 
@@ -352,20 +368,20 @@ class Network():
             print(f'node name {node_name} not found')
             pass
 
-    def calc_network_geh(self):
+    def calc_network_geh(self) -> None:
         """Sum up the total geh of all the links & turns in the network."""
         
         self.total_geh = 0
         
         # calc link geh
-        for i, j, e in self.links(): 
+        for _, _, link in self.links_(): 
             # TODO: handle case when link has no raw volume
-            link_geh = geh(e.target_volume, e.assigned_volume)
-            e.geh = link_geh
+            link_geh = geh(link.target_volume, link.assigned_volume)
+            link.geh = link_geh
             self.total_geh += link_geh
         
         # calc turn geh
-        for (i, j, k), t in self.turns.items():
+        for _, t in self.turns_():
             # TODO: better handling when turn has no target volume
             if t.target_volume <= 0:
                 continue
@@ -373,7 +389,7 @@ class Network():
             t.geh = turn_geh
             self.total_geh += turn_geh
 
-    def init_seed_volumes(self, od_mat):
+    def init_seed_volumes(self, od_mat) -> None:
         """Assign route, link, and turn seed volumes based on an od matrix.
 
         Parameters
@@ -390,19 +406,19 @@ class Network():
 
         self.set_link_and_turn_volume_from_route()
 
-        for i, j, e in self.links():
-            e.seed_volume = e.assigned_volume
+        for _, _, link in self.links_():
+            link.seed_volume = link.assigned_volume
         
-        for (i, j, k), t in self.turns.items():
+        for _, t in self.turns_():
             t.seed_volume = t.assigned_volume
     
-    def set_link_and_turn_volume_from_route(self):
+    def set_link_and_turn_volume_from_route(self) -> None:
         """Calculate the volume on all links and turns based on the OD route volumes."""
         # reset link & turn volumes to zero
-        for i, j, e in self.links():
-            e.assigned_volume = 0
+        for _, _, link in self.links_():
+            link.assigned_volume = 0
         
-        for (i, j, k), t in self.turns.items():
+        for _, t in self.turns_():
             t.assigned_volume = 0
         
         # assign link & turn volumes
@@ -433,7 +449,7 @@ class Network():
                 k = route.nodes[x + 2]
                 self.link(j, k).assigned_volume += route.assigned_volume
    
-    def set_route_names(self):
+    def set_route_names(self) -> None:
         """Assign unique route names within each OD.
 
         Unique names are assigned by finding a unique link on the route. For example,
@@ -469,7 +485,7 @@ class Network():
 
 
 
-def _dijkstra(net, source):
+def _dijkstra(net: Network, source):
     """Uses dijkstra's algorithm to compute the shortest route between
     source and all destinations.
     

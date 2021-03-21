@@ -24,11 +24,11 @@ class SchematicScene(QGraphicsScene):
     """
     
     def __init__(self):
-        super(SchematicScene, self).__init__()
+        super().__init__()
         self.links = {}
         self.routes = {}
 
-    def load_network(self, nodes, links):
+    def load_network(self, nodes, links) -> None:
         """Transfer network node and link data from the Model to the SchematicScene. 
 
         Parameters
@@ -49,7 +49,7 @@ class SchematicScene(QGraphicsScene):
 
             self.addItem(self.links[(i, j)])
 
-    def load_routes(self, routes: List[RouteInfo]):
+    def load_routes(self, routes: List[RouteInfo]) -> None:
         """Transfers data about the routes and od from the Model to the SchematicScene.
 
         Parameters
@@ -61,7 +61,7 @@ class SchematicScene(QGraphicsScene):
         for route in routes:
             self.routes[(route.origin, route.destination, route.name)] = route.nodes
 
-    def color_route(self, route, is_selected):
+    def color_route(self, route, is_selected) -> None:
         """Sets a bool to indicate if the link is on the user-selected path.
 
         LinkItem objects in the scene can update themselves to be colored based

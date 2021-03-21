@@ -9,7 +9,7 @@ from model import RouteInfo
 class ODTableModel(QtCore.QAbstractTableModel):
     """Model for showing a table of OD routes."""
     def __init__(self, route_data):
-        super(ODTableModel, self).__init__()
+        super().__init__()
         self._data = route_data # type: List[RouteInfo]
 
     def data(self, index, role):

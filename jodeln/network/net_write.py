@@ -4,7 +4,12 @@
 import os
 import csv
 
-def export_turns(net, output_folder=None):
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .net import Network
+
+def export_turns(net: 'Network', output_folder=None) -> None:
     """Exports network turns to a csv file.
 
     Parameters
@@ -29,7 +34,8 @@ def export_turns(net, output_folder=None):
     with open(output_file, 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(["a_node", "b_node", "c_node"])
-        for (i, j, k), payload in net.turns.items():
+
+        for (i, j, k), _ in net.turns_():
             A = net.nodes[i].name
             B = net.nodes[j].name
             C = net.nodes[k].name
@@ -37,7 +43,7 @@ def export_turns(net, output_folder=None):
 
 
 
-def export_node_sequences(net, output_folder=None):
+def export_node_sequences(net: 'Network', output_folder=None) -> None:
     """Export the links and turns on every OD route to csv.
 
     Parameters
@@ -100,7 +106,7 @@ def export_node_sequences(net, output_folder=None):
 
     
 
-def export_route_list(net, output_folder=None):
+def export_route_list(net: 'Network', output_folder=None) -> None:
     """Export the nodes along each route. One row per route.
 
     Sample csv output. First two rows of the sample output are the same origin-destination, 

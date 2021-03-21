@@ -14,8 +14,7 @@ but a separate Factory module (this file) seems more flexible.
 """
 
 import csv
-from .net import Network
-from .net import NetRoute
+from .net import Network, NetRoute
 
 
 def from_node_link_csv(node_csv, link_csv):
@@ -74,7 +73,7 @@ def from_node_link_csv(node_csv, link_csv):
     return net
 
 
-def import_turns(turn_csv, net: Network):
+def import_turns(turn_csv, net: Network) -> None:
     """Import turn target volumes from csv.
 
     Turns are any portion of a route traversing 3 nodes, ex: A-B-C
@@ -113,7 +112,7 @@ def import_turns(turn_csv, net: Network):
             net.turns[(i, j, k)].target_volume = turn_target
 
 
-def import_routes(route_csv, net: Network):
+def import_routes(route_csv, net: Network) -> None:
     """Replace routes from O to D with user-defined routes.
     
     All routes between O and D must be contained in the csv. For example,
