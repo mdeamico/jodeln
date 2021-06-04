@@ -1,0 +1,9 @@
+from_node,to_node,cost,name,target_volume
+A,W,5,A_W,160
+B,W,3,B_W,75
+W,X,10,W_X,190
+W,Y,7,W_Y,45
+Y,Z,12,Y_Z,45
+X,Z,8,X_Z,190
+Z,C,2,Z_C,130
+Z,D,4,Z_D,105

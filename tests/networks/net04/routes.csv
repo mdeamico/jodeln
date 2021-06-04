@@ -1,0 +1,9 @@
+o_node,d_node,target_ratio,sequence
+A,C,0.8,A,W,X,Z,C
+A,D,0.8,A,W,X,Z,D
+B,C,0.8,B,W,X,Z,C
+B,D,0.8,B,W,X,Z,D
+A,C,0.2,A,W,Y,Z,C
+A,D,0.2,A,W,Y,Z,D
+B,C,0.2,B,W,Y,Z,C
+B,D,0.2,B,W,Y,Z,D
