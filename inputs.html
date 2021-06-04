@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Inputs &#8212; Jodeln 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Jodeln Outputs" href="outputs.html" />
+    <link rel="prev" title="Jodeln" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="user-inputs">
+<h1>User Inputs<a class="headerlink" href="#user-inputs" title="Permalink to this headline">¶</a></h1>
+<p>Jodeln currently can accept inputs in csv format (there are future plans to accept shapefiles.)</p>
+<p>Inputs include:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#nodes"><span class="std std-ref">Nodes</span></a></p></li>
+<li><p><a class="reference internal" href="#links"><span class="std std-ref">Links</span></a></p></li>
+<li><p><a class="reference internal" href="#turns"><span class="std std-ref">Turns</span></a></p></li>
+<li><p><a class="reference internal" href="#routes"><span class="std std-ref">Routes</span></a></p></li>
+<li><p><a class="reference internal" href="#seed-od-matrix"><span class="std std-ref">Seed OD Matrix</span></a></p></li>
+</ul>
+<div class="section" id="nodes">
+<span id="id1"></span><h2>Nodes<a class="headerlink" href="#nodes" title="Permalink to this headline">¶</a></h2>
+<p>The Nodes csv defines the start and end points for each link in the network.</p>
+<p>Columns in node csv include the following, in this order:</p>
+<ol class="arabic simple">
+<li><p>node name</p></li>
+<li><p>x-coordinate</p></li>
+<li><p>y-coordinate</p></li>
+<li><p>is_origin (0 = False, 1 = True)</p></li>
+<li><p>is_destination (0 = False, 1 = True)</p></li>
+</ol>
+<p>The first line of the csv file must be a header row.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">name</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">is_origin</span><span class="p">,</span><span class="n">is_destination</span>
+<span class="mi">100</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">101</span><span class="p">,</span><span class="mi">126</span><span class="p">,</span><span class="mi">127</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">102</span><span class="p">,</span><span class="mi">163</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">103</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">104</span><span class="p">,</span><span class="mi">258</span><span class="p">,</span><span class="mi">127</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+<span class="mi">105</span><span class="p">,</span><span class="mi">280</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="links">
+<span id="id2"></span><h2>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h2>
+<p>The Links csv defines the connection between two nodes. Each travel direction must
+be included independently, e.x. A-B and B-A are two separate links.</p>
+<p>Columns in link csv include the following, in this order:</p>
+<ol class="arabic simple">
+<li><p>from_node</p></li>
+<li><p>to_node</p></li>
+<li><p>cost</p></li>
+<li><p>name</p></li>
+<li><p>target_volume</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">from_node</span><span class="p">,</span><span class="n">to_node</span><span class="p">,</span><span class="n">cost</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">target_volume</span>
+<span class="mi">100</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mf">3.2</span><span class="p">,</span><span class="mi">9000</span><span class="p">,</span><span class="mi">100</span>
+<span class="mi">101</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mf">7.1</span><span class="p">,</span><span class="mi">9001</span><span class="p">,</span><span class="mi">75</span>
+<span class="mi">102</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mf">4.0</span><span class="p">,</span><span class="mi">9002</span><span class="p">,</span><span class="mi">175</span>
+<span class="mi">103</span><span class="p">,</span><span class="mi">104</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9003</span><span class="p">,</span><span class="mi">50</span>
+<span class="mi">103</span><span class="p">,</span><span class="mi">105</span><span class="p">,</span><span class="mf">9.32</span><span class="p">,</span><span class="mi">9004</span><span class="p">,</span><span class="mi">125</span>
+</pre></div>
+</div>
+<p>The first line of the csv file must be a header row.</p>
+</div>
+<div class="section" id="turns">
+<span id="id3"></span><h2>Turns<a class="headerlink" href="#turns" title="Permalink to this headline">¶</a></h2>
+<p>Turns are any portion of a route traversing 3 nodes, ex: A-B-C</p>
+<p>A Turns csv file contains these columns, in this order:</p>
+<ol class="arabic simple">
+<li><p>A node name</p></li>
+<li><p>B node name</p></li>
+<li><p>C node name</p></li>
+<li><p>turn name</p></li>
+<li><p>target volume</p></li>
+</ol>
+<p>The first line of the csv file must be a header row.</p>
+<p>Example Turns csv:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a_node</span><span class="p">,</span><span class="n">b_node</span><span class="p">,</span><span class="n">c_node</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">target_volume</span>
+<span class="mi">100</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span class="mi">100</span>
+<span class="mi">101</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="n">t2</span><span class="p">,</span><span class="mi">75</span>
+<span class="mi">102</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mi">104</span><span class="p">,</span><span class="n">t3</span><span class="p">,</span><span class="mi">50</span>
+<span class="mi">102</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mi">105</span><span class="p">,</span><span class="n">t4</span><span class="p">,</span><span class="mi">125</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="routes">
+<span id="id4"></span><h2>Routes<a class="headerlink" href="#routes" title="Permalink to this headline">¶</a></h2>
+<p>All routes between O and D must be contained in the Route csv. For example,
+if there is one existing route between O and D, and the user wants to add a
+new second route, both the existing and new route must be contained in the csv.</p>
+<p>Columns in the route csv include the following, in this order:</p>
+<ol class="arabic simple">
+<li><p>origin: node name</p></li>
+<li><p>destination: node name</p></li>
+<li><dl class="simple">
+<dt>target_ratio: how much volume should be on the route</dt><dd><p>(e.x. 0.20 means 20% of the total OD volume should be on this route)</p>
+</dd>
+</dl>
+</li>
+<li><p>sequence: comma separated values of the node names from O to D</p></li>
+</ol>
+<p>The first line of the csv file must be a header row.</p>
+<p>Example Route csv:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">o_node</span><span class="p">,</span><span class="n">d_node</span><span class="p">,</span><span class="n">target_ratio</span><span class="p">,</span><span class="n">sequence</span>
+<span class="n">A</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="n">A</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">C</span>
+<span class="n">A</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="n">A</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">D</span>
+<span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">C</span>
+<span class="n">B</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">D</span>
+<span class="n">A</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="n">A</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">C</span>
+<span class="n">A</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="n">A</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">D</span>
+<span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">C</span>
+<span class="n">B</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">D</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="seed-od-matrix">
+<span id="id5"></span><h2>Seed OD Matrix<a class="headerlink" href="#seed-od-matrix" title="Permalink to this headline">¶</a></h2>
+<p>An OD matrix must be in square format (n rows = n columns). An additional first
+column defines the zone names and order. All zones must be included in the same
+order in both the rows and columns. If a zone is an origin-only, or
+destination-only zone, then fill the corresponding row or column values with zeros.</p>
+<p>The following is an example csv for four zones named A, B, C, D.
+Zone D is not a destination, C is not an origin.
+The OD volume from A to C is 250.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="mi">0</span>
+<span class="n">B</span><span class="p">,</span><span class="mi">99</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">0</span>
+<span class="n">C</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+<span class="n">D</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Jodeln</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Inputs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#nodes">Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#links">Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#turns">Turns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#routes">Routes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seed-od-matrix">Seed OD Matrix</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Jodeln Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Jodeln Python Code</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Jodeln</a></li>
+      <li>Next: <a href="outputs.html" title="next chapter">Jodeln Outputs</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michael DeAmico.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/inputs.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

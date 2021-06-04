@@ -1,0 +1,920 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jodeln.network package &#8212; Jodeln 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="jodeln.od package" href="jodeln.od.html" />
+    <link rel="prev" title="jodeln.gui package" href="jodeln.gui.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="jodeln-network-package">
+<h1>jodeln.network package<a class="headerlink" href="#jodeln-network-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-jodeln.network.geh">
+<span id="jodeln-network-geh-module"></span><h2>jodeln.network.geh module<a class="headerlink" href="#module-jodeln.network.geh" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="jodeln.network.geh.geh">
+<code class="sig-prename descclassname"><span class="pre">jodeln.network.geh.</span></code><code class="sig-name descname"><span class="pre">geh</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.geh.geh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the GEH between two hourly traffic volumes.</p>
+<p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/GEH_statistic">https://en.wikipedia.org/wiki/GEH_statistic</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> (<em>float</em>) – Modeled traffic volume.</p></li>
+<li><p><strong>c</strong> (<em>float</em>) – Counted traffic volume.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>GEH statistic.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.network.net">
+<span id="jodeln-network-net-module"></span><h2>jodeln.network.net module<a class="headerlink" href="#module-jodeln.network.net" title="Permalink to this headline">¶</a></h2>
+<p>Contains the Network class and related classes.</p>
+<dl class="py class">
+<dt id="jodeln.network.net.NetLinkData">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.network.net.</span></code><code class="sig-name descname"><span class="pre">NetLinkData</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_volume</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assigned_volume</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geh</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_volume</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.NetLinkData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Data on Network links.</p>
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetLinkData.cost">
+<code class="sig-name descname"><span class="pre">cost</span></code><a class="headerlink" href="#jodeln.network.net.NetLinkData.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Friction on the link that is used when determining shortest routes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetLinkData.name">
+<code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#jodeln.network.net.NetLinkData.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Human-readable name for the link. Does not have to be unique.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetLinkData.target_volume">
+<code class="sig-name descname"><span class="pre">target_volume</span></code><a class="headerlink" href="#jodeln.network.net.NetLinkData.target_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Desired volume on this link.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetLinkData.link_index">
+<code class="sig-name descname"><span class="pre">link_index</span></code><a class="headerlink" href="#jodeln.network.net.NetLinkData.link_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unique identifier for this link.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetLinkData.assigned_volume">
+<code class="sig-name descname"><span class="pre">assigned_volume</span></code><a class="headerlink" href="#jodeln.network.net.NetLinkData.assigned_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Volume on the link as assigned from the estimated OD matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetLinkData.geh">
+<code class="sig-name descname"><span class="pre">geh</span></code><a class="headerlink" href="#jodeln.network.net.NetLinkData.geh" title="Permalink to this definition">¶</a></dt>
+<dd><p>GEH statistic comparing the target_volume and assigned_volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetLinkData.seed_volume">
+<code class="sig-name descname"><span class="pre">seed_volume</span></code><a class="headerlink" href="#jodeln.network.net.NetLinkData.seed_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Volume on the link as assigned from the seed OD matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="jodeln.network.net.NetNode">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.network.net.</span></code><code class="sig-name descname"><span class="pre">NetNode</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.NetNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A point (junction) in the network graph.</p>
+<p>Two connected nodes form an link. A sequence of three nodes forms a
+Turn (see TurnData).</p>
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetNode.key">
+<code class="sig-name descname"><span class="pre">key</span></code><a class="headerlink" href="#jodeln.network.net.NetNode.key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unique identifier for the node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetNode.payload">
+<code class="sig-name descname"><span class="pre">payload</span></code><a class="headerlink" href="#jodeln.network.net.NetNode.payload" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of data to assign to the node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetNode.x">
+<code class="sig-name descname"><span class="pre">x</span></code><a class="headerlink" href="#jodeln.network.net.NetNode.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>x-coordinate of node. Defaults to zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetNode.y">
+<code class="sig-name descname"><span class="pre">y</span></code><a class="headerlink" href="#jodeln.network.net.NetNode.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>y-coordinate of node. Defaults to zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetNode.is_origin">
+<code class="sig-name descname"><span class="pre">is_origin</span></code><a class="headerlink" href="#jodeln.network.net.NetNode.is_origin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates if traffic can start their trip from this node (source node)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetNode.is_destination">
+<code class="sig-name descname"><span class="pre">is_destination</span></code><a class="headerlink" href="#jodeln.network.net.NetNode.is_destination" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates if traffic can end their trip at this node (sink node)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetNode.neighbors">
+<code class="sig-name descname"><span class="pre">neighbors</span></code><a class="headerlink" href="#jodeln.network.net.NetNode.neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjacency list of connected downstream node IDs and associated data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Dict[int, <a class="reference internal" href="#jodeln.network.net.NetLinkData" title="jodeln.network.net.NetLinkData">NetLinkData</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetNode.up_neighbors">
+<code class="sig-name descname"><span class="pre">up_neighbors</span></code><a class="headerlink" href="#jodeln.network.net.NetNode.up_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upstream node IDs connected to this node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.NetNode.add_neighbor">
+<code class="sig-name descname"><span class="pre">add_neighbor</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neighbor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_data</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net.NetNode.add_neighbor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects two nodes to form an link.</p>
+<p>links are stored as an adjacency list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>neighbor</strong> (<em>int</em>) – Unique identifier of neighboring (connecting) node.</p></li>
+<li><p><strong>link_data</strong> (<a class="reference internal" href="#jodeln.network.net.NetLinkData" title="jodeln.network.net.NetLinkData"><em>NetLinkData</em></a>) – See NetLinkData class.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.NetNode.get_connections">
+<code class="sig-name descname"><span class="pre">get_connections</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.NetNode.get_connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of node keys connected to self node.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="jodeln.network.net.NetODpair">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.network.net.</span></code><code class="sig-name descname"><span class="pre">NetODpair</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_total_volume</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">est_total_volume</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#jodeln.network.net.NetRoute" title="jodeln.network.net.NetRoute"><span class="pre">jodeln.network.net.NetRoute</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.NetODpair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Origin-Destination data in the Network.</p>
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetODpair.origin">
+<code class="sig-name descname"><span class="pre">origin</span></code><a class="headerlink" href="#jodeln.network.net.NetODpair.origin" title="Permalink to this definition">¶</a></dt>
+<dd><p>node ID of the OD origin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetODpair.destination">
+<code class="sig-name descname"><span class="pre">destination</span></code><a class="headerlink" href="#jodeln.network.net.NetODpair.destination" title="Permalink to this definition">¶</a></dt>
+<dd><p>node ID of the OD destination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetODpair.seed_total_volume">
+<code class="sig-name descname"><span class="pre">seed_total_volume</span></code><a class="headerlink" href="#jodeln.network.net.NetODpair.seed_total_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Volume for this OD pair within the seed OD matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetODpair.est_total_volume">
+<code class="sig-name descname"><span class="pre">est_total_volume</span></code><a class="headerlink" href="#jodeln.network.net.NetODpair.est_total_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Volume for this OD pair within the estimated OD matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetODpair.routes">
+<code class="sig-name descname"><span class="pre">routes</span></code><a class="headerlink" href="#jodeln.network.net.NetODpair.routes" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of all possible routes from origin to destination to include in the
+OD optimization. One OD can contain multiple routes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[route]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="jodeln.network.net.NetRoute">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.network.net.</span></code><code class="sig-name descname"><span class="pre">NetRoute</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_volume</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_ratio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_rel_diff</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assigned_volume</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assigned_ratio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt_var_index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.NetRoute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Contains sequence of nodes from origin to destination.</p>
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetRoute.nodes">
+<code class="sig-name descname"><span class="pre">nodes</span></code><a class="headerlink" href="#jodeln.network.net.NetRoute.nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ordered sequence of node IDs along the route, from origin to destination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetRoute.name">
+<code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#jodeln.network.net.NetRoute.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Human-readable name for the route. Does not have to be unique amongst all routes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetRoute.seed_volume">
+<code class="sig-name descname"><span class="pre">seed_volume</span></code><a class="headerlink" href="#jodeln.network.net.NetRoute.seed_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Volume on the route assigned from the seed OD matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetRoute.target_ratio">
+<code class="sig-name descname"><span class="pre">target_ratio</span></code><a class="headerlink" href="#jodeln.network.net.NetRoute.target_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>If one OD pair has multiple routes, this is the desired proportion of the
+total OD volume that should occur on this route.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetRoute.target_rel_diff">
+<code class="sig-name descname"><span class="pre">target_rel_diff</span></code><a class="headerlink" href="#jodeln.network.net.NetRoute.target_rel_diff" title="Permalink to this definition">¶</a></dt>
+<dd><p>If one OD pair has multiple routes, this is a helper variable for the OD
+optimization that indicates how different this route is relative to all
+other routes within the OD. For example, 2 routes, one has a target_ratio
+of 0.8, the other 0.20. The target relative differences are 0.60 and -0.60,
+respectively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetRoute.assigned_volume">
+<code class="sig-name descname"><span class="pre">assigned_volume</span></code><a class="headerlink" href="#jodeln.network.net.NetRoute.assigned_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Volume assigned to this route based on the estimated OD matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetRoute.assigned_ratio">
+<code class="sig-name descname"><span class="pre">assigned_ratio</span></code><a class="headerlink" href="#jodeln.network.net.NetRoute.assigned_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>If one OD pair has multiple routes, this is the actual proportion of the
+total estimated OD volume. assigned_ratio is compared to the target_ratio
+in the OD optimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.NetRoute.opt_var_index">
+<code class="sig-name descname"><span class="pre">opt_var_index</span></code><a class="headerlink" href="#jodeln.network.net.NetRoute.opt_var_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper variable for the OD optimization algorithm. The OD optimization
+takes a list of variables. opt_var_index is the position of this route
+within the list of optimization variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="jodeln.network.net.Network">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.network.net.</span></code><code class="sig-name descname"><span class="pre">Network</span></code><a class="headerlink" href="#jodeln.network.net.Network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Contains the network nodes and links, turns, and assigned origin-destination
+information.</p>
+<p>Nodes and links are stored in an ‘adjaceny list’ graph data structure.
+For example: self.nodes = {node id, node data}
+where node data contains the connected nodes that form the network links.</p>
+<dl class="py attribute">
+<dt id="jodeln.network.net.Network.nodes">
+<code class="sig-name descname"><span class="pre">nodes</span></code><a class="headerlink" href="#jodeln.network.net.Network.nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>nodes within the Network graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Dict[int, <a class="reference internal" href="#jodeln.network.net.NetNode" title="jodeln.network.net.NetNode">NetNode</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.Network.turns">
+<code class="sig-name descname"><span class="pre">turns</span></code><a class="headerlink" href="#jodeln.network.net.Network.turns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns within the Network graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Dict[int, <a class="reference internal" href="#jodeln.network.net.TurnData" title="jodeln.network.net.TurnData">TurnData</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.Network.n_links">
+<code class="sig-name descname"><span class="pre">n_links</span></code><a class="headerlink" href="#jodeln.network.net.Network.n_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of links in the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.Network.od">
+<code class="sig-name descname"><span class="pre">od</span></code><a class="headerlink" href="#jodeln.network.net.Network.od" title="Permalink to this definition">¶</a></dt>
+<dd><p>OD data for the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#jodeln.network.net.NetODpair" title="jodeln.network.net.NetODpair">NetODpair</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.Network.total_geh">
+<code class="sig-name descname"><span class="pre">total_geh</span></code><a class="headerlink" href="#jodeln.network.net.Network.total_geh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Grand total of summing all the GEH values of the links and turns.
+See the calc_network_geh method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.add_link">
+<code class="sig-name descname"><span class="pre">add_link</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net.Network.add_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects two nodes to form an link in the network graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i_name</strong> (<em>str</em>) – Origin node name</p></li>
+<li><p><strong>j_name</strong> (<em>str</em>) – Destination node name</p></li>
+<li><p><strong>payload</strong> (<em>List</em>) – Data belonging to the link. See NetLinkData class.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.add_node">
+<code class="sig-name descname"><span class="pre">add_node</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net.Network.add_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a node to the network graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>payload</strong> (<em>List</em>) – List of data belonging to the node.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.calc_network_geh">
+<code class="sig-name descname"><span class="pre">calc_network_geh</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net.Network.calc_network_geh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sum up the total geh of all the links &amp; turns in the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.get_node_by_name">
+<code class="sig-name descname"><span class="pre">get_node_by_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.Network.get_node_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to return a node by name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.init_routes">
+<code class="sig-name descname"><span class="pre">init_routes</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net.Network.init_routes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize routes by determining shortest route from all origins
+to all destinations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.init_seed_volumes">
+<code class="sig-name descname"><span class="pre">init_seed_volumes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">od_mat</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net.Network.init_seed_volumes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign route, link, and turn seed volumes based on an od matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>od_mat</strong> (<em>Dict</em>) – OD matrix, imported from csv. See od_read.py.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.init_turns">
+<code class="sig-name descname"><span class="pre">init_turns</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net.Network.init_turns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize all turns within the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.link">
+<code class="sig-name descname"><span class="pre">link</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.Network.link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function to access link properties.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.links_">
+<code class="sig-name descname"><span class="pre">links_</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#jodeln.network.net.NetLinkData" title="jodeln.network.net.NetLinkData"><span class="pre">jodeln.network.net.NetLinkData</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#jodeln.network.net.Network.links_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generator function to iterate through all the links.</p>
+<p>Function name has a trailing underscore for consistency with self.turns_()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.set_link_and_turn_volume_from_route">
+<code class="sig-name descname"><span class="pre">set_link_and_turn_volume_from_route</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net.Network.set_link_and_turn_volume_from_route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the volume on all links and turns based on the OD route volumes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.set_route_names">
+<code class="sig-name descname"><span class="pre">set_route_names</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net.Network.set_route_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign unique route names within each OD.</p>
+<p>Unique names are assigned by finding a unique link on the route. For example,
+if there are two routes from A to B with nodes: A-X-Y-B and A-X-C-Y-B,
+the two routes could be named “X-Y” and “X-C” because those links are
+unique to their respective routes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.network.net.Network.turns_">
+<code class="sig-name descname"><span class="pre">turns_</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#jodeln.network.net.TurnData" title="jodeln.network.net.TurnData"><span class="pre">jodeln.network.net.TurnData</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#jodeln.network.net.Network.turns_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generator function to itertae through all the turns.</p>
+<p>Function name has a trailing underscore to avoid conflict with self.turns
+variable name. Function is implemented to create consistent looking code
+when iterating through all the turns or iterating through all the links.
+e.x.:</p>
+<blockquote>
+<div><p>“for k, v in net.turns_()” or “for k, v in net.links_()”</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="jodeln.network.net.TurnData">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.network.net.</span></code><code class="sig-name descname"><span class="pre">TurnData</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_volume</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_volume</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assigned_volume</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geh</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.TurnData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Data on Network turns.</p>
+<p>A turn is a sequence of three consecutive nodes: A-B-C. In this case “B”
+is the intersection, A is upstream, and C is downstream.</p>
+<dl class="py attribute">
+<dt id="jodeln.network.net.TurnData.key">
+<code class="sig-name descname"><span class="pre">key</span></code><a class="headerlink" href="#jodeln.network.net.TurnData.key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unique ID for the turn.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.TurnData.name">
+<code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#jodeln.network.net.TurnData.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Human-readable name for the turn. Typically based on the A-B-C node names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.TurnData.seed_volume">
+<code class="sig-name descname"><span class="pre">seed_volume</span></code><a class="headerlink" href="#jodeln.network.net.TurnData.seed_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Volume on the turn as assigned from the seed OD matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.TurnData.target_volume">
+<code class="sig-name descname"><span class="pre">target_volume</span></code><a class="headerlink" href="#jodeln.network.net.TurnData.target_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Desired volume on this turn.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.TurnData.assigned_volume">
+<code class="sig-name descname"><span class="pre">assigned_volume</span></code><a class="headerlink" href="#jodeln.network.net.TurnData.assigned_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Volume on the turn as assigned from the estimated OD matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.network.net.TurnData.geh">
+<code class="sig-name descname"><span class="pre">geh</span></code><a class="headerlink" href="#jodeln.network.net.TurnData.geh" title="Permalink to this definition">¶</a></dt>
+<dd><p>GEH statistic comparing the target_volume and assigned_volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.network.net_read">
+<span id="jodeln-network-net-read-module"></span><h2>jodeln.network.net_read module<a class="headerlink" href="#module-jodeln.network.net_read" title="Permalink to this headline">¶</a></h2>
+<p>Create Network objects from various user inputs.</p>
+<p>Users may have varying available inputs when using this program.
+For example:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>node and link csv only.</p></li>
+<li><p>node, link, and turn csv.</p></li>
+<li><p>node, link, and OD csv,</p></li>
+</ul>
+</div></blockquote>
+<p>Eventually formats other than csv might be accepted (such as shapefiles).</p>
+<p>Was initially thinking of mplementing classmethods to overload __init__ in Graph
+<a class="reference external" href="https://stackoverflow.com/questions/44765482/multiple-constructors-the-pythonic-way">https://stackoverflow.com/questions/44765482/multiple-constructors-the-pythonic-way</a>
+but a separate Factory module (this file) seems more flexible.</p>
+<dl class="py function">
+<dt id="jodeln.network.net_read.from_node_link_csv">
+<code class="sig-prename descclassname"><span class="pre">jodeln.network.net_read.</span></code><code class="sig-name descname"><span class="pre">from_node_link_csv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_csv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net_read.from_node_link_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a network from csv files of nodes and links.</p>
+<p>The Network turns and potential OD routes are also initialized so that the new
+network object returned is functional.</p>
+<p>Columns in node csv (columns must be in this order):</p>
+<ol class="arabic simple">
+<li><p>node name</p></li>
+<li><p>x-coordinate</p></li>
+<li><p>y-coordinate</p></li>
+<li><p>is_origin (0 = False, 1 = True)</p></li>
+<li><p>is_destination (0 = False, 1 = True)</p></li>
+</ol>
+<p>Columns in link csv
+1. from_node
+2. to_node
+3. cost
+4. name
+5. target_volume</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_csv</strong> (<em>str</em>) – File path to node csv file.</p></li>
+<li><p><strong>link_csv</strong> (<em>str</em>) – File path to link csv file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New network containing input nodes and links.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network">Network</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jodeln.network.net_read.import_routes">
+<code class="sig-prename descclassname"><span class="pre">jodeln.network.net_read.</span></code><code class="sig-name descname"><span class="pre">import_routes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route_csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><span class="pre">jodeln.network.net.Network</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net_read.import_routes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace routes from O to D with user-defined routes.</p>
+<p>All routes between O and D must be contained in the csv. For example,
+if there is one existing route between O and D, and the user wants to add a
+new second route, both the existing and new route must be contained in the csv.</p>
+<p>Columns in the route csv (columns must be in this order):</p>
+<ol class="arabic simple">
+<li><p>origin: node name</p></li>
+<li><p>destination: node name</p></li>
+<li><dl class="simple">
+<dt>target_ratio: how much volume should be on the route</dt><dd><p>(e.x. 0.20 means 20% of the total OD volume should be on this route)</p>
+</dd>
+</dl>
+</li>
+<li><p>sequence: comma separated values of the node names from O to D</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>route_csv</strong> (<em>str</em>) – File path to user-defined OD route file.</p></li>
+<li><p><strong>net</strong> (<a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – OD routes are imported into this network.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jodeln.network.net_read.import_turns">
+<code class="sig-prename descclassname"><span class="pre">jodeln.network.net_read.</span></code><code class="sig-name descname"><span class="pre">import_turns</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">turn_csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><span class="pre">jodeln.network.net.Network</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net_read.import_turns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import turn target volumes from csv.</p>
+<p>Turns are any portion of a route traversing 3 nodes, ex: A-B-C</p>
+<p>Columns in node csv (columns must be in this order):</p>
+<ol class="arabic simple">
+<li><p>A node name</p></li>
+<li><p>B node name</p></li>
+<li><p>C node name</p></li>
+<li><p>turn name</p></li>
+<li><p>target volume</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>turn_csv</strong> (<em>str</em>) – File path to user gernerated turn csv file.</p></li>
+<li><p><strong>net</strong> (<a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Turns are imported into this network.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.network.net_write">
+<span id="jodeln-network-net-write-module"></span><h2>jodeln.network.net_write module<a class="headerlink" href="#module-jodeln.network.net_write" title="Permalink to this headline">¶</a></h2>
+<p>Export network features to csv files.</p>
+<dl class="py function">
+<dt id="jodeln.network.net_write.export_node_sequences">
+<code class="sig-prename descclassname"><span class="pre">jodeln.network.net_write.</span></code><code class="sig-name descname"><span class="pre">export_node_sequences</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net_write.export_node_sequences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export the links and turns on every OD route to csv.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network containing the node sequences to export.</p></li>
+<li><p><strong>output_folder</strong> (<em>str</em>) – Folder to export the node file, by default None indicates the current working
+directory as returned by os.getcwd().</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jodeln.network.net_write.export_route_list">
+<code class="sig-prename descclassname"><span class="pre">jodeln.network.net_write.</span></code><code class="sig-name descname"><span class="pre">export_route_list</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net_write.export_route_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export the nodes along each route. One row per route.</p>
+<p>Sample csv output. First two rows of the sample output are the same origin-destination,
+but have different routes.
+–
+100,101,103,105
+100,110,112,105
+105,107,108,109
+–</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network containing the routes to export.</p></li>
+<li><p><strong>output_folder</strong> (<em>str</em><em>, </em><em>optional</em>) – Folder to export route file, by default None indicates the current working
+directory as returned by os.getcwd().</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jodeln.network.net_write.export_turns">
+<code class="sig-prename descclassname"><span class="pre">jodeln.network.net_write.</span></code><code class="sig-name descname"><span class="pre">export_turns</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.network.net_write.export_turns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exports network turns to a csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network cotaining turns to export.</p></li>
+<li><p><strong>output_folder</strong> (<em>str</em><em>, </em><em>optional</em>) – Folder to export turn file, by default None indicates the current working
+directory as returned by os.getcwd().</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Jodeln</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">User Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Jodeln Outputs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Jodeln Python Code</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="jodeln.html">jodeln package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Jodeln Python Code</a><ul>
+  <li><a href="jodeln.html">jodeln package</a><ul>
+      <li>Previous: <a href="jodeln.gui.html" title="previous chapter">jodeln.gui package</a></li>
+      <li>Next: <a href="jodeln.od.html" title="next chapter">jodeln.od package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michael DeAmico.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/jodeln.network.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

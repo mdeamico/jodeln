@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jodeln.gui package &#8212; Jodeln 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="jodeln.network package" href="jodeln.network.html" />
+    <link rel="prev" title="jodeln package" href="jodeln.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="jodeln-gui-package">
+<h1>jodeln.gui package<a class="headerlink" href="#jodeln-gui-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-jodeln.gui.dialog_open">
+<span id="jodeln-gui-dialog-open-module"></span><h2>jodeln.gui.dialog_open module<a class="headerlink" href="#module-jodeln.gui.dialog_open" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="jodeln.gui.dialog_open.DialogOpen">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.gui.dialog_open.</span></code><code class="sig-name descname"><span class="pre">DialogOpen</span></code><a class="headerlink" href="#jodeln.gui.dialog_open.DialogOpen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PySide2.QtWidgets.QWidget</span></code></p>
+<p>Dialog to open network files (node file, link file, etc).</p>
+<dl class="py method">
+<dt id="jodeln.gui.dialog_open.DialogOpen.accept">
+<code class="sig-name descname"><span class="pre">accept</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.dialog_open.DialogOpen.accept" title="Permalink to this definition">¶</a></dt>
+<dd><p>User clicks ‘ok’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.dialog_open.DialogOpen.get_data">
+<code class="sig-name descname"><span class="pre">get_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#jodeln.gui.dialog_open.FilePathCache" title="jodeln.gui.dialog_open.FilePathCache"><span class="pre">jodeln.gui.dialog_open.FilePathCache</span></a><a class="headerlink" href="#jodeln.gui.dialog_open.DialogOpen.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor function to get data from the dialog.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.dialog_open.DialogOpen.on_pbOpenClick">
+<code class="sig-name descname"><span class="pre">on_pbOpenClick</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line_edit</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.dialog_open.DialogOpen.on_pbOpenClick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a standard file dialog; put file path in line edit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.dialog_open.DialogOpen.reject">
+<code class="sig-name descname"><span class="pre">reject</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.dialog_open.DialogOpen.reject" title="Permalink to this definition">¶</a></dt>
+<dd><p>User clicks ‘cancel’.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.gui.dialog_open.DialogOpen.staticMetaObject">
+<code class="sig-name descname"><span class="pre">staticMetaObject</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;PySide2.QtCore.QMetaObject</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#jodeln.gui.dialog_open.DialogOpen.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.dialog_open.DialogOpen.store_data">
+<code class="sig-name descname"><span class="pre">store_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.dialog_open.DialogOpen.store_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores current list edit text in self.data.</p>
+<p>Cached data is helpful to reset the dialog when the user clicks Cancel.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="jodeln.gui.dialog_open.FilePathCache">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.gui.dialog_open.</span></code><code class="sig-name descname"><span class="pre">FilePathCache</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">links</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turns</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_od</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.dialog_open.FilePathCache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Contains file paths stored in the line edit widgets.</p>
+<dl class="py attribute">
+<dt id="jodeln.gui.dialog_open.FilePathCache.links">
+<code class="sig-name descname"><span class="pre">links</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#jodeln.gui.dialog_open.FilePathCache.links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.gui.dialog_open.FilePathCache.nodes">
+<code class="sig-name descname"><span class="pre">nodes</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#jodeln.gui.dialog_open.FilePathCache.nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.gui.dialog_open.FilePathCache.routes">
+<code class="sig-name descname"><span class="pre">routes</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#jodeln.gui.dialog_open.FilePathCache.routes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.gui.dialog_open.FilePathCache.seed_od">
+<code class="sig-name descname"><span class="pre">seed_od</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#jodeln.gui.dialog_open.FilePathCache.seed_od" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.gui.dialog_open.FilePathCache.turns">
+<code class="sig-name descname"><span class="pre">turns</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#jodeln.gui.dialog_open.FilePathCache.turns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.gui.od_tablemodel">
+<span id="jodeln-gui-od-tablemodel-module"></span><h2>jodeln.gui.od_tablemodel module<a class="headerlink" href="#module-jodeln.gui.od_tablemodel" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="jodeln.gui.od_tablemodel.ODTableModel">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.gui.od_tablemodel.</span></code><code class="sig-name descname"><span class="pre">ODTableModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.od_tablemodel.ODTableModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PySide2.QtCore.QAbstractTableModel</span></code></p>
+<p>Model for showing a table of OD routes.</p>
+<dl class="py method">
+<dt id="jodeln.gui.od_tablemodel.ODTableModel.columnCount">
+<code class="sig-name descname"><span class="pre">columnCount</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">PySide2.QtCore.QModelIndex</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">Invalid(PySide2.QtCore.QModelIndex)</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#jodeln.gui.od_tablemodel.ODTableModel.columnCount" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.od_tablemodel.ODTableModel.data">
+<code class="sig-name descname"><span class="pre">data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">PySide2.QtCore.QModelIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">PySide2.QtCore.Qt.ItemDataRole.DisplayRole</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">typing.Any</span><a class="headerlink" href="#jodeln.gui.od_tablemodel.ODTableModel.data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.od_tablemodel.ODTableModel.get_route_at_index">
+<code class="sig-name descname"><span class="pre">get_route_at_index</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.od_tablemodel.ODTableModel.get_route_at_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return routes for the OD at the selected index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.od_tablemodel.ODTableModel.headerData">
+<code class="sig-name descname"><span class="pre">headerData</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">section:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">orientation:</span> <span class="pre">&lt;class</span> <span class="pre">'PySide2.QtCore.Qt.Orientation'&gt;</span></em>, <em class="sig-param"><span class="pre">role:</span> <span class="pre">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.od_tablemodel.ODTableModel.headerData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Table header names.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.od_tablemodel.ODTableModel.rowCount">
+<code class="sig-name descname"><span class="pre">rowCount</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">PySide2.QtCore.QModelIndex</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">Invalid(PySide2.QtCore.QModelIndex)</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#jodeln.gui.od_tablemodel.ODTableModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.gui.od_tablemodel.ODTableModel.staticMetaObject">
+<code class="sig-name descname"><span class="pre">staticMetaObject</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;PySide2.QtCore.QMetaObject</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#jodeln.gui.od_tablemodel.ODTableModel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.gui.schematic_items">
+<span id="jodeln-gui-schematic-items-module"></span><h2>jodeln.gui.schematic_items module<a class="headerlink" href="#module-jodeln.gui.schematic_items" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="jodeln.gui.schematic_items.LinkItem">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.gui.schematic_items.</span></code><code class="sig-name descname"><span class="pre">LinkItem</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">PySide2.QtWidgets.QGraphicsItem</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.schematic_items.LinkItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PySide2.QtWidgets.QGraphicsItem</span></code></p>
+<p>GraphicsItem for network links.</p>
+<p>Displayed as a line between the starting node i and ending node j of the link.</p>
+<dl class="py method">
+<dt id="jodeln.gui.schematic_items.LinkItem.boundingRect">
+<code class="sig-name descname"><span class="pre">boundingRect</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">PySide2.QtCore.QRectF</span><a class="headerlink" href="#jodeln.gui.schematic_items.LinkItem.boundingRect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.schematic_items.LinkItem.paint">
+<code class="sig-name descname"><span class="pre">paint</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">painter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">PySide2.QtGui.QPainter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">PySide2.QtWidgets.QStyleOptionGraphicsItem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">widget</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">typing.Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PySide2.QtWidgets.QWidget</span><span class="p"><span class="pre">,</span> </span><span class="pre">NoneType</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.schematic_items.LinkItem.paint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="jodeln.gui.schematic_items.NodeItem">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.gui.schematic_items.</span></code><code class="sig-name descname"><span class="pre">NodeItem</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">PySide2.QtWidgets.QGraphicsItem</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.schematic_items.NodeItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PySide2.QtWidgets.QGraphicsItem</span></code></p>
+<p>GraphicsItem for network nodes.</p>
+<p>Displayed as a circle at the node xy coordinate.</p>
+<dl class="py method">
+<dt id="jodeln.gui.schematic_items.NodeItem.boundingRect">
+<code class="sig-name descname"><span class="pre">boundingRect</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">PySide2.QtCore.QRectF</span><a class="headerlink" href="#jodeln.gui.schematic_items.NodeItem.boundingRect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.schematic_items.NodeItem.paint">
+<code class="sig-name descname"><span class="pre">paint</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">painter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">PySide2.QtGui.QPainter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">PySide2.QtWidgets.QStyleOptionGraphicsItem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">widget</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">typing.Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PySide2.QtWidgets.QWidget</span><span class="p"><span class="pre">,</span> </span><span class="pre">NoneType</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.schematic_items.NodeItem.paint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.gui.schematic_scene">
+<span id="jodeln-gui-schematic-scene-module"></span><h2>jodeln.gui.schematic_scene module<a class="headerlink" href="#module-jodeln.gui.schematic_scene" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="jodeln.gui.schematic_scene.SchematicScene">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.gui.schematic_scene.</span></code><code class="sig-name descname"><span class="pre">SchematicScene</span></code><a class="headerlink" href="#jodeln.gui.schematic_scene.SchematicScene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PySide2.QtWidgets.QGraphicsScene</span></code></p>
+<p>QGraphicsScene for displaying the network.</p>
+<dl class="py attribute">
+<dt id="jodeln.gui.schematic_scene.SchematicScene.links">
+<code class="sig-name descname"><span class="pre">links</span></code><a class="headerlink" href="#jodeln.gui.schematic_scene.SchematicScene.links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a LinkItem for each link in the network.
+Keyed by: (start node id, end node id)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.gui.schematic_scene.SchematicScene.routes">
+<code class="sig-name descname"><span class="pre">routes</span></code><a class="headerlink" href="#jodeln.gui.schematic_scene.SchematicScene.routes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the nodes along each route.
+Keyed by: (route.origin, route.destination, route.name)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.schematic_scene.SchematicScene.color_route">
+<code class="sig-name descname"><span class="pre">color_route</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_selected</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.schematic_scene.SchematicScene.color_route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a bool to indicate if the link is on the user-selected path.</p>
+<p>LinkItem objects in the scene can update themselves to be colored based
+on the selection bool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>route</strong> (<em>Tuple</em>) – Route identifier tuple: (route.origin, route.destination, route.name)</p></li>
+<li><p><strong>is_selected</strong> (<em>bool</em>) – True if the the link is on the user selected path.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.schematic_scene.SchematicScene.load_network">
+<code class="sig-name descname"><span class="pre">load_network</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">links</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.schematic_scene.SchematicScene.load_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer network node and link data from the Model to the SchematicScene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> (<em>Dict</em>) – {i: (x, y, name)} Dict of coordinates for each node.</p></li>
+<li><p><strong>links</strong> (<em>List</em>) – [(i, j), …] List of start/end node numbers for each link.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.schematic_scene.SchematicScene.load_routes">
+<code class="sig-name descname"><span class="pre">load_routes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">routes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">model.RouteInfo</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.schematic_scene.SchematicScene.load_routes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfers data about the routes and od from the Model to the SchematicScene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>routes</strong> (<em>List</em><em>[</em><a class="reference internal" href="jodeln.html#jodeln.model.RouteInfo" title="jodeln.model.RouteInfo"><em>RouteInfo</em></a><em>]</em>) – Basic info about the route for each OD.
+Includes route origin, destination, route name, and nodes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.schematic_scene.SchematicScene.mousePressEvent">
+<code class="sig-name descname"><span class="pre">mousePressEvent</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">PySide2.QtWidgets.QGraphicsSceneMouseEvent</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.schematic_scene.SchematicScene.mousePressEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jodeln.gui.schematic_scene.SchematicScene.staticMetaObject">
+<code class="sig-name descname"><span class="pre">staticMetaObject</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;PySide2.QtCore.QMetaObject</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#jodeln.gui.schematic_scene.SchematicScene.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.gui.schematic_view">
+<span id="jodeln-gui-schematic-view-module"></span><h2>jodeln.gui.schematic_view module<a class="headerlink" href="#module-jodeln.gui.schematic_view" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="jodeln.gui.schematic_view.SchematicView">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.gui.schematic_view.</span></code><code class="sig-name descname"><span class="pre">SchematicView</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.schematic_view.SchematicView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PySide2.QtWidgets.QGraphicsView</span></code></p>
+<dl class="py attribute">
+<dt id="jodeln.gui.schematic_view.SchematicView.staticMetaObject">
+<code class="sig-name descname"><span class="pre">staticMetaObject</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;PySide2.QtCore.QMetaObject</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#jodeln.gui.schematic_view.SchematicView.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.schematic_view.SchematicView.wheelEvent">
+<code class="sig-name descname"><span class="pre">wheelEvent</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">PySide2.QtGui.QWheelEvent</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.gui.schematic_view.SchematicView.wheelEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.gui.ui_dialog_open">
+<span id="jodeln-gui-ui-dialog-open-module"></span><h2>jodeln.gui.ui_dialog_open module<a class="headerlink" href="#module-jodeln.gui.ui_dialog_open" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="jodeln.gui.ui_dialog_open.Ui_Dialog">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.gui.ui_dialog_open.</span></code><code class="sig-name descname"><span class="pre">Ui_Dialog</span></code><a class="headerlink" href="#jodeln.gui.ui_dialog_open.Ui_Dialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="jodeln.gui.ui_dialog_open.Ui_Dialog.retranslateUi">
+<code class="sig-name descname"><span class="pre">retranslateUi</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Dialog</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.ui_dialog_open.Ui_Dialog.retranslateUi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.ui_dialog_open.Ui_Dialog.setupUi">
+<code class="sig-name descname"><span class="pre">setupUi</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Dialog</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.ui_dialog_open.Ui_Dialog.setupUi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.gui.ui_mainwindow">
+<span id="jodeln-gui-ui-mainwindow-module"></span><h2>jodeln.gui.ui_mainwindow module<a class="headerlink" href="#module-jodeln.gui.ui_mainwindow" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="jodeln.gui.ui_mainwindow.Ui_MainWindow">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">jodeln.gui.ui_mainwindow.</span></code><code class="sig-name descname"><span class="pre">Ui_MainWindow</span></code><a class="headerlink" href="#jodeln.gui.ui_mainwindow.Ui_MainWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="jodeln.gui.ui_mainwindow.Ui_MainWindow.retranslateUi">
+<code class="sig-name descname"><span class="pre">retranslateUi</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MainWindow</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.ui_mainwindow.Ui_MainWindow.retranslateUi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jodeln.gui.ui_mainwindow.Ui_MainWindow.setupUi">
+<code class="sig-name descname"><span class="pre">setupUi</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MainWindow</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.gui.ui_mainwindow.Ui_MainWindow.setupUi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Jodeln</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">User Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Jodeln Outputs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Jodeln Python Code</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="jodeln.html">jodeln package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Jodeln Python Code</a><ul>
+  <li><a href="jodeln.html">jodeln package</a><ul>
+      <li>Previous: <a href="jodeln.html" title="previous chapter">jodeln package</a></li>
+      <li>Next: <a href="jodeln.network.html" title="next chapter">jodeln.network package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michael DeAmico.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/jodeln.gui.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

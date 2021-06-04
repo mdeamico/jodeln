@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jodeln.od package &#8212; Jodeln 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="jodeln.network package" href="jodeln.network.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="jodeln-od-package">
+<h1>jodeln.od package<a class="headerlink" href="#jodeln-od-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-jodeln.od.od_estimation">
+<span id="jodeln-od-od-estimation-module"></span><h2>jodeln.od.od_estimation module<a class="headerlink" href="#module-jodeln.od.od_estimation" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="jodeln.od.od_estimation.estimate_od">
+<code class="sig-prename descclassname"><span class="pre">jodeln.od.od_estimation.</span></code><code class="sig-name descname"><span class="pre">estimate_od</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">od_mat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_total_geh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_odsse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_route_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.od.od_estimation.estimate_od" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate an OD matrix based on a seed matrix and target volumes within
+the network links/turns.</p>
+<p>Uses a cma-es optimization algorithm to iteratively manipulate the seed matrix
+until the target volumes are met.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weight_total_geh</strong> (<em>float</em><em>, </em><em>optional</em>) – Objective function weight of the sum of all GEH values in the network.</p></li>
+<li><p><strong>weight_odsse</strong> (<em>float</em><em>, </em><em>optional</em>) – Objective function weight for the influence of the seed matrix. Higher
+weight means the estimated matrix should have values close to the
+seed matrix, even if that means sacrificing link and turn GEH.</p></li>
+<li><p><strong>weight_route_ratio</strong> (<em>float</em><em>, </em><em>optional</em>) – Objective function weight of the OD route ratios.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result from cma-es objective function variables.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jodeln.od.od_estimation.objective_fn_prep_net_geh">
+<code class="sig-prename descclassname"><span class="pre">jodeln.od.od_estimation.</span></code><code class="sig-name descname"><span class="pre">objective_fn_prep_net_geh</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.od.od_estimation.objective_fn_prep_net_geh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare optimization objective function by estimating maximum network GEH.</p>
+<p>Warning: this function mutates net by directly assigning link and turn volumes.
+TODO: after calling this function, reset net to its state before calling this funciton.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>net</strong> (<a class="reference internal" href="jodeln.network.html#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network containing OD link and turn target volumes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Estimated maximum sum of all differences between the seed and estimated OD.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jodeln.od.od_estimation.objective_fn_prep_odsse">
+<code class="sig-prename descclassname"><span class="pre">jodeln.od.od_estimation.</span></code><code class="sig-name descname"><span class="pre">objective_fn_prep_odsse</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.od.od_estimation.objective_fn_prep_odsse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate maximum sum of sq error between seed and final od.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>net</strong> (<a class="reference internal" href="jodeln.network.html#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network containing OD seed volumes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Estimated maximum sum of all differences between the seed and estimated OD.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jodeln.od.od_estimation.objective_fn_prep_route_ratios">
+<code class="sig-prename descclassname"><span class="pre">jodeln.od.od_estimation.</span></code><code class="sig-name descname"><span class="pre">objective_fn_prep_route_ratios</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.od.od_estimation.objective_fn_prep_route_ratios" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate maximum sum of route ratio differences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>net</strong> (<a class="reference internal" href="jodeln.network.html#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network containing multiple routes per OD. (Also works with one route per OD,
+but technically the route ratios do not need to be involved if all ODs have
+a single route.)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Estimated maximum sum of all differences between assigned and target route ratios.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.od.od_read">
+<span id="jodeln-od-od-read-module"></span><h2>jodeln.od.od_read module<a class="headerlink" href="#module-jodeln.od.od_read" title="Permalink to this headline">¶</a></h2>
+<p>Import OD volumes.</p>
+<dl class="py function">
+<dt id="jodeln.od.od_read.od_from_csv">
+<code class="sig-prename descclassname"><span class="pre">jodeln.od.od_read.</span></code><code class="sig-name descname"><span class="pre">od_from_csv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">od_csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.od.od_read.od_from_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an OD object from a csv OD matrix.</p>
+<p>csv is a square OD matrix (n rows = n columns), zones are ordered the same in the rows
+and columns. First column contains zone name.</p>
+<p>Example csv for four zones A, B, C, D.  D is not a destination, C is not an origin:</p>
+<p>A,0,100,250,0
+B,99,0,98,0
+C,0,0,0,0
+D,10,12,12,0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>od_csv</strong> (<em>str</em>) – File path to OD csv file.</p></li>
+<li><p><strong>net</strong> (<a class="reference internal" href="jodeln.network.html#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network to assign the OD to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Keyed by a tuple of (origin name, destination name) with a value of
+the OD volume.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-jodeln.od.od_write">
+<span id="jodeln-od-od-write-module"></span><h2>jodeln.od.od_write module<a class="headerlink" href="#module-jodeln.od.od_write" title="Permalink to this headline">¶</a></h2>
+<p>Export OD volumes.</p>
+<dl class="py function">
+<dt id="jodeln.od.od_write.export_od_as_list">
+<code class="sig-prename descclassname"><span class="pre">jodeln.od.od_write.</span></code><code class="sig-name descname"><span class="pre">export_od_as_list</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.od.od_write.export_od_as_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the estimated OD to a csv file with one row per OD pair.</p>
+<p>csv columns are:</p>
+<ol class="arabic simple">
+<li><p>origin name</p></li>
+<li><p>destination name</p></li>
+<li><p>estimated volume.</p></li>
+</ol>
+<p>Sample csv output
+–
+100,101,32.2
+100,102,67.6
+105,109,21.0
+–</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<a class="reference internal" href="jodeln.network.html#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network containing OD to export.</p></li>
+<li><p><strong>output_folder</strong> (<em>str</em><em>, </em><em>optional</em>) – Folder to export OD file, by default None indicates the current working
+directory as returned by os.getcwd().</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jodeln.od.od_write.export_od_by_route">
+<code class="sig-prename descclassname"><span class="pre">jodeln.od.od_write.</span></code><code class="sig-name descname"><span class="pre">export_od_by_route</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#jodeln.od.od_write.export_od_by_route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the estimated OD to a csv file. One row per route.</p>
+<p>This export format allows showing the volume assigned to each route, if multiple
+routes between the origin and destination exist.</p>
+<p>csv columns are:</p>
+<ol class="arabic simple">
+<li><p>origin</p></li>
+<li><p>destination</p></li>
+<li><p>route name</p></li>
+<li><p>estimated route volume</p></li>
+</ol>
+<p>Sample csv output. First two rows of the sample output are the same origin-destination,
+but have different routes.</p>
+<p>–
+100,105,101_106,30.0
+100,105,102_107,15.0
+105,109,105_110,21.0
+–</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<a class="reference internal" href="jodeln.network.html#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network containing OD to export.</p></li>
+<li><p><strong>output_folder</strong> (<em>str</em><em>, </em><em>optional</em>) – Folder to export OD file, by default None indicates the current working
+directory as returned by os.getcwd().</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Jodeln</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">User Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Jodeln Outputs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Jodeln Python Code</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="jodeln.html">jodeln package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Jodeln Python Code</a><ul>
+  <li><a href="jodeln.html">jodeln package</a><ul>
+      <li>Previous: <a href="jodeln.network.html" title="previous chapter">jodeln.network package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michael DeAmico.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/jodeln.od.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
