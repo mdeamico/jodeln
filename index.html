@@ -1,56 +1,202 @@
 
-<!DOCTYPE html>
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jodeln &#8212; Jodeln 1.0.0 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Jodeln &mdash; Jodeln 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="User Inputs" href="inputs.html" />
+    <link rel="next" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
           
 
-          <div class="body" role="main">
+          
+            <a href="#">
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+<div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+  <a href="#" class="icon icon-home"> Home</a>
+  
+    
+    
+      
+    
+    
+      <p class="caption"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptual_examples.html">Conceptual Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">User Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Jodeln Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Jodeln Python Code</a></li>
+</ul>
+
+    
+  
+</div>
+
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Jodeln</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Jodeln</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="jodeln">
 <h1>Jodeln<a class="headerlink" href="#jodeln" title="Permalink to this headline">¶</a></h1>
+<p>Jodeln helps you solve shortest-path and origin-destination (OD) estimation problems.
+(Jodeln is pronounced <em>yo-den</em> <a class="reference external" href="#what-s-with-the-name">What’s with the name?</a>)</p>
+<p>Features:</p>
+<ul class="simple">
+<li><p>Export lists of links and turns along the shortest path between every OD pair in a network.
+(Think <a class="reference external" href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">Dijkstra’s algorithm</a>)</p></li>
+<li><p>Refine a seed OD matrix to meet link and turn target volumes within a network (experimental feature).</p></li>
+</ul>
+<p>Outputs are especially useful for developing custom traffic assignment spreadsheets.
+<a class="reference external" href="#">Example</a>.</p>
+<p>Jodeln <em>is not</em> a travel demand model.
+It is also <em>not</em> a network editor.
+Users are expected to create compatible networks using GIS or other means.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="inputs.html">User Inputs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="inputs.html#nodes">Nodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="inputs.html#links">Links</a></li>
-<li class="toctree-l2"><a class="reference internal" href="inputs.html#turns">Turns</a></li>
-<li class="toctree-l2"><a class="reference internal" href="inputs.html#routes">Routes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="inputs.html#seed-od-matrix">Seed OD Matrix</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptual_examples.html">Conceptual Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">User Inputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outputs.html">Jodeln Outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Jodeln Python Code</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="jodeln.html">jodeln package</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Jodeln Python Code</a></li>
 </ul>
 </div>
+</div>
+<div class="section" id="what-s-with-the-name">
+<h1>What’s with the name?<a class="headerlink" href="#what-s-with-the-name" title="Permalink to this headline">¶</a></h1>
+<p>A hip name is the hallmark of modern software.
+The Origin-Destination abbreviation “OD” is pronounced “oh-dee.”
+Repeating “OD” over-and-over again in a rhythmic pattern sounds a lot like the background music in the Price is Right game “Cliff Hanger” (<a class="reference external" href="https://youtu.be/8qHZWYcydGY?t=116">listen when the hiker climbs</a>): oh-dee oh-dee oh, oh-dee oh-dee oh…).
+In German, yodel is written yodeln.
+Both written words have “od” in the middle of them, so there you go.
+When you are done with your OD estimation you might want to Yodel too!</p>
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
@@ -62,73 +208,50 @@
 </div>
 
 
+           </div>
+           
           </div>
-          
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Michael DeAmico.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="#">Jodeln</a></h1>
 
+    </section>
 
+  </div>
+  
 
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
 
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="inputs.html">User Inputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outputs.html">Jodeln Outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Jodeln Python Code</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="inputs.html" title="next chapter">User Inputs</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2021, Michael DeAmico.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="_sources/index.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
+  
+  
     
+   
 
-    
-  </body>
+</body>
 </html>
