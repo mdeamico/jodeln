@@ -19,7 +19,7 @@ class LinkItem(QGraphicsItem):
         self.jx = jx
         self.jy = jy
 
-        self.topleft_x = min(ix, iy)
+        self.topleft_x = min(ix, jx)
         self.topleft_y = min(iy, jy)
         self.width = abs(ix - jx)
         self.height = abs(iy - jy)
