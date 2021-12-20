@@ -3,6 +3,7 @@ from PySide2.QtWidgets import (
     QApplication, QMainWindow, QFileDialog, 
     QAbstractItemView, QDialogButtonBox)
 from PySide2.QtGui import QDoubleValidator, QPainter
+from PySide2.QtCore import Qt
 
 from gui.ui_mainwindow import Ui_MainWindow
 
@@ -51,7 +52,7 @@ class MainWindow(QMainWindow):
         self.schematic_scene = schematic_scene.SchematicScene()
         self.ui.gvSchematic.setScene(self.schematic_scene)
         self.ui.gvSchematic.setRenderHints(QPainter.Antialiasing)
-
+        
         # Set table behaviors
         self.ui.tblOD.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui.tblOD.setSelectionMode(QAbstractItemView.SingleSelection)
@@ -73,6 +74,22 @@ class MainWindow(QMainWindow):
         if load_successful:
             self.schematic_scene.load_network(self.model.get_node_xy(), 
                                              self.model.get_link_end_ids())
+
+            # Set scene rectangle to something larger than the network.
+            # This helps with panning & zooming near the edges of the network.
+            init_rect = self.schematic_scene.sceneRect()
+            self.schematic_scene.setSceneRect(
+                init_rect.x() - 100000,
+                init_rect.y() - 100000,
+                init_rect.width() + 200000,
+                init_rect.height() + 200000)
+
+            self.ui.gvSchematic.fitInView(
+                init_rect, 
+                Qt.KeepAspectRatio)
+
+            # Flip y coordinates to make y coordinates increasing from bottom to top.
+            self.ui.gvSchematic.scale(1, -1)
 
             routes = self.model.get_route_list()
             self.od_table_model = od_tablemodel.ODTableModel(routes)

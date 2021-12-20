@@ -19,7 +19,7 @@ class LinkItem(QGraphicsItem):
         self.jx = jx
         self.jy = jy
 
-        self.topleft_x = min(ix, iy)
+        self.topleft_x = min(ix, jx)
         self.topleft_y = min(iy, jy)
         self.width = abs(ix - jx)
         self.height = abs(iy - jy)
@@ -69,18 +69,34 @@ class NodeItem(QGraphicsItem):
         pen.setWidth(2)
         pen.setCosmetic(True)
 
+        # Combine ideas from these code samples to draw items at a fixed size:
+        # https://stackoverflow.com/questions/1222914/qgraphicsview-and-qgraphicsitem-don%C2%B4t-scale-item-when-scaling-the-view-rect
+        # https://www.qtcentre.org/threads/28691-Scale-independent-QGraphicsItem
+
+        object_rect = self.boundingRect()
+        mapped_rect = painter.transform().mapRect(object_rect)
+        
+        width_ratio = object_rect.width() / mapped_rect.width()
+
+        scale_factor = max(1, width_ratio)
+
         painter.setPen(pen)
         painter.setBrush(Qt.gray)
-        painter.drawEllipse(self.x - self.diameter / 2, 
-                            self.y - self.diameter / 2, 
-                            self.diameter,
-                            self.diameter)
-        
+
+        scaled_diameter = self.diameter * scale_factor
+
+        painter.drawEllipse((self.x - scaled_diameter / 2), 
+                            (self.y - scaled_diameter / 2), 
+                            scaled_diameter,
+                            scaled_diameter)
+
         # Draw text for the node name
         label_path = QPainterPath()
-        label_font = QFont("Calibri", 5)
-        label_path.addText(self.x, self.y - self.diameter / 2, label_font, self.name)
-
+        label_font = QFont("Calibri", 10 * scale_factor)
+        label_path.addText(self.x, -self.y - self.diameter / 2, label_font, self.name)
+        painter.scale(1.0, -1.0)
+        
         painter.setBrush(Qt.blue)
         painter.setPen(Qt.NoPen)
         painter.drawPath(label_path)
+        
