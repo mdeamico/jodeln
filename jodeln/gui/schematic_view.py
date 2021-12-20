@@ -29,4 +29,8 @@ class SchematicView(QGraphicsView):
         self.scale(zoom_factor, zoom_factor)
         self.setTransformationAnchor(previous_anchor)
 
-        return super().wheelEvent(event)
+        # Do not call the super().wheelEvent(event) method in the return statement.
+        # Doing so interferes with the zoom to cursor behavior logic implemented above.
+    
+        return
+
