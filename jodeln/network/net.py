@@ -140,6 +140,18 @@ class TurnData():
     geh: float
 
 
+@dataclass
+class NodeParameters():
+    """Parameters needed for constructing a NetNode object.
+    """
+    __slots__ = ['name', 'x', 'y', 'is_origin', 'is_destination']
+    name: str
+    x: float
+    y: float
+    is_origin: bool
+    is_destination: bool
+
+
 class NetNode():
     """A point (junction) in the network graph.
 
@@ -150,8 +162,8 @@ class NetNode():
     ----------
     key : int
         Unique identifier for the node.
-    payload : List
-        List of data to assign to the node.
+    name : str
+        Name, or label, for the node.
     x : float
         x-coordinate of node. Defaults to zero.
     y : float
@@ -165,34 +177,23 @@ class NetNode():
     up_neighbors : list
         Upstream node IDs connected to this node.
     """
-    def __init__(self, key, payload):
+    def __init__(self, key, parameters: NodeParameters):
         """Create a node in the network graph.
 
         Parameters
         ----------
         key : int
             Unique identifier.
-        payload : List
-            Data about the node. TODO: remove payload, everything in the payload
-            should be saved as an instance attribute (self.name, self.x, ...etc)
+        parameters : NodeParameters
+            Data about the node. Name, x,y coordinates, etc.
         """
         self.key = key
-        self.payload = payload
         
-        self.name = payload[0]
-        
-        try:
-            self.x = float(payload[1])
-        except ValueError:
-            self.x = 0
-        
-        try:
-            self.y = float(payload[2])
-        except ValueError:
-            self.y = 0
-        
-        self.is_origin = int(payload[3]) == 1
-        self.is_destination = int(payload[4]) == 1
+        self.name = parameters.name
+        self.x = parameters.x
+        self.y = parameters.y
+        self.is_origin = parameters.is_origin
+        self.is_destination = parameters.is_destination
 
         self.neighbors = {} # type: Dict[int, NetLinkData]
         self.up_neighbors = []
@@ -247,16 +248,16 @@ class Network():
         self.od = [] # type: List[NetODpair]
         self.total_geh = 0
 
-    def add_node(self, payload) -> None:
+    def add_node(self, parameters: NodeParameters) -> None:
         """Add a node to the network graph.
 
         Parameters
         ----------
-        payload : List
-            List of data belonging to the node.
+        parameters : NodeParameters
+            Data about the node. Name, x,y coordinates, etc.
         """
         key = len(self.nodes)
-        self.nodes[key] = NetNode(key, payload)
+        self.nodes[key] = NetNode(key, parameters)
 
     def add_link(self, i_name, j_name, payload) -> None:
         """Connects two nodes to form an link in the network graph.
