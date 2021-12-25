@@ -14,7 +14,7 @@ but a separate Factory module (this file) seems more flexible.
 """
 
 import csv
-from .net import Network, NetRoute, NodeParameters
+from .net import Network, NetRoute, NodeParameters, LinkParameters
 
 
 def from_node_link_csv(node_csv, link_csv):
@@ -86,12 +86,34 @@ def from_node_link_csv(node_csv, link_csv):
 
             net.add_node(node_parameters)
 
-    with open(link_csv, newline='') as f:
-        reader = csv.reader(f)
+    with open(link_csv, newline='') as file:
+        reader = csv.reader(file)
+        
+        # skip header
         next(reader)
-        for row in reader:
-            i_name, j_name, *payload = row
-            net.add_link(i_name, j_name, payload)
+        
+        for payload in reader:
+            i_name = payload[0]
+            j_name = payload[1]
+            
+            try:
+                link_cost = float(payload[2])
+            except ValueError:
+                link_cost = 0
+            
+            try:
+                link_target_volume = float(payload[4])
+            except ValueError:
+                link_target_volume = 0
+
+
+            link_parameters = LinkParameters(
+                name=payload[3],
+                cost=link_cost,
+                target_volume=link_target_volume
+            )
+            
+            net.add_link(i_name, j_name, link_parameters)
 
     net.init_turns()
     net.init_routes()

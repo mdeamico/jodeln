@@ -77,6 +77,15 @@ class NetODpair():
     est_total_volume: float
     routes: List[NetRoute]
 
+@dataclass
+class LinkParameters():
+    """Parameters needed for constructing a NetLinkData object.
+    """
+    __slots__ = ['name', 'cost', 'target_volume']
+    name: str
+    cost: float
+    target_volume: float
+
 
 @dataclass
 class NetLinkData():
@@ -259,7 +268,7 @@ class Network():
         key = len(self.nodes)
         self.nodes[key] = NetNode(key, parameters)
 
-    def add_link(self, i_name, j_name, payload) -> None:
+    def add_link(self, i_name, j_name, parameters: LinkParameters) -> None:
         """Connects two nodes to form an link in the network graph.
 
         Parameters
@@ -268,19 +277,20 @@ class Network():
             Origin node name
         j_name : str
             Destination node name
-        payload : List
-            Data belonging to the link. See NetLinkData class.
+        parameters : LinkParameters
+            Data belonging to the link. Name, cost, etc.
         """
         i_key, _ = self.get_node_by_name(i_name) 
         j_key, _ = self.get_node_by_name(j_name) 
         
-        link_data = NetLinkData(cost=float(payload[0]), 
-                             name=payload[1],
-                             target_volume=float(payload[2]),
-                             link_index=self.n_links,
-                             assigned_volume=0,
-                             geh=0,
-                             seed_volume=0)
+        link_data = NetLinkData(
+            cost=parameters.cost, 
+            name=parameters.name,
+            target_volume=parameters.target_volume,
+            link_index=self.n_links,
+            assigned_volume=0,
+            geh=0,
+            seed_volume=0)
 
         self.nodes[i_key].add_neighbor(j_key, link_data)
         self.n_links += 1
