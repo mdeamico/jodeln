@@ -36,16 +36,13 @@ class SchematicScene(QGraphicsScene):
         nodes : Dict
             {i: (x, y, name)} Dict of coordinates for each node.
         links : List
-            [(i, j), ...] List of start/end node numbers for each link.
+            [(i, j, shape_points), ...] List of start/end node numbers for each link.
         """
         for _, (x, y, name) in nodes.items():
             self.addItem(NodeItem(x, y, name))
         
-        for (i, j) in links:
-            self.links[(i, j)] = LinkItem(nodes[i][0],
-                                          nodes[i][1],
-                                          nodes[j][0],
-                                          nodes[j][1])
+        for (i, j, pts) in links:
+            self.links[(i, j)] = LinkItem(pts)
 
             self.addItem(self.links[(i, j)])
 

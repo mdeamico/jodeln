@@ -81,10 +81,11 @@ class NetODpair():
 class LinkParameters():
     """Parameters needed for constructing a NetLinkData object.
     """
-    __slots__ = ['name', 'cost', 'target_volume']
+    __slots__ = ['name', 'cost', 'target_volume', 'shape_points']
     name: str
     cost: float
     target_volume: float
+    shape_points: List[Tuple[float, float]]
 
 
 @dataclass
@@ -108,7 +109,7 @@ class NetLinkData():
     seed_volume: float
         Volume on the link as assigned from the seed OD matrix.
     """
-    __slots__ = ['cost', 'name', 'target_volume', 'link_index', 'assigned_volume', 'geh', 'seed_volume']
+    __slots__ = ['cost', 'name', 'target_volume', 'link_index', 'assigned_volume', 'geh', 'seed_volume', 'shape_points']
     cost: float
     name: str
     target_volume: float
@@ -116,6 +117,7 @@ class NetLinkData():
     assigned_volume: float
     geh: float
     seed_volume: float
+    shape_points: List[Tuple[float, float]]
 
 
 @dataclass
@@ -290,7 +292,8 @@ class Network():
             link_index=self.n_links,
             assigned_volume=0,
             geh=0,
-            seed_volume=0)
+            seed_volume=0,
+            shape_points=parameters.shape_points)
 
         self.nodes[i_key].add_neighbor(j_key, link_data)
         self.n_links += 1

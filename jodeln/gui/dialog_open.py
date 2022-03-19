@@ -22,11 +22,11 @@ class DialogOpen(QWidget):
         
         self.data = FilePathCache("", "", "", "", "")
 
-        self.ui.pbOpenNodes.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leNodes))
-        self.ui.pbOpenLinks.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leLinks))
-        self.ui.pbOpenTurns.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leTurns))
-        self.ui.pbOpenRoutes.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leRoutes))
-        self.ui.pbOpenSeedOD.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leSeedOD))
+        self.ui.pbOpenNodes.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leNodes, "Load Nodes"))
+        self.ui.pbOpenLinks.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leLinks, "Load Links"))
+        self.ui.pbOpenTurns.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leTurns, "Load Turns"))
+        self.ui.pbOpenRoutes.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leRoutes, "Load Routes"))
+        self.ui.pbOpenSeedOD.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leSeedOD, "Load Seed OD"))
 
     def store_data(self) -> None:
         """Stores current list edit text in self.data.
@@ -57,7 +57,7 @@ class DialogOpen(QWidget):
         self.ui.leSeedOD.setText(self.data.seed_od)
         self.close()
     
-    def on_pbOpenClick(self, line_edit) -> None:
+    def on_pbOpenClick(self, line_edit, title) -> None:
         """Open a standard file dialog; put file path in line edit."""
-        file_path, _ = QFileDialog.getOpenFileName(self, "Load Network")
+        file_path, _ = QFileDialog.getOpenFileName(self, title)
         line_edit.setText(file_path)

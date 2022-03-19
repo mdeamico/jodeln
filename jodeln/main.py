@@ -73,7 +73,7 @@ class MainWindow(QMainWindow):
                                           od_routes_file=file_paths.routes)
         if load_successful:
             self.schematic_scene.load_network(self.model.get_node_xy(), 
-                                             self.model.get_link_end_ids())
+                                              self.model.get_link_end_ids())
 
             # Set scene rectangle to something larger than the network.
             # This helps with panning & zooming near the edges of the network.

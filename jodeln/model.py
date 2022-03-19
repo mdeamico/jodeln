@@ -76,7 +76,7 @@ class Model():
                 # their inputs are invalid.
                 return False
             
-            self.net = net_read.from_node_link_csv(node_file, links_file)
+            self.net = net_read.create_network(node_file, links_file)
         
         if self.net is None:
             # can't continue loading OD or turns without a Network
@@ -158,7 +158,7 @@ class Model():
         if not self.net:
             return
         
-        return [(i, j) for i, j, _ in self.net.links_()]
+        return [(i, j, self.net.link(i, j).shape_points) for i, j, _ in self.net.links_()]
 
     def get_route_list(self):
         """Return basic OD information for each route."""
