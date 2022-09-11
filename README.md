@@ -1,6 +1,6 @@
 # Welcome to Jodeln
-**CAUTION: The documentation is under heavy revision and may contain many broken links**
-TODO: Show a logo here
+![logo](https://raw.githubusercontent.com/mdeamico/jodeln/master/docs/source/logo.png)
+
 (Pronounced *yo-den* - [What's with the name?](https://mdeamico.github.io/jodeln/index.html#what-s-with-the-name))
 
 ## Purpose
@@ -16,9 +16,11 @@ Users are expected to create compatible networks using GIS or other means.
 ## Documentation
 You can find complete documentation on [Jodeln's homepage](https://mdeamico.github.io/jodeln/).
 
+**CAUTION: The documentation is under heavy revision and may contain many broken links**
+
 - [Installation - TODO](https://mdeamico.github.io/jodeln/installation.html)
 - [Quick Start - TODO](https://mdeamico.github.io/jodeln/quick_start.html)
-- [Examples - TODO](#)
+- [Examples](https://mdeamico.github.io/jodeln/conceptual_examples.html)
 - [Inputs](https://mdeamico.github.io/jodeln/inputs.html)
 - [Outputs](https://mdeamico.github.io/jodeln/outputs.html)
 - [Documenation for developers](https://mdeamico.github.io/jodeln/modules.html)
