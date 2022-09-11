@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="120"
+   height="40"
+   viewBox="0 0 120 40"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="C:\Users\Michael\Documents\Programming\python_projects\jodeln\docs\source\logo.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="1"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="4.4932127"
+     inkscape:cx="39.504028"
+     inkscape:cy="23.479859"
+     inkscape:window-width="1600"
+     inkscape:window-height="837"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     units="px">
+    <sodipodi:guide
+       position="0,7.5499001"
+       orientation="0,110.74184"
+       id="guide1262" />
+    <sodipodi:guide
+       position="29.300446,7.5499001"
+       orientation="28.535055,0"
+       id="guide1264" />
+    <sodipodi:guide
+       position="29.300446,0"
+       orientation="0,-110.74184"
+       id="guide1266" />
+    <sodipodi:guide
+       position="0,0"
+       orientation="-28.535055,0"
+       id="guide1268" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-74.113715,-39.659339)"
+     style="display:inline">
+    <g
+       id="g1599"
+       transform="translate(4.629088,5.7324765)">
+      <path
+         d="m 87.492571,42.00307 q -0.234368,5.820295 -0.234368,14.374952 0,6.503886 -2.675773,9.238252 -2.265615,2.343742 -7.050757,2.343742 -1.718744,0 -3.417959,-0.410154 l 0.351572,-4.199206 q 1.308589,0.585936 2.617179,0.585936 2.558585,0 3.710925,-1.113278 1.660149,-1.601556 1.660149,-6.054667 0,-8.925754 -0.292951,-14.765577 z"
+         style="font-weight:bold;font-size:10.5833px;line-height:1.25;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#b2b2b2;fill-opacity:1;stroke-width:0.264583"
+         id="path8268" />
+      <path
+         d="m 110.8714,57.725673 q 0,4.921859 -3.02733,7.695287 -3.02734,2.773428 -7.12889,2.773428 -3.906233,0 -6.699194,-2.519523 -2.792961,-2.539053 -2.792961,-7.12888 0,-4.941392 3.046866,-7.734353 3.046866,-2.792957 7.148409,-2.792957 3.88671,0 6.66014,2.558585 2.79296,2.539053 2.79296,7.148413 z m -5.09764,0.585936 q 0,-2.832022 -1.32812,-4.746077 -1.32812,-1.933587 -3.45702,-1.933587 -2.070308,0 -3.378897,1.796866 -1.289057,1.796871 -1.289057,4.492176 0,2.832023 1.328118,4.76561 1.328122,1.914054 3.457016,1.914054 2.07031,0 3.35937,-1.79687 1.30859,-1.796867 1.30859,-4.492172 z"
+         style="font-weight:bold;font-size:10.5833px;line-height:1.25;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#666666;fill-opacity:1;stroke-width:0.264583"
+         id="path8270" />
+      <path
+         d="m 132.27758,67.413141 -4.62889,0.156246 q -0.13671,-0.683592 -0.13671,-1.425774 h -0.29299 q -2.14843,1.855461 -5.48826,1.855461 -3.74999,0 -5.95701,-2.714835 -2.20703,-2.714834 -2.20703,-6.445292 0,-4.277328 2.40234,-7.441382 2.40234,-3.183583 6.67967,-3.183583 2.77343,0 4.16014,1.035152 h 0.27345 q 0,-4.60936 -0.44922,-9.27731 l 5.52732,-0.156246 q -0.31249,4.550766 -0.31249,13.085895 0,8.652313 0.42969,14.511668 z m -4.90233,-4.433578 q 0,-6.230448 -0.29295,-10.312466 -1.34765,-0.937497 -3.22265,-0.937497 -2.57811,0 -3.82811,1.914055 -1.24999,1.914058 -1.24999,4.687486 0,2.46093 1.21093,4.257797 1.21093,1.777337 3.35936,1.777337 2.87108,0 4.02342,-1.386712 z"
+         style="font-weight:bold;font-size:10.5833px;line-height:1.25;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#666666;fill-opacity:1;stroke-width:0.264583"
+         id="path8272" />
+      <path
+         d="m 153.37126,56.163178 q 0,0.996091 -0.1172,2.59765 l -12.57809,0.214829 q 0.27345,2.207024 1.89453,3.671863 1.62109,1.464839 4.2578,1.464839 2.92967,0 6.23045,-0.878903 l -0.39063,3.789052 q -2.6953,0.976558 -6.67966,0.976558 -5.03905,0 -7.73435,-2.832022 -2.67578,-2.832023 -2.67578,-6.816385 0,-4.160141 2.53906,-7.207006 2.55858,-3.066395 7.08982,-3.066395 4.14061,0 6.15232,2.246086 2.01171,2.246086 2.01171,5.839823 z m -4.5703,-0.175786 q 0,-4.492175 -3.82811,-4.492175 -3.65233,0 -4.33592,4.648425 z"
+         style="font-weight:bold;font-size:10.5833px;line-height:1.25;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#b2b2b2;fill-opacity:1;stroke-width:0.264583"
+         id="path8274" />
+      <path
+         d="m 162.7267,67.432674 h -5.33201 q 0.29295,-6.699197 0.29295,-14.511672 0,-7.617161 -0.60547,-12.949174 l 5.64451,-0.312491 q -0.29295,5.527324 -0.29295,13.261672 0,7.851537 0.29295,14.511672 z"
+         style="font-weight:bold;font-size:10.5833px;line-height:1.25;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#b2b2b2;fill-opacity:1;stroke-width:0.264583"
+         id="path8276" />
+      <path
+         d="m 184.85554,67.432674 h -5.1953 q 0.42969,-4.941392 0.42969,-9.999968 0,-3.066394 -0.91797,-4.160144 -0.89843,-1.093746 -2.75391,-1.093746 -2.22656,0 -4.21875,1.523433 0.0975,7.617164 0.0975,13.730425 h -5.25387 q 0.35157,-6.113261 0.35157,-9.609342 0,-4.667954 -0.95703,-8.808566 l 4.99998,-0.546875 0.33203,2.070308 h 0.31249 q 2.67576,-2.30468 6.15232,-2.30468 3.00782,0 4.80468,1.425777 1.81641,1.406245 1.81641,5.214825 0,0.566404 -0.0586,1.523433 -0.0389,0.937497 -0.0389,1.933587 0,2.636708 0.0975,9.101533 z"
+         style="font-weight:bold;font-size:10.5833px;line-height:1.25;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#b2b2b2;fill-opacity:1;stroke-width:0.264583"
+         id="path8278" />
+    </g>
+  </g>
+</svg>

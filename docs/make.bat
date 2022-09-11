@@ -39,8 +39,7 @@ goto end
 :github
 rmdir /S /Q "%BUILDDIR%"
 %SPHINXBUILD% -M html %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
-xcopy "%BUILDDIR%\html" "%DOCS%" /Y
-xcopy "%BUILDDIR%\html\_static" "%DOCS%\_static\" /Y
+xcopy "%BUILDDIR%\html" "%DOCS%" /S /Y
 echo. 2>"%DOCS%\.nojekyll"
 goto end
 
