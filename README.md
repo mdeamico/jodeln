@@ -1,4 +1,5 @@
 # Welcome to Jodeln
+**CAUTION: The documentation is under heavy revision and may contain many broken links**
 TODO: Show a logo here
 (Pronounced *yo-den* - [What's with the name?](https://mdeamico.github.io/jodeln/index.html#what-s-with-the-name))
 
