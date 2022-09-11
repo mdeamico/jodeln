@@ -1,0 +1,6 @@
+o_node,d_node,route,a_node,b_node
+A,D,W_X,**A**,W
+A,D,W_X,W,X
+A,D,W_X,X,Z
+A,D,W_X,Z,**D**
+…,…,…,…,…

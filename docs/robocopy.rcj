@@ -1,0 +1,9 @@
+:: Prevent make.bat from copying/deleting files in the gh-pages worktree.
+::
+:: make.bat uses robocopy to mirror (/MIR) the Sphinx build directory into the gh-pages worktree directory.
+:: robocopy /MIR by default deletes anything in the destination directory that is not in the source directory.
+:: Files that are required to exist only in the destination directory (gh-pages) can be excluded by listing them below.
+
+/XF
+.git
+.nojekyll

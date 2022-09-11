@@ -7,10 +7,12 @@ REM run in a powershell terminal using the following command:
 REM cmd /c make.bat github
 
 if "%SPHINXBUILD%" == "" (
-	set SPHINXBUILD=sphinx-build
+	set "SPHINXBUILD=..\.env\Scripts\sphinx-build.exe"
 )
 set SOURCEDIR=source
 set BUILDDIR=build
+
+REM gh-pages worktree directory
 set DOCS=..\..\jodeln-docs
 
 if "%1" == "" goto help
@@ -39,9 +41,9 @@ goto end
 :github
 rmdir /S /Q "%BUILDDIR%"
 %SPHINXBUILD% -M html %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
-xcopy "%BUILDDIR%\html" "%DOCS%" /Y
-xcopy "%BUILDDIR%\html\_static" "%DOCS%\_static\" /Y
-echo. 2>"%DOCS%\.nojekyll"
+REM Use robocopy to mirror build directory into gh-pages worktree directory
+robocopy "%BUILDDIR%\html" "%DOCS%" /MIR /JOB:robocopy.rcj
+IF NOT EXIST "%DOCS%\.nojekyll" echo. 2>"%DOCS%\.nojekyll"
 goto end
 
 :end

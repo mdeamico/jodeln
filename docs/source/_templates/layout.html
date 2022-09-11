@@ -1,0 +1,20 @@
+{% extends "!layout.html" %}
+{% block navigation %}
+<div class="wy-menu-vertical">
+	<a href="{{ pathto(master_doc) }}" class="icon icon-home"> Home</a>
+</div>
+<div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="{{ _('Navigation menu') }}">
+  {%- block menu %}
+	{%- set toctree = toctree(maxdepth=theme_navigation_depth|int,
+							  collapse=theme_collapse_navigation|tobool,
+							  includehidden=theme_includehidden|tobool,
+							  titles_only=theme_titles_only|tobool) %}
+	{%- if toctree %}
+	  {{ toctree }}
+	{%- else %}
+	  <!-- Local TOC -->
+	  <div class="local-toc">{{ toc }}</div>
+	{%- endif %}
+  {%- endblock %}
+</div>
+{% endblock %}

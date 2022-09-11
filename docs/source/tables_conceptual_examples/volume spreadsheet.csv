@@ -1,0 +1,7 @@
+row,o_node,d_node,route,a_node,b_node,**OD volume**
+1,A,D,W_X,A,W,35
+2,A,D,W_X,W,X,35
+3,A,D,W_X,X,Z,35
+4,A,D,W_X,Z,D,35
+5,A,C,W_X,A,W,100
+...,...,...,...,...,...,...
