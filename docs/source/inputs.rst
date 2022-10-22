@@ -1,7 +1,7 @@
 User Inputs
 ===========
 
-Jodeln currently can accept inputs in csv format (there are future plans to accept shapefiles.)
+Jodeln can accept inputs in csv or shapefile (shp) format.
 
 Inputs include:
 
@@ -15,7 +15,10 @@ Inputs include:
 
 Nodes
 -----
-The Nodes csv defines the start and end points for each link in the network.
+The Nodes input file defines the start and end points for each link in the network.
+
+Nodes csv
+~~~~~~~~~~
 
 Columns in node csv include the following, in this order:
 
@@ -37,12 +40,28 @@ The first line of the csv file must be a header row.
     104,258,127,0,1
     105,280,100,0,1
 
+Nodes shapefile
+~~~~~~~~~~~~~~~
+A nodes shapefile needs to contain point data types with the following attribute
+(field) names and *[types]*:
+
+- name *[string]*
+- is_origin *[integer (0 = False, 1 = True)]*
+- is_destina *[integer (0 = False, 1 = True)]*
+
+Other attributes will be ignored.
+
+
 .. _Links:
 
 Links
 -----
-The Links csv defines the connection between two nodes. Each travel direction must
-be included independently, e.x. A-B and B-A are two separate links.
+The Links input file defines the connection between two nodes.
+
+Links csv
+~~~~~~~~~~
+Each travel direction must be included independently, e.x. A-B and B-A are
+two separate links (two rows in the csv).
 
 Columns in link csv include the following, in this order:
 
@@ -62,6 +81,27 @@ Columns in link csv include the following, in this order:
     103,105,9.32,9004,125
 
 The first line of the csv file must be a header row.
+
+Links shapefile
+~~~~~~~~~~~~~~~
+A links shapefile needs to contain polyline data types with the following attribute
+(field) names and *[types]*:
+
+- name *[string]*
+- cost *[double]*
+- target_vol *[double]*
+- oneway *[integer (1 = one-way link, 2 = two-way link)]*
+
+Other attributes will be ignored.
+
+Unlike the links csv format, two-way links can be specified as one entity in the
+shapefile with the *oneway* attribute set to 2. Alternatively, two separate links
+could be used, each with *oneway* set to 1.
+
+The links shapefile does not need to include the link start and end nodes. Start
+and end nodes are determined automatically based on the closest node coordinates
+and digitized direction of the link. Links must be drawn in the direction traveling
+from the start node to the end node.
 
 .. _Turns:
 
