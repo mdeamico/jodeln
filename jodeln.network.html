@@ -124,14 +124,14 @@
 <p>Contains the Network class and related classes.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="jodeln.network.net.LinkParameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jodeln.network.net.</span></span><span class="sig-name descname"><span class="pre">LinkParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.LinkParameters" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jodeln.network.net.</span></span><span class="sig-name descname"><span class="pre">LinkParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.LinkParameters" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Parameters needed for constructing a NetLinkData object.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="jodeln.network.net.NetLinkData">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jodeln.network.net.</span></span><span class="sig-name descname"><span class="pre">NetLinkData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assigned_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.NetLinkData" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jodeln.network.net.</span></span><span class="sig-name descname"><span class="pre">NetLinkData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assigned_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net.NetLinkData" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Data on Network links.</p>
 <dl class="py attribute">
@@ -759,21 +759,57 @@ is the intersection, A is upstream, and C is downstream.</p>
 For example:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>node and link csv only.</p></li>
-<li><p>node, link, and turn csv.</p></li>
-<li><p>node, link, and OD csv,</p></li>
+<li><p>node and link only.</p></li>
+<li><p>node, link, and turn.</p></li>
+<li><p>node, link, and OD</p></li>
+<li><p>etc</p></li>
 </ul>
 </div></blockquote>
-<p>Eventually formats other than csv might be accepted (such as shapefiles).</p>
-<p>Was initially thinking of mplementing classmethods to overload __init__ in Graph
-<a class="reference external" href="https://stackoverflow.com/questions/44765482/multiple-constructors-the-pythonic-way">https://stackoverflow.com/questions/44765482/multiple-constructors-the-pythonic-way</a>
-but a separate Factory module (this file) seems more flexible.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="jodeln.network.net_read.from_node_link_csv">
-<span class="sig-prename descclassname"><span class="pre">jodeln.network.net_read.</span></span><span class="sig-name descname"><span class="pre">from_node_link_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_csv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jodeln.network.net_read.from_node_link_csv" title="Permalink to this definition"></a></dt>
-<dd><p>Create a network from csv files of nodes and links.</p>
-<p>The Network turns and potential OD routes are also initialized so that the new
-network object returned is functional.</p>
+<dt class="sig sig-object py" id="jodeln.network.net_read.add_links_from_csv">
+<span class="sig-prename descclassname"><span class="pre">jodeln.network.net_read.</span></span><span class="sig-name descname"><span class="pre">add_links_from_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><span class="pre">Network</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_csv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#jodeln.network.net_read.add_links_from_csv" title="Permalink to this definition"></a></dt>
+<dd><p>Adds links to the network from the given csv file.</p>
+<p>Requires that the network already has nodes in it.</p>
+<p>Columns in link csv (columns must be in this order):</p>
+<ol class="arabic simple">
+<li><p>from_node</p></li>
+<li><p>to_node</p></li>
+<li><p>cost</p></li>
+<li><p>name</p></li>
+<li><p>target_volume</p></li>
+</ol>
+<p>The csv file format does not allow defining intermediate shape points
+between the link start point and end point. Use shapefile format if
+intermediate points are desired.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network object where links will be added.</p></li>
+<li><p><strong>link_csv</strong> (<em>str</em>) – File path to link file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jodeln.network.net_read.add_links_from_shp">
+<span class="sig-prename descclassname"><span class="pre">jodeln.network.net_read.</span></span><span class="sig-name descname"><span class="pre">add_links_from_shp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><span class="pre">Network</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_shp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#jodeln.network.net_read.add_links_from_shp" title="Permalink to this definition"></a></dt>
+<dd><p>Adds links to the network from the given shapefile paths.</p>
+<p>Requires that the network already has nodes in it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network object where links will be added.</p></li>
+<li><p><strong>link_shp</strong> (<em>str</em>) – File path to link shapefile.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jodeln.network.net_read.add_nodes_from_csv">
+<span class="sig-prename descclassname"><span class="pre">jodeln.network.net_read.</span></span><span class="sig-name descname"><span class="pre">add_nodes_from_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><span class="pre">Network</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_csv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#jodeln.network.net_read.add_nodes_from_csv" title="Permalink to this definition"></a></dt>
+<dd><p>Adds nodes to the network from the given csv file.</p>
 <p>Columns in node csv (columns must be in this order):</p>
 <ol class="arabic simple">
 <li><p>node name</p></li>
@@ -782,21 +818,46 @@ network object returned is functional.</p>
 <li><p>is_origin (0 = False, 1 = True)</p></li>
 <li><p>is_destination (0 = False, 1 = True)</p></li>
 </ol>
-<p>Columns in link csv
-1. from_node
-2. to_node
-3. cost
-4. name
-5. target_volume</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>node_csv</strong> (<em>str</em>) – File path to node csv file.</p></li>
-<li><p><strong>link_csv</strong> (<em>str</em>) – File path to link csv file.</p></li>
+<li><p><strong>net</strong> (<a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network object where nodes will be added.</p></li>
+<li><p><strong>node_csv</strong> (<em>str</em>) – File path to node file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jodeln.network.net_read.add_nodes_from_shp">
+<span class="sig-prename descclassname"><span class="pre">jodeln.network.net_read.</span></span><span class="sig-name descname"><span class="pre">add_nodes_from_shp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><span class="pre">Network</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_shp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#jodeln.network.net_read.add_nodes_from_shp" title="Permalink to this definition"></a></dt>
+<dd><p>Adds nodes to the network from the given shapefile path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><em>Network</em></a>) – Network object where nodes will be added.</p></li>
+<li><p><strong>node_shp</strong> (<em>str</em>) – File path to node shapefile.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jodeln.network.net_read.create_network">
+<span class="sig-prename descclassname"><span class="pre">jodeln.network.net_read.</span></span><span class="sig-name descname"><span class="pre">create_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network"><span class="pre">Network</span></a></span></span><a class="headerlink" href="#jodeln.network.net_read.create_network" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new network from user-supplied files.</p>
+<p>The network turns and potential OD routes are also initialized so that the new
+network object returned is functional.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_file</strong> (<em>str</em>) – File path to node file.</p></li>
+<li><p><strong>link_file</strong> (<em>str</em>) – File path to link file.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>New network containing input nodes and links.</p>
+<dd class="field-even"><p>New network containing nodes and links. Turns and routes are initialized
+from the nodes and links.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#jodeln.network.net.Network" title="jodeln.network.net.Network">Network</a></p>

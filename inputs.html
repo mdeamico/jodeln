@@ -49,8 +49,16 @@
 <li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conceptual_examples.html">Conceptual Examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">User Inputs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#nodes">Nodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#links">Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nodes">Nodes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nodes-csv">Nodes csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nodes-shapefile">Nodes shapefile</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#links">Links</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#links-csv">Links csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#links-shapefile">Links shapefile</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#turns">Turns</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#routes">Routes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#seed-od-matrix">Seed OD Matrix</a></li>
@@ -87,7 +95,7 @@
              
   <section id="user-inputs">
 <h1>User Inputs<a class="headerlink" href="#user-inputs" title="Permalink to this heading"></a></h1>
-<p>Jodeln currently can accept inputs in csv format (there are future plans to accept shapefiles.)</p>
+<p>Jodeln can accept inputs in csv or shapefile (shp) format.</p>
 <p>Inputs include:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#nodes"><span class="std std-ref">Nodes</span></a></p></li>
@@ -98,7 +106,9 @@
 </ul>
 <section id="nodes">
 <span id="id1"></span><h2>Nodes<a class="headerlink" href="#nodes" title="Permalink to this heading"></a></h2>
-<p>The Nodes csv defines the start and end points for each link in the network.</p>
+<p>The Nodes input file defines the start and end points for each link in the network.</p>
+<section id="nodes-csv">
+<h3>Nodes csv<a class="headerlink" href="#nodes-csv" title="Permalink to this heading"></a></h3>
 <p>Columns in node csv include the following, in this order:</p>
 <ol class="arabic simple">
 <li><p>node name</p></li>
@@ -118,10 +128,25 @@
 </pre></div>
 </div>
 </section>
+<section id="nodes-shapefile">
+<h3>Nodes shapefile<a class="headerlink" href="#nodes-shapefile" title="Permalink to this heading"></a></h3>
+<p>A nodes shapefile needs to contain point data types with the following attribute
+(field) names and <em>[types]</em>:</p>
+<ul class="simple">
+<li><p>name <em>[string]</em></p></li>
+<li><p>is_origin <em>[integer (0 = False, 1 = True)]</em></p></li>
+<li><p>is_destina <em>[integer (0 = False, 1 = True)]</em></p></li>
+</ul>
+<p>Other attributes will be ignored.</p>
+</section>
+</section>
 <section id="links">
 <span id="id2"></span><h2>Links<a class="headerlink" href="#links" title="Permalink to this heading"></a></h2>
-<p>The Links csv defines the connection between two nodes. Each travel direction must
-be included independently, e.x. A-B and B-A are two separate links.</p>
+<p>The Links input file defines the connection between two nodes.</p>
+<section id="links-csv">
+<h3>Links csv<a class="headerlink" href="#links-csv" title="Permalink to this heading"></a></h3>
+<p>Each travel direction must be included independently, e.x. A-B and B-A are
+two separate links (two rows in the csv).</p>
 <p>Columns in link csv include the following, in this order:</p>
 <ol class="arabic simple">
 <li><p>from_node</p></li>
@@ -139,6 +164,26 @@ be included independently, e.x. A-B and B-A are two separate links.</p>
 </pre></div>
 </div>
 <p>The first line of the csv file must be a header row.</p>
+</section>
+<section id="links-shapefile">
+<h3>Links shapefile<a class="headerlink" href="#links-shapefile" title="Permalink to this heading"></a></h3>
+<p>A links shapefile needs to contain polyline data types with the following attribute
+(field) names and <em>[types]</em>:</p>
+<ul class="simple">
+<li><p>name <em>[string]</em></p></li>
+<li><p>cost <em>[double]</em></p></li>
+<li><p>target_vol <em>[double]</em></p></li>
+<li><p>oneway <em>[integer (1 = one-way link, 2 = two-way link)]</em></p></li>
+</ul>
+<p>Other attributes will be ignored.</p>
+<p>Unlike the links csv format, two-way links can be specified as one entity in the
+shapefile with the <em>oneway</em> attribute set to 2. Alternatively, two separate links
+could be used, each with <em>oneway</em> set to 1.</p>
+<p>The links shapefile does not need to include the link start and end nodes. Start
+and end nodes are determined automatically based on the closest node coordinates
+and digitized direction of the link. Links must be drawn in the direction traveling
+from the start node to the end node.</p>
+</section>
 </section>
 <section id="turns">
 <span id="id3"></span><h2>Turns<a class="headerlink" href="#turns" title="Permalink to this heading"></a></h2>
