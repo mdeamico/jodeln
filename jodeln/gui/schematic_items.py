@@ -1,8 +1,8 @@
 from PySide2.QtWidgets import QGraphicsItem
-from PySide2.QtCore import QRectF
+from PySide2.QtCore import QRectF, QPointF
 from typing import Optional
 
-from PySide2.QtGui import QPainter, QPen, QColor, QPainterPath, QFont
+from PySide2.QtGui import QPainter, QPen, QColor, QPainterPath, QFont, QPolygonF
 from PySide2.QtWidgets import QStyleOptionGraphicsItem, QWidget
 from PySide2.QtCore import Qt
 
@@ -12,17 +12,15 @@ class LinkItem(QGraphicsItem):
     
     Displayed as a line between the starting node i and ending node j of the link.
     """
-    def __init__(self, ix, iy, jx, jy, parent: Optional[QGraphicsItem] = None) -> None:
+    def __init__(self, pts, parent: Optional[QGraphicsItem] = None) -> None:
         super().__init__(parent=parent)
-        self.ix = ix
-        self.iy = iy
-        self.jx = jx
-        self.jy = jy
+        self.pts = pts
+        self.polyline = QPolygonF([QPointF(x, y) for x, y in pts])
 
-        self.topleft_x = min(ix, jx)
-        self.topleft_y = min(iy, jy)
-        self.width = abs(ix - jx)
-        self.height = abs(iy - jy)
+        self.topleft_x = min([x for x, _ in pts])
+        self.topleft_y = min([y for _, y in pts])
+        self.width = abs(max([x for x, _ in pts]) - self.topleft_x)
+        self.height = abs(max([y for _, y in pts]) - self.topleft_y)
 
         self.is_on_selected_path = False
     
@@ -32,15 +30,14 @@ class LinkItem(QGraphicsItem):
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: Optional[QWidget]) -> None:
         if self.is_on_selected_path:
             pen = QPen(QColor("green"), 5)
-            pen.setCosmetic(True)
-            painter.setPen(pen)
-            painter.drawLine(self.ix, self.iy, self.jx, self.jy)
         else:
-            pen = QPen(Qt.gray)
-            pen.setWidth(2)
-            pen.setCosmetic(True)
-            painter.setPen(pen)
-            painter.drawLine(self.ix, self.iy, self.jx, self.jy)
+            pen = QPen(Qt.gray, 2)
+
+        pen.setCosmetic(True)
+        painter.setPen(pen)
+        # painter.drawLine(self.ix, self.iy, self.jx, self.jy)
+        painter.drawPolyline(self.polyline)
+        
 
 
 class NodeItem(QGraphicsItem):
