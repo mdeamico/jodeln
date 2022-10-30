@@ -60,6 +60,7 @@ def create_network(node_file: str, link_file: str) -> Network:
 
     new_network.init_turns()
     new_network.init_routes()
+    new_network.set_coord_scale()
 
     return new_network
 

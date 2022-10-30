@@ -249,8 +249,11 @@ class Network():
     total_geh : int
         Grand total of summing all the GEH values of the links and turns. 
         See the calc_network_geh method.
+    coord_scale : float
+        Scalar to convert node x,y position to real-world coordinates. Required
+        to ensure the network is displayed legibly in the GUI.
     """
-    __slots__ = ['nodes', 'turns', 'n_links', 'od', 'total_geh']
+    __slots__ = ['nodes', 'turns', 'n_links', 'od', 'total_geh', 'coord_scale']
 
     def __init__(self):
         self.nodes = {} # type: Dict[int, NetNode]
@@ -258,6 +261,7 @@ class Network():
         self.n_links = 0
         self.od = [] # type: List[NetODpair]
         self.total_geh = 0
+        self.coord_scale = 1
 
     def add_node(self, parameters: NodeParameters) -> None:
         """Add a node to the network graph.
@@ -497,6 +501,36 @@ class Network():
                         unique_links.remove((a, b))
                         break
 
+    def set_coord_scale(self):
+        """Scales the node x,y coordinates to to ensure the network is displayed
+        legibly in the GUI. Scale value is saved in self.coord_scale
+        """
+        coords = []
+        for _, node in self.nodes.items():
+            coords.append((node.x, node.y))
+        
+        # Calculate extents, min/max on x-axis and y-axis
+        min_x = min([x for x, _ in coords])
+        max_x = max([x for x, _ in coords])
+        
+        min_y = min([y for _, y in coords])
+        max_y = max([y for _, y in coords])
+        print(f"extents: {min_x}, {max_x}, {min_y}, {max_y}")
+
+        # Calculate scale factor
+        legible_diff = 1000
+        scale_factor_x = legible_diff / abs(max_x - min_x)
+        scale_factor_y = legible_diff / abs(max_y - min_y) 
+        self.coord_scale = max(scale_factor_x, scale_factor_y)
+
+        # Scale node coordinates and link shape points
+        for _, node in self.nodes.items():
+            node.x *= self.coord_scale
+            node.y *= self.coord_scale
+
+        for _, _, link in self.links_():
+            new_shape_points = [(x * self.coord_scale, y * self.coord_scale) for x, y in link.shape_points]
+            link.shape_points = new_shape_points
 
 
 def _dijkstra(net: Network, source):
