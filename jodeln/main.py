@@ -79,10 +79,10 @@ class MainWindow(QMainWindow):
             # This helps with panning & zooming near the edges of the network.
             init_rect = self.schematic_scene.sceneRect()
             self.schematic_scene.setSceneRect(
-                init_rect.x() - 100000,
-                init_rect.y() - 100000,
-                init_rect.width() + 200000,
-                init_rect.height() + 200000)
+                init_rect.x() - init_rect.width(),
+                init_rect.y() - init_rect.height(),
+                init_rect.width() * 3,
+                init_rect.height() * 3)
 
             self.ui.gvSchematic.fitInView(
                 init_rect, 
