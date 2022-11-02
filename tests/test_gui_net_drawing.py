@@ -35,7 +35,7 @@ class MainTest(unittest.TestCase):
         self.window.dialog_open.ui.leLinks.setText(os.path.join(net_folder, "links.csv"))
         self.window.dialog_open.ui.leNodes.setText(os.path.join(net_folder, "nodes.csv"))
         QTest.mouseClick(self.window.dialog_open.ui.buttonBox.button(QDialogButtonBox.Ok), Qt.LeftButton)
-        event_loop(8000)
+        event_loop(30000)
         self.assertEqual(1, 1)
 
 

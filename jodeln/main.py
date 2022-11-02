@@ -1,14 +1,17 @@
 import sys
 from PySide2.QtWidgets import (
-    QApplication, QMainWindow, QFileDialog, 
+    QApplication, QMainWindow, 
     QAbstractItemView, QDialogButtonBox)
-from PySide2.QtGui import QDoubleValidator, QPainter
+from PySide2.QtGui import QPainter
 from PySide2.QtCore import Qt
 
 from gui.ui_mainwindow import Ui_MainWindow
 
 from gui import schematic_scene, od_tablemodel
 from gui.dialog_open import DialogOpen
+from gui.dialog_export import DialogExport
+from gui.dialog_odme import DialogODME, CallbackOdmeParameters
+
 
 from model import Model
 
@@ -20,33 +23,31 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        # Connect MainWindow view/controller to model
+        self.model = Model()
+
         # Dialog Open
         self.dialog_open = DialogOpen()
         self.dialog_open.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.load)
 
-        # Connect MainWindow view/controller to model
-        self.model = Model()
+        # Dialog Export
+        self.dialog_export = DialogExport(
+            cb_export_links_and_turns_by_od=self.model.export_node_sequence,
+            cb_export_routes=self.model.export_route_list,
+            cb_export_turns=self.model.export_turns
+        )
+
+        # Dialog ODME
+        self.dialog_odme = DialogODME(cb_odme=self.estimate_od)
 
         # Connect push buttons to slot functions
         self.ui.pbShowDialogOpen.clicked.connect(self.show_dialog_open)
-        self.ui.pbExportFolder.clicked.connect(self.on_pbExportFolder_click)
-        self.ui.pbExportTurns.clicked.connect(self.export_turns)
-        self.ui.pbExportRoutes.clicked.connect(self.export_routes)
-        self.ui.pbExportLinksAndTurnsByOD.clicked.connect(self.export_links_and_turns_by_od)
-        self.ui.pbEstimateOD.clicked.connect(self.estimate_od)
+        self.ui.pbShowExportDialog.clicked.connect(self.show_dialog_export)
+        self.ui.pbShowODEstimation.clicked.connect(self.show_dialog_odme)
 
-        # Set numeric validators on objective function weight line inputs.
-        double_validator = QDoubleValidator(bottom=0)
-        double_validator.setNotation(QDoubleValidator.StandardNotation)
-
-        self.ui.leWeightGEH.setValidator(double_validator)
-        self.ui.leWeightODSSE.setValidator(double_validator)
-        self.ui.leWeightRouteRatio.setValidator(double_validator)
-
-        # set default weights
-        self.ui.leWeightGEH.setText("1")
-        self.ui.leWeightODSSE.setText("0")
-        self.ui.leWeightRouteRatio.setText("1")
+        # Disable buttons that should only be used after loading a network
+        self.ui.pbShowExportDialog.setEnabled(False)
+        self.ui.pbShowODEstimation.setEnabled(False)
 
         # Setup graphics view
         self.schematic_scene = schematic_scene.SchematicScene()
@@ -56,11 +57,18 @@ class MainWindow(QMainWindow):
         # Set table behaviors
         self.ui.tblOD.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui.tblOD.setSelectionMode(QAbstractItemView.SingleSelection)
-
-    
+        
+        
     def show_dialog_open(self) -> None:
         self.dialog_open.store_data()
         self.dialog_open.show()
+
+    def show_dialog_export(self) -> None:
+        self.dialog_export.show()
+
+    def show_dialog_odme(self) -> None:
+        self.dialog_odme.show()
+
 
     def load(self) -> None:
         """Load nodes, links, etc from user inputs."""
@@ -98,37 +106,18 @@ class MainWindow(QMainWindow):
 
             self.schematic_scene.load_routes(routes)
 
-    def on_pbExportFolder_click(self) -> None:
-        """Open a standard file dialog for selecting the export folder."""
-        export_folder = QFileDialog.getExistingDirectory(
-            self, "Select Export Folder", 
-            "",
-            options=QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+            self.ui.pbShowExportDialog.setEnabled(True)
+            self.ui.pbShowODEstimation.setEnabled(True)
 
-        self.ui.leExportFolder.setText(export_folder)
-
-    def export_turns(self) -> None:
-        """Export turns to csv."""
-        self.model.export_turns(self.ui.leExportFolder.text())
-
-    def export_routes(self) -> None:
-        """Export nodes on each route."""
-        self.model.export_route_list(self.ui.leExportFolder.text())
-
-    def export_links_and_turns_by_od(self) -> None:
-        """Export links and turns along each OD pair."""
-        self.model.export_node_sequence(self.ui.leExportFolder.text())
-
-    def estimate_od(self) -> None:
+    def estimate_od(self, parms: CallbackOdmeParameters) -> None:
         """Run OD matrix estimation."""
-        
         self.model.estimate_od(
-            weight_total_geh=float(self.ui.leWeightGEH.text()),
-            weight_odsse=float(self.ui.leWeightODSSE.text()),
-            weight_route_ratio=float(self.ui.leWeightRouteRatio.text()))
+            weight_total_geh=parms.weight_GEH,
+            weight_odsse=parms.weight_odsse,
+            weight_route_ratio=parms.weight_route_ratio)
         
-        self.model.export_od(self.ui.leExportFolder.text())
-        self.model.export_od_by_route(self.ui.leExportFolder.text())
+        self.model.export_od(parms.export_path)
+        self.model.export_od_by_route(parms.export_path)
 
     def on_od_table_selection(self, selected, deselected) -> None:
         """Function called when an item in the OD Table is selected.
