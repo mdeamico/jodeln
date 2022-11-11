@@ -51,8 +51,8 @@ def export_od_as_list(net: 'Network', output_folder=None) -> None:
         list_writer.writerow(["o_node", "d_node", "volume"])
 
         for od in net.od:
-            o_name = net.nodes[od.origin].name
-            d_name = net.nodes[od.destination].name
+            o_name = net.node(od.origin).name
+            d_name = net.node(od.destination).name
 
             list_writer.writerow([o_name, d_name, od.est_total_volume])
 
@@ -105,8 +105,8 @@ def export_od_by_route(net: 'Network', output_folder=None) -> None:
         list_writer.writerow(["o_node", "d_node", "route", "volume"])
 
         for od in net.od:
-            o_name = net.nodes[od.origin].name
-            d_name = net.nodes[od.destination].name
+            o_name = net.node(od.origin).name
+            d_name = net.node(od.destination).name
             for route in od.routes:
                 list_writer.writerow([o_name, d_name, route.name, route.assigned_volume])
     
