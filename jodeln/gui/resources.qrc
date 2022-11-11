@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="/">
+    <file>theme/splitter_handle.png</file>
+  </qresource>
+</RCC>
