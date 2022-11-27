@@ -151,22 +151,22 @@ class Model():
         if not self.net:
             return
         
-        return {i: (node.x, node.y, node.name) for i, node in self.net.nodes.items()}
+        return {i: (node.x, node.y, node.name) for i, node in self.net.nodes(True)}
 
     def get_link_end_ids(self):
         """Return node ids for the start and end of each link."""
         if not self.net:
             return
         
-        return [(i, j, self.net.link(i, j).shape_points) for i, j, _ in self.net.links_()]
+        return [(i, j, self.net.link(i, j).shape_points) for (i, j), _ in self.net.links(True)]
 
     def get_route_list(self):
         """Return basic OD information for each route."""
         routes = [] # type: List[RouteInfo]
         
         for od in self.net.od:
-            o_name = self.net.nodes[od.origin].name
-            d_name = self.net.nodes[od.destination].name
+            o_name = self.net.node(od.origin).name
+            d_name = self.net.node(od.destination).name
 
             for route in od.routes:
                 basic_info = RouteInfo(od.origin, 

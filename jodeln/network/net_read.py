@@ -9,12 +9,16 @@ For example:
     - etc
 """
 
-import os
 import csv
+import os
 from sys import maxsize as MAXSIZE
-from typing import Tuple
+
 import shapefile
-from .net import NetNode, Network, NetRoute, NodeParameters, LinkParameters
+
+from .net import Network
+from .netlink import LinkParameters
+from .netnode import NetNode, NodeParameters
+from .netroute import NetRoute
 
 
 def create_network(node_file: str, link_file: str) -> Network:
@@ -289,11 +293,11 @@ def import_turns(turn_csv, net: Network) -> None:
             turn_name = payload[0]
             turn_target = float(payload[1])
 
-            if (i, j, k) not in net.turns:
+            if (i, j, k) not in net._turns:
                 print(f'Cannot import turn {turn_name}. Turn not found in Network.')
 
-            net.turns[(i, j, k)].name = turn_name
-            net.turns[(i, j, k)].target_volume = turn_target
+            net._turns[(i, j, k)].name = turn_name
+            net._turns[(i, j, k)].target_volume = turn_target
 
 
 def import_routes(route_csv, net: Network) -> None:
@@ -371,7 +375,7 @@ def import_routes(route_csv, net: Network) -> None:
         net.set_route_names()
 
 
-def _find_closest_node(search_pt: Tuple, net: Network) -> NetNode:
+def _find_closest_node(search_pt: tuple, net: Network) -> NetNode:
     """Given a search point, find the closest point within a group of points.
     
     Parameters
@@ -393,7 +397,7 @@ def _find_closest_node(search_pt: Tuple, net: Network) -> NetNode:
     min_dist = MAXSIZE
     closest_node = None
 
-    for _, node in net.nodes.items():
+    for node in net.nodes():
         x2 = node.x
         y2 = node.y
         dist = (x1 - x2) ** 2 + (y1 - y2) ** 2

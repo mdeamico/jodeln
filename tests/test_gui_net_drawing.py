@@ -8,7 +8,7 @@ from PySide2.QtWidgets import QDialogButtonBox
 
 from context import jodeln
 import jodeln.main
-
+from jodeln.model import Model
 
 
 def event_loop(msec):
@@ -25,7 +25,8 @@ def event_loop(msec):
 
 class MainTest(unittest.TestCase):
     def setUp(self) -> None:
-        self.window = jodeln.main.MainWindow()
+        model = Model()
+        self.window = jodeln.main.MainWindow(model)
         return super().setUp()
 
     def test_draw(self):

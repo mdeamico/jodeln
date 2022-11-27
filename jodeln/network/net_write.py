@@ -20,7 +20,7 @@ def export_turns(net: 'Network', output_folder=None) -> None:
         Folder to export turn file, by default None indicates the current working
         directory as returned by os.getcwd().
     """
-    if len(net.turns) == 0:
+    if len(net._turns) == 0:
         print("Network does not contain any turns.")
         return
 
@@ -35,10 +35,10 @@ def export_turns(net: 'Network', output_folder=None) -> None:
         writer = csv.writer(f)
         writer.writerow(["a_node", "b_node", "c_node"])
 
-        for (i, j, k), _ in net.turns_():
-            A = net.nodes[i].name
-            B = net.nodes[j].name
-            C = net.nodes[k].name
+        for (i, j, k), _ in net.turns(True):
+            A = net.node(i).name
+            B = net.node(j).name
+            C = net.node(k).name
             writer.writerow([A, B, C])
 
 
@@ -74,8 +74,8 @@ def export_node_sequences(net: 'Network', output_folder=None) -> None:
         link_writer.writerow(["o_node", "d_node", "route", "a_node", "b_node"])
 
         for od in net.od:
-            o_name = net.nodes[od.origin].name
-            d_name = net.nodes[od.destination].name
+            o_name = net.node(od.origin).name
+            d_name = net.node(od.destination).name
 
             for route in od.routes:
                 n_route_nodes = len(route.nodes)
@@ -86,22 +86,22 @@ def export_node_sequences(net: 'Network', output_folder=None) -> None:
 
                 if n_route_nodes == 2:
                     # route is one link
-                    a = net.nodes[route.nodes[0]].name
-                    b = net.nodes[route.nodes[1]].name
+                    a = net.node(route.nodes[0]).name
+                    b = net.node(route.nodes[1]).name
                     link_writer.writerow([o_name, d_name, a, b])
                     continue
 
                 # route has 3 or more nodes
                 for x in range(0, len(route.nodes) - 2):
-                    a = net.nodes[route.nodes[x]].name
-                    b = net.nodes[route.nodes[x + 1]].name
-                    c = net.nodes[route.nodes[x + 2]].name
+                    a = net.node(route.nodes[x]).name
+                    b = net.node(route.nodes[x + 1]).name
+                    c = net.node(route.nodes[x + 2]).name
                     turn_writer.writerow([o_name, d_name, route.name, a, b, c])
                     link_writer.writerow([o_name, d_name, route.name, a, b])
 
                 # last link
-                b = net.nodes[route.nodes[x + 1]].name
-                c = net.nodes[route.nodes[x + 2]].name
+                b = net.node(route.nodes[x + 1]).name
+                c = net.node(route.nodes[x + 2]).name
                 link_writer.writerow([o_name, d_name, route.name, b, c])
 
     
@@ -142,5 +142,5 @@ def export_route_list(net: 'Network', output_folder=None) -> None:
 
         for od in net.od:
             for route in od.routes:
-                list_writer.writerow([str(net.nodes[x].name) for x in route.nodes])
+                list_writer.writerow([str(net.node(x).name) for x in route.nodes])
 
