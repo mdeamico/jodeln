@@ -105,8 +105,14 @@ class MainWindow(QMainWindow):
 
         routes = self.model.get_routes()
         self.od_table_model = od_tablemodel.ODTableModel(routes)
-        self.ui.tblOD.setModel(self.od_table_model)
+
+        self.od_proxy_model = od_tablemodel.ODTableFilterProxyModel(self)
+        self.od_proxy_model.setSourceModel(self.od_table_model)
+
+        self.ui.tblOD.setModel(self.od_proxy_model)
         self.ui.tblOD.selectionModel().selectionChanged.connect(self.on_od_table_selection)
+        self.ui.tblOD.sortByColumn(1, Qt.SortOrder.AscendingOrder)
+        self.ui.tblOD.setSortingEnabled(True)
 
         self.schematic_scene.load_routes(routes)
 
@@ -138,13 +144,15 @@ class MainWindow(QMainWindow):
         should_update_scene = False
 
         if len(deselected.indexes()) > 0:
-            route = self.od_table_model.get_route_at_index(deselected.indexes()[0])
+            deselected_i = self.od_proxy_model.mapToSource(deselected.indexes()[0])
+            route = self.od_table_model.get_route_at_index(deselected_i)
             self.schematic_scene.color_route(route, is_selected=False)              
             should_update_scene = True
 
         if len(selected.indexes()) > 0:
             # Get route for first selected OD pair
-            route = self.od_table_model.get_route_at_index(selected.indexes()[0])
+            selected_i = self.od_proxy_model.mapToSource(selected.indexes()[0])
+            route = self.od_table_model.get_route_at_index(selected_i)
             self.schematic_scene.color_route(route, is_selected=True)
             should_update_scene = True
             

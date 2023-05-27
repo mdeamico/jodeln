@@ -1,9 +1,12 @@
 # Contains Qt TableModels for showing OD and route data in tables.
 
 from PySide2 import QtCore
-from PySide2.QtCore import Qt
+from PySide2.QtCore import Qt, QSortFilterProxyModel
 
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
+
+if TYPE_CHECKING:
+    from PySide2.QtCore import QModelIndex
 
 class RouteInfo(Protocol):
     @property
@@ -25,6 +28,12 @@ class RouteInfo(Protocol):
     def nodes(self) -> list:
         ...
 
+class ODTableFilterProxyModel(QSortFilterProxyModel):    
+    def lessThan(self, left: 'QModelIndex', right: 'QModelIndex'):
+        left_data = self.sourceModel().data(left, Qt.DisplayRole)
+        right_data = self.sourceModel().data(right, Qt.DisplayRole)
+
+        return left_data < right_data
 
 class ODTableModel(QtCore.QAbstractTableModel):
     """Model for showing a table of OD routes."""
