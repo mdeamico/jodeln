@@ -1,64 +1,93 @@
 from PySide2.QtWidgets import QGraphicsScene
 from .schematic_items import LinkItem, NodeItem
 
-from typing import TYPE_CHECKING
-from typing import List
-from model import RouteInfo
+from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
     import PySide2.QtWidgets    
 
+class NodeData(Protocol):
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def x(self) -> float:
+        ...
+    @property
+    def y(self) -> float:
+        ...
 
+class LinkData(Protocol):
+    @property
+    def key(self) -> tuple[int, int]:
+        ...
+    @property
+    def shape_points(self) -> list[tuple[float, float]]:
+        ...    
+
+class RouteInfo(Protocol):
+    @property
+    def origin(self) -> int:
+        ...
+    @property
+    def destination(self) -> int:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def nodes(self) -> list[int]:
+        ...
 
 class SchematicScene(QGraphicsScene):
     """QGraphicsScene for displaying the network.
 
     Attributes
     ----------
-    links : Dict
+    links : dict[tuple[int, int], LinkItem]
         Stores a LinkItem for each link in the network.
         Keyed by: (start node id, end node id)
-    routes: Dict
+    route_nodes: dict[tuple[int, int, str], list[int]]
         Stores the nodes along each route.
         Keyed by: (route.origin, route.destination, route.name) 
     """
     
     def __init__(self):
         super().__init__()
-        self.links = {}
-        self.routes = {}
+        self.links: dict[tuple[int, int], LinkItem] = {}
+        self.route_nodes: dict[tuple[int, int, str], list[int]] = {}
 
-    def load_network(self, nodes, links) -> None:
+    def load_network(self, nodes: list[NodeData], links: list[LinkData]) -> None:
         """Transfer network node and link data from the Model to the SchematicScene. 
 
         Parameters
         ----------
-        nodes : Dict
-            {i: (x, y, name)} Dict of coordinates for each node.
-        links : List
-            [(i, j, shape_points), ...] List of start/end node numbers for each link.
+        nodes : list[NodeData]
+            List of basic data for each node: x, y, name.
+        links : List[LinkData]
+            List of basic data for each link: key, list of points
         """
-        for _, (x, y, name) in nodes.items():
-            self.addItem(NodeItem(x, y, name))
+        for node in nodes:
+            self.addItem(NodeItem(node.x, node.y, node.name))
         
-        for (i, j, pts) in links:
-            self.links[(i, j)] = LinkItem(pts)
+        for link in links:
+            new_link_item = LinkItem(link.shape_points)
+            self.links[link.key] = new_link_item
+            self.addItem(new_link_item)
 
-            self.addItem(self.links[(i, j)])
-
-    def load_routes(self, routes: List[RouteInfo]) -> None:
+    def load_routes(self, routes: list[RouteInfo]) -> None:
         """Transfers data about the routes and od from the Model to the SchematicScene.
 
         Parameters
         ----------
-        routes : List[RouteInfo]
+        routes : list[RouteInfo]
             Basic info about the route for each OD. 
             Includes route origin, destination, route name, and nodes.
         """
         for route in routes:
-            self.routes[(route.origin, route.destination, route.name)] = route.nodes
+            self.route_nodes[(route.origin, route.destination, route.name)] = route.nodes
 
-    def color_route(self, route, is_selected) -> None:
+    def color_route(self, route: tuple[int, int, str], is_selected: bool) -> None:
         """Sets a bool to indicate if the link is on the user-selected path.
 
         LinkItem objects in the scene can update themselves to be colored based
@@ -66,14 +95,16 @@ class SchematicScene(QGraphicsScene):
 
         Parameters
         ----------
-        route : Tuple
+        route : tuple[int, int, str]
             Route identifier tuple: (route.origin, route.destination, route.name)
         is_selected : bool
             True if the the link is on the user selected path.
         """
-        for x in range(len(self.routes[route]) - 1):
-            i = self.routes[route][x]
-            j = self.routes[route][x + 1]
+        route_nodes = self.route_nodes[route]
+
+        for x in range(len(route_nodes) - 1):
+            i = route_nodes[x]
+            j = route_nodes[x + 1]
             self.links[(i, j)].is_on_selected_path = is_selected
 
     def mousePressEvent(self, event: 'PySide2.QtWidgets.QGraphicsSceneMouseEvent') -> None:

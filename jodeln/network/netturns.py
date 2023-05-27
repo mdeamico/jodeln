@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-@dataclass
+@dataclass(slots=True)
 class TurnData():
     """Data on Network turns.
     
@@ -22,7 +22,6 @@ class TurnData():
     geh: float
         GEH statistic comparing the target_volume and assigned_volume.
     """
-    __slots__ = ['key', 'name', 'seed_volume', 'target_volume', 'assigned_volume', 'geh']
     key: tuple[int, int, int]
     name: str
     seed_volume: float

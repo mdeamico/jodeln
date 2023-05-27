@@ -16,8 +16,8 @@ from sys import maxsize as MAXSIZE
 import shapefile
 
 from .net import Network
-from .netlink import LinkParameters
-from .netnode import NetNode, NodeParameters
+from .netlink import NetLinkData
+from .netnode import NetNode, NetNodeData
 from .netroute import NetRoute
 
 
@@ -110,7 +110,7 @@ def add_nodes_from_csv(net: Network, node_csv: str) -> None:
             node_is_origin = int(payload[3]) == 1
             node_is_destination = int(payload[4]) == 1
 
-            node_parameters = NodeParameters(
+            node_data = NetNodeData(
                 name=node_name,
                 x=node_x,
                 y=node_y,
@@ -118,7 +118,7 @@ def add_nodes_from_csv(net: Network, node_csv: str) -> None:
                 is_destination=node_is_destination
             )
 
-            net.add_node(node_parameters) 
+            net.add_node(node_data) 
 
 
 def add_links_from_csv(net: Network, link_csv: str) -> None:
@@ -166,7 +166,7 @@ def add_links_from_csv(net: Network, link_csv: str) -> None:
                 link_target_volume = 0
 
 
-            link_parameters = LinkParameters(
+            link_data = NetLinkData(
                 name=payload[3],
                 cost=link_cost,
                 target_volume=link_target_volume,
@@ -174,7 +174,7 @@ def add_links_from_csv(net: Network, link_csv: str) -> None:
                               (net.get_node_by_name(j_name)[1].x, net.get_node_by_name(j_name)[1].y)]
             )
             
-            net.add_link(i_name, j_name, link_parameters)
+            net.add_link(i_name, j_name, link_data)
 
 
 def add_nodes_from_shp(net: Network, node_shp: str) -> None:
@@ -190,14 +190,14 @@ def add_nodes_from_shp(net: Network, node_shp: str) -> None:
     node_sf = shapefile.Reader(node_shp)
 
     for node_sr in node_sf.shapeRecords():
-        node_parameters = NodeParameters(
+        node_data = NetNodeData(
             name=node_sr.record['name'],
             x=node_sr.shape.points[0][0],
             y=node_sr.shape.points[0][1],
             is_origin=int(node_sr.record['is_origin']) == 1,
             is_destination=int(node_sr.record['is_destina']) == 1
         )
-        net.add_node(node_parameters)
+        net.add_node(node_data)
 
 
 def add_links_from_shp(net: Network, link_shp: str) -> None:
@@ -235,14 +235,14 @@ def add_links_from_shp(net: Network, link_shp: str) -> None:
         except ValueError:
             link_target_volume = 0
 
-        link_parameters = LinkParameters(
+        link_data = NetLinkData(
             name=link_sr.record['name'],
             cost=link_cost,
             target_volume=link_target_volume,
             shape_points=link_sr.shape.points
         )
         
-        net.add_link(i_name, j_name, link_parameters)
+        net.add_link(i_name, j_name, link_data)
 
         # Add link in opposite direction (if two-way)
         if link_sr.record['oneway'] == 2:
@@ -251,14 +251,14 @@ def add_links_from_shp(net: Network, link_shp: str) -> None:
             rev_pts.reverse()
 
             # TODO: opposite direction link needs a different name?
-            link_parameters = LinkParameters(
+            link_data = NetLinkData(
                 name=link_sr.record['name'],
                 cost=link_cost,
                 target_volume=link_target_volume,
                 shape_points=rev_pts
             )
 
-            net.add_link(j_name, i_name, link_parameters)
+            net.add_link(j_name, i_name, link_data)
 
 
 def import_turns(turn_csv, net: Network) -> None:
@@ -351,12 +351,9 @@ def import_routes(route_csv, net: Network) -> None:
                     NetRoute(
                         nodes=node_seq,
                         name="",
-                        seed_volume=0, 
                         target_ratio=user_ratio,
                         target_rel_diff=0, 
-                        assigned_volume=0, 
-                        assigned_ratio=0, 
-                        opt_var_index=-1))
+                        assigned_ratio=0))
 
         # Normalize target_ratios
         for od in net.od:

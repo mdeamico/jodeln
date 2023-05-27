@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-@dataclass
+@dataclass(slots=True)
 class NetRoute():
     """Contains sequence of nodes from origin to destination.
 
@@ -32,13 +32,11 @@ class NetRoute():
         takes a list of variables. opt_var_index is the position of this route 
         within the list of optimization variables.
     """
-    __slots__ = ['nodes', 'name', 'seed_volume', 'target_ratio', 'target_rel_diff',
-                 'assigned_volume', 'assigned_ratio', 'opt_var_index']
     nodes: list[int]
     name: str
-    seed_volume: float
-    target_ratio: float
-    target_rel_diff: float
-    assigned_volume: float
-    assigned_ratio: float
-    opt_var_index: int
+    seed_volume: float = 0
+    target_ratio: float = 1
+    target_rel_diff: float = 1
+    assigned_volume: float = 0
+    assigned_ratio: float = 1
+    opt_var_index: int = -1

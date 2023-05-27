@@ -81,35 +81,37 @@ class MainWindow(QMainWindow):
                                           od_seed_file=file_paths.seed_od,
                                           turns_file=file_paths.turns,
                                           od_routes_file=file_paths.routes)
-        if load_successful:
-            self.schematic_scene.load_network(self.model.get_node_xy(), 
-                                              self.model.get_link_end_ids())
+        if not load_successful:
+            return
 
-            # Set scene rectangle to something larger than the network.
-            # This helps with panning & zooming near the edges of the network.
-            init_rect = self.schematic_scene.sceneRect()
-            self.schematic_scene.setSceneRect(
-                init_rect.x() - init_rect.width(),
-                init_rect.y() - init_rect.height(),
-                init_rect.width() * 3,
-                init_rect.height() * 3)
+        self.schematic_scene.load_network(self.model.get_nodes(), 
+                                          self.model.get_links())
 
-            self.ui.gvSchematic.fitInView(
-                init_rect, 
-                Qt.KeepAspectRatio)
+        # Set scene rectangle to something larger than the network.
+        # This helps with panning & zooming near the edges of the network.
+        init_rect = self.schematic_scene.sceneRect()
+        self.schematic_scene.setSceneRect(
+            init_rect.x() - init_rect.width(),
+            init_rect.y() - init_rect.height(),
+            init_rect.width() * 3,
+            init_rect.height() * 3)
 
-            # Flip y coordinates to make y coordinates increasing from bottom to top.
-            self.ui.gvSchematic.scale(1, -1)
+        self.ui.gvSchematic.fitInView(
+            init_rect, 
+            Qt.KeepAspectRatio)
 
-            routes = self.model.get_route_list()
-            self.od_table_model = od_tablemodel.ODTableModel(routes)
-            self.ui.tblOD.setModel(self.od_table_model)
-            self.ui.tblOD.selectionModel().selectionChanged.connect(self.on_od_table_selection)
+        # Flip y coordinates to make y coordinates increasing from bottom to top.
+        self.ui.gvSchematic.scale(1, -1)
 
-            self.schematic_scene.load_routes(routes)
+        routes = self.model.get_routes()
+        self.od_table_model = od_tablemodel.ODTableModel(routes)
+        self.ui.tblOD.setModel(self.od_table_model)
+        self.ui.tblOD.selectionModel().selectionChanged.connect(self.on_od_table_selection)
 
-            self.ui.pbShowExportDialog.setEnabled(True)
-            self.ui.pbShowODEstimation.setEnabled(True)
+        self.schematic_scene.load_routes(routes)
+
+        self.ui.pbShowExportDialog.setEnabled(True)
+        self.ui.pbShowODEstimation.setEnabled(True)
 
     def estimate_od(self, parms: CallbackOdmeParameters) -> None:
         """Run OD matrix estimation."""

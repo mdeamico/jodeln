@@ -6,7 +6,7 @@ from gui.ui_dialog_odme import Ui_Dialog
 from typing import Callable
 from dataclasses import dataclass
 
-@dataclass
+@dataclass(slots=True)
 class CallbackOdmeParameters():
     """Group parameters needed for the ODME Callback Function."""
     weight_GEH: float

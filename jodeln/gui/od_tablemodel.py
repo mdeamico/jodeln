@@ -3,14 +3,34 @@
 from PySide2 import QtCore
 from PySide2.QtCore import Qt
 
-from typing import List
-from model import RouteInfo
+from typing import Protocol
+
+class RouteInfo(Protocol):
+    @property
+    def origin(self) -> int:
+        ...
+    @property
+    def destination(self) -> int:
+        ...
+    @property
+    def o_name(self) -> str:
+        ...
+    @property
+    def d_name(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def nodes(self) -> list:
+        ...
+
 
 class ODTableModel(QtCore.QAbstractTableModel):
     """Model for showing a table of OD routes."""
-    def __init__(self, route_data):
+    def __init__(self, route_data: list[RouteInfo]):
         super().__init__()
-        self._data = route_data # type: List[RouteInfo]
+        self._data = route_data
 
     def data(self, index, role):
         if role == Qt.DisplayRole:

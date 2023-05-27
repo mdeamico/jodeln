@@ -13,8 +13,7 @@ from .netroute import NetRoute
 from .netturns import TurnData
 
 if TYPE_CHECKING:
-    from .netlink import LinkParameters
-    from .netnode import NodeParameters
+    from .netnode import NetNodeData
     
 
 class Network():
@@ -31,8 +30,6 @@ class Network():
         nodes within the Network graph.
     turns : Dict[int, TurnData]
         Turns within the Network graph.
-    n_links : int
-        number of links in the network.
     od : List[NetODpair]
         OD data for the network.
     total_geh : float
@@ -47,24 +44,23 @@ class Network():
     def __init__(self):
         self._graph: dict[int, NetNode] = {}
         self._turns: dict[tuple[int, int, int], TurnData] = {}
-        self.n_links: int = 0
         self.od: list[NetODpair] = []
         self.total_geh: float = 0
         self.coord_scale: float = 1
 
-    def add_node(self, parameters: 'NodeParameters') -> None:
+    def add_node(self, node_data: 'NetNodeData') -> None:
         """Add a node to the network graph.
 
         Parameters
         ----------
-        parameters : NodeParameters
+        node_data : NetNodeData
             Data about the node. Name, x,y coordinates, etc.
         """
         # FIXME: length not guaranteed to return a unique key number.
         key = len(self._graph)
-        self._graph[key] = NetNode(key, parameters)
+        self._graph[key] = NetNode(key, node_data)
 
-    def add_link(self, i_name, j_name, parameters: 'LinkParameters') -> None:
+    def add_link(self, i_name, j_name, link_data: 'NetLinkData') -> None:
         """Connects two nodes to form an link in the network graph.
 
         Parameters
@@ -73,24 +69,15 @@ class Network():
             Origin node name
         j_name : str
             Destination node name
-        parameters : LinkParameters
+        link_data : NetLinkData
             Data belonging to the link. Name, cost, etc.
         """
         i_key, _ = self.get_node_by_name(i_name) 
         j_key, _ = self.get_node_by_name(j_name) 
         
-        link_data = NetLinkData(
-            cost=parameters.cost, 
-            name=parameters.name,
-            target_volume=parameters.target_volume,
-            link_index=self.n_links,
-            assigned_volume=0,
-            geh=0,
-            seed_volume=0,
-            shape_points=parameters.shape_points)
+        link_data.key = (i_key, j_key)
 
         self._graph[i_key].add_neighbor(j_key, link_data)
-        self.n_links += 1
 
         self._graph[j_key].up_neighbors.append(i_key)
 
@@ -169,16 +156,16 @@ class Network():
                 
                 node_seq = _node_seq_from_dijkstra(result, i, j)
                 
-                if len(node_seq) != 0:
-                    od = NetODpair(i, j, 0, 0, [NetRoute(nodes=node_seq,
-                                                         name="",
-                                                         seed_volume=0, 
-                                                         target_ratio=1,
-                                                         target_rel_diff=1,
-                                                         assigned_volume=0, 
-                                                         assigned_ratio=1,
-                                                         opt_var_index=-1)])
-                    self.od.append(od)
+                if len(node_seq) == 0:
+                    continue
+                
+                od = NetODpair(
+                        origin=i,
+                        destination=j, 
+                        seed_total_volume=0, 
+                        est_total_volume=0, 
+                        routes=[NetRoute(nodes=node_seq, name="")])
+                self.od.append(od)
         
         # Update route names
         self.set_route_names()
@@ -322,7 +309,6 @@ class Network():
         
         min_y = min([y for _, y in coords])
         max_y = max([y for _, y in coords])
-        print(f"extents: {min_x}, {max_x}, {min_y}, {max_y}")
 
         # Calculate scale factor
         legible_diff = 1000
