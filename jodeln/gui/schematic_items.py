@@ -12,7 +12,7 @@ class LinkItem(QGraphicsItem):
     
     Displayed as a line between the starting node i and ending node j of the link.
     """
-    def __init__(self, pts, parent: Optional[QGraphicsItem] = None) -> None:
+    def __init__(self, pts: list[tuple[float, float]], parent: Optional[QGraphicsItem] = None) -> None:
         super().__init__(parent=parent)
         self.pts = pts
         self.polyline = QPolygonF([QPointF(x, y) for x, y in pts])

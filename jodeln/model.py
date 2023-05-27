@@ -3,15 +3,18 @@
 
 import os
 from dataclasses import dataclass
-from typing import List
+from typing import TYPE_CHECKING
 
 from network import net_read, net_write
 
 from od import od_read, od_write
 from od import od_estimation as odme
 
+if TYPE_CHECKING:
+    from .network.netnode import NetNode
+    from .network.netlink import NetLinkData
 
-@dataclass
+@dataclass(slots=True)
 class RouteInfo:
     """Basic OD information for a route."""
     origin: int
@@ -19,7 +22,7 @@ class RouteInfo:
     o_name: str
     d_name: str
     name: str
-    nodes: List
+    nodes: list
 
 
 class Model():
@@ -146,23 +149,23 @@ class Model():
         output_folder = _clean_folder_path(output_folder)
         net_write.export_route_list(self.net, output_folder)
 
-    def get_node_xy(self):
-        """Return xy coordinates for each node."""
+    def get_nodes(self) -> list['NetNode']:
+        """Return a list of nodes in the network."""
         if not self.net:
             return
         
-        return {i: (node.x, node.y, node.name) for i, node in self.net.nodes(True)}
+        return list(self.net.nodes())
 
-    def get_link_end_ids(self):
-        """Return node ids for the start and end of each link."""
+    def get_links(self) -> list['NetLinkData']:
+        """Return a list of data for each link."""
         if not self.net:
             return
         
-        return [(i, j, self.net.link(i, j).shape_points) for (i, j), _ in self.net.links(True)]
+        return list(self.net.links())
 
-    def get_route_list(self):
+    def get_routes(self) -> list[RouteInfo]:
         """Return basic OD information for each route."""
-        routes = [] # type: List[RouteInfo]
+        routes: list[RouteInfo] = []
         
         for od in self.net.od:
             o_name = self.net.node(od.origin).name

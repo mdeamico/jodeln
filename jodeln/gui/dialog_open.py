@@ -3,7 +3,7 @@ from PySide2.QtWidgets import QWidget, QFileDialog
 from gui.ui_dialog_open import Ui_Dialog
 from dataclasses import dataclass
 
-@dataclass
+@dataclass(slots=True)
 class FilePathCache():
     """Contains file paths stored in the line edit widgets."""
     nodes: str

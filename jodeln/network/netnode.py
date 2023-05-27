@@ -4,11 +4,9 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .net import NetLinkData
 
-@dataclass
-class NodeParameters():
-    """Parameters needed for constructing a NetNode object.
-    """
-    __slots__ = ['name', 'x', 'y', 'is_origin', 'is_destination']
+@dataclass(slots=True)
+class NetNodeData():
+    """Data needed for constructing a NetNode object."""
     name: str
     x: float
     y: float
@@ -41,23 +39,23 @@ class NetNode():
     up_neighbors : list
         Upstream node IDs connected to this node.
     """
-    def __init__(self, key, parameters: NodeParameters):
+    def __init__(self, key, node_data: NetNodeData):
         """Create a node in the network graph.
 
         Parameters
         ----------
         key : int
             Unique identifier.
-        parameters : NodeParameters
+        node_data : NetNodeData
             Data about the node. Name, x,y coordinates, etc.
         """
         self.key = key
         
-        self.name = parameters.name
-        self.x = parameters.x
-        self.y = parameters.y
-        self.is_origin = parameters.is_origin
-        self.is_destination = parameters.is_destination
+        self.name = node_data.name
+        self.x = node_data.x
+        self.y = node_data.y
+        self.is_origin = node_data.is_origin
+        self.is_destination = node_data.is_destination
 
         self.neighbors: dict[int, NetLinkData] = {}
         self.up_neighbors = []

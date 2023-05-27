@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .netroute import NetRoute
 
-@dataclass
+@dataclass(slots=True)
 class NetODpair():
     """Origin-Destination data in the Network. 
     
@@ -22,7 +22,6 @@ class NetODpair():
         List of all possible routes from origin to destination to include in the
         OD optimization. One OD can contain multiple routes.
     """
-    __slots__ = ['origin', 'destination', 'seed_total_volume', 'est_total_volume', 'routes']
     origin: int
     destination: int
     seed_total_volume: float
