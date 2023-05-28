@@ -1,4 +1,5 @@
 # Contains Qt TableModels for showing OD and route data in tables.
+import re
 
 from PySide2 import QtCore
 from PySide2.QtCore import Qt, QSortFilterProxyModel
@@ -28,12 +29,45 @@ class RouteInfo(Protocol):
     def nodes(self) -> list:
         ...
 
-class ODTableFilterProxyModel(QSortFilterProxyModel):    
+class ODTableFilterProxyModel(QSortFilterProxyModel):
+    def __init__(self, parent) -> None:
+        super().__init__(parent)
+        self.re_origin = None
+        self.re_destination = None
+
+
     def lessThan(self, left: 'QModelIndex', right: 'QModelIndex'):
         left_data = self.sourceModel().data(left, Qt.DisplayRole)
         right_data = self.sourceModel().data(right, Qt.DisplayRole)
 
         return left_data < right_data
+    
+    def apply_filter(self, regex_origin, regex_destination):
+        self.re_origin = re.compile(regex_origin)
+        self.re_destination = re.compile(regex_destination)
+        if regex_origin == "" and regex_destination == "":
+            self.setFilterRegExp("")
+        else:
+            self.setFilterRegExp("dummy")
+
+    def filterAcceptsRow(self, source_row: int, source_parent: 'QModelIndex') -> bool:
+        if self.filterRegExp() == "":
+            return super().filterAcceptsRow(source_row, source_parent)
+        
+        index_origin = self.sourceModel().index(source_row, 0, source_parent)
+        index_destination = self.sourceModel().index(source_row, 1, source_parent)
+
+        origin_match = bool(
+            self.re_origin.search(
+                self.sourceModel().data(index_origin, Qt.DisplayRole)))
+
+        destination_match = bool(
+            self.re_destination.search(
+                self.sourceModel().data(index_destination, Qt.DisplayRole)))
+        
+        return (origin_match and destination_match)
+        
+
 
 class ODTableModel(QtCore.QAbstractTableModel):
     """Model for showing a table of OD routes."""
