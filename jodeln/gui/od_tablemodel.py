@@ -1,6 +1,5 @@
 # Contains Qt TableModels for showing OD and route data in tables.
 import re
-from enum import Enum
 
 from PySide2 import QtCore
 from PySide2.QtCore import Qt, QSortFilterProxyModel
@@ -10,10 +9,10 @@ from typing import TYPE_CHECKING, Protocol
 if TYPE_CHECKING:
     from PySide2.QtCore import QModelIndex
 
-class TableCol(Enum):
-    ORIGIN = 0
-    DESTINATION = 1
-    ROUTE_NAME = 2
+# Columns in OD Table data structure
+TABLE_COL_ORIGIN = 0
+TABLE_COL_DESTINATION = 1
+TABLE_COL_ROUTE_NAME = 2
 
 class RouteInfo(Protocol):
     @property
@@ -60,8 +59,8 @@ class ODTableFilterProxyModel(QSortFilterProxyModel):
         if self.filterRegExp() == "":
             return super().filterAcceptsRow(source_row, source_parent)
         
-        index_origin = self.sourceModel().index(source_row, TableCol.ORIGIN, source_parent)
-        index_destination = self.sourceModel().index(source_row, TableCol.DESTINATION, source_parent)
+        index_origin = self.sourceModel().index(source_row, TABLE_COL_ORIGIN, source_parent)
+        index_destination = self.sourceModel().index(source_row, TABLE_COL_DESTINATION, source_parent)
 
         origin_match = bool(
             self.re_origin.search(
@@ -83,11 +82,11 @@ class ODTableModel(QtCore.QAbstractTableModel):
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
-            if index.column() == TableCol.ORIGIN:
+            if index.column() == TABLE_COL_ORIGIN:
                 return self._data[index.row()].o_name
-            if index.column() == TableCol.DESTINATION:
+            if index.column() == TABLE_COL_DESTINATION:
                 return self._data[index.row()].d_name
-            if index.column() == TableCol.ROUTE_NAME:
+            if index.column() == TABLE_COL_ROUTE_NAME:
                 return self._data[index.row()].name
 
     def rowCount(self, index):
@@ -99,11 +98,11 @@ class ODTableModel(QtCore.QAbstractTableModel):
     def headerData(self, section: int, orientation: Qt.Orientation, role: int):
         """Get Table header names."""
         if role == Qt.DisplayRole and orientation == Qt.Horizontal:
-            if section == TableCol.ORIGIN:
+            if section == TABLE_COL_ORIGIN:
                 return "Origin"
-            if section == TableCol.DESTINATION:
+            if section == TABLE_COL_DESTINATION:
                 return "Destination"
-            if section == TableCol.ROUTE_NAME:
+            if section == TABLE_COL_ROUTE_NAME:
                 return "Route Name"
 
     def get_route_at_index(self, index):
