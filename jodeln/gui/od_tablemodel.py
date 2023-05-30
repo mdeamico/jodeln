@@ -1,5 +1,6 @@
 # Contains Qt TableModels for showing OD and route data in tables.
 import re
+from enum import Enum
 
 from PySide2 import QtCore
 from PySide2.QtCore import Qt, QSortFilterProxyModel
@@ -8,6 +9,11 @@ from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
     from PySide2.QtCore import QModelIndex
+
+class TableCol(Enum):
+    ORIGIN = 0
+    DESTINATION = 1
+    ROUTE_NAME = 2
 
 class RouteInfo(Protocol):
     @property
@@ -54,8 +60,8 @@ class ODTableFilterProxyModel(QSortFilterProxyModel):
         if self.filterRegExp() == "":
             return super().filterAcceptsRow(source_row, source_parent)
         
-        index_origin = self.sourceModel().index(source_row, 0, source_parent)
-        index_destination = self.sourceModel().index(source_row, 1, source_parent)
+        index_origin = self.sourceModel().index(source_row, TableCol.ORIGIN, source_parent)
+        index_destination = self.sourceModel().index(source_row, TableCol.DESTINATION, source_parent)
 
         origin_match = bool(
             self.re_origin.search(
@@ -77,11 +83,11 @@ class ODTableModel(QtCore.QAbstractTableModel):
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
-            if index.column() == 0:
+            if index.column() == TableCol.ORIGIN:
                 return self._data[index.row()].o_name
-            if index.column() == 1:
+            if index.column() == TableCol.DESTINATION:
                 return self._data[index.row()].d_name
-            if index.column() == 2:
+            if index.column() == TableCol.ROUTE_NAME:
                 return self._data[index.row()].name
 
     def rowCount(self, index):
@@ -93,11 +99,11 @@ class ODTableModel(QtCore.QAbstractTableModel):
     def headerData(self, section: int, orientation: Qt.Orientation, role: int):
         """Get Table header names."""
         if role == Qt.DisplayRole and orientation == Qt.Horizontal:
-            if section == 0:
+            if section == TableCol.ORIGIN:
                 return "Origin"
-            if section == 1:
+            if section == TableCol.DESTINATION:
                 return "Destination"
-            if section == 2:
+            if section == TableCol.ROUTE_NAME:
                 return "Route Name"
 
     def get_route_at_index(self, index):

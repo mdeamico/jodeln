@@ -5,7 +5,6 @@ from PySide2.QtWidgets import (
 
 from PySide2.QtGui import QPainter
 from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QSizePolicy
 
 from gui.ui_mainwindow import Ui_MainWindow
 
@@ -64,8 +63,7 @@ class MainWindow(QMainWindow):
         self.ui.pbFilterApply.clicked.connect(self.apply_od_table_filter)
         self.ui.pbFilterClear.clicked.connect(self.clear_od_table_filter)
 
-        # self.ui.frame.setSizePolicy(QSizePolicy.Fixed)
-        self.ui.filterToggle.clicked.connect(self.collapse)
+        self.ui.filterToggle.clicked.connect(self.collapse_filter_section)
         self.ui.frame.setVisible(False)
         
         
@@ -171,17 +169,15 @@ class MainWindow(QMainWindow):
     def apply_od_table_filter(self) -> None:
         filter_origin = self.ui.leFilter1.text()
         filter_destination = self.ui.leFilter2.text()
-        
         self.od_proxy_model.apply_filter(filter_origin, filter_destination)
-
-    def collapse(self):
-        # https://stackoverflow.com/questions/32476006/how-to-make-an-expandable-collapsable-section-widget-in-qt
-        self.ui.frame.setVisible(not self.ui.frame.isVisible())
-        self.ui.filterToggle.setArrowType(
-            Qt.ArrowType.DownArrow if self.ui.frame.isVisible() 
-            else Qt.ArrowType.RightArrow)
         
     def clear_od_table_filter(self) -> None:
         self.ui.leFilter1.setText("")
         self.ui.leFilter2.setText("")
         self.od_proxy_model.setFilterRegExp("")
+
+    def collapse_filter_section(self):
+        self.ui.frame.setVisible(not self.ui.frame.isVisible())
+        self.ui.filterToggle.setArrowType(
+            Qt.ArrowType.DownArrow if self.ui.frame.isVisible() 
+            else Qt.ArrowType.RightArrow)
