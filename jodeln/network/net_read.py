@@ -338,7 +338,7 @@ def import_routes(route_csv, net: Network) -> None:
             user_ratio = float(user_ratio)
             node_seq = [net.get_node_by_name(v)[0] for v in user_seq]
 
-            for od in net.od:
+            for od in net.od_pairs:
                 if not (od.origin == origin and od.destination == destination):
                     continue
                 
@@ -356,7 +356,7 @@ def import_routes(route_csv, net: Network) -> None:
                         assigned_ratio=0))
 
         # Normalize target_ratios
-        for od in net.od:
+        for od in net.od_pairs:
             ratio_sum = 0
             for route in od.routes:
                 ratio_sum += route.target_ratio

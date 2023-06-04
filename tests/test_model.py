@@ -30,7 +30,10 @@ class TestModel(unittest.TestCase):
                    od_seed_file=os.path.join(net_path, "seed_matrix.csv"))
         
         res = model.estimate_od(1, 1, 1)
-        print('res (before abs): ', res)
+
+        print(f"\nestimated od: {model.od_estimated}\n")
+
+        print(f"\nres (before taking abs value): {res}\n")
         odme_res = [round(abs(x), 4) for x in res]
 
         expected_res = [0.5839, 0.9216, 0.5537, 1.1827]

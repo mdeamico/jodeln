@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ..network.net import Network
 
-def od_from_csv(od_csv, net: 'Network'):
+def od_from_csv(od_csv, net: 'Network') -> dict[tuple[int, int], float]:
     """Creates an OD object from a csv OD matrix.
     
     csv is a square OD matrix (n rows = n columns), zones are ordered the same in the rows
@@ -55,7 +55,7 @@ def od_from_csv(od_csv, net: 'Network'):
     # i.e. zones in OD are found in Network
 
     # convert volume lists into a dictionary of {(o, d): volume}
-    od = {}
+    od: dict[tuple[int, int], float] = {}
     for o_name, volumes  in temp_od.items():
         o_node_key = net.get_node_by_name(o_name)[0]
         for i, v in enumerate(volumes):

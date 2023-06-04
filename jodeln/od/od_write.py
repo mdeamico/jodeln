@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from ..network.net import Network
 
 
-def export_od_as_list(net: 'Network', output_folder=None) -> None:
+def export_od_as_list(net: 'Network', od_mat: dict[tuple[int, int], float], output_folder=None) -> None:
     """Save the estimated OD to a csv file with one row per OD pair.
     
     csv columns are:
@@ -35,9 +35,13 @@ def export_od_as_list(net: 'Network', output_folder=None) -> None:
         directory as returned by os.getcwd().
     """
     
-    if net.od is None:
+    if net.od_pairs is None:
         print("Network does not contain any OD.")
         return
+
+    if od_mat is None:
+        print("OD Matrix is Empty.")
+        return       
 
     if output_folder is None:
         output_folder = os.getcwd()
@@ -50,11 +54,12 @@ def export_od_as_list(net: 'Network', output_folder=None) -> None:
         list_writer = csv.writer(list_f)
         list_writer.writerow(["o_node", "d_node", "volume"])
 
-        for od in net.od:
+        for od in net.od_pairs:
             o_name = net.node(od.origin).name
             d_name = net.node(od.destination).name
+            volume = od_mat[(od.origin, od.destination)]
 
-            list_writer.writerow([o_name, d_name, od.est_total_volume])
+            list_writer.writerow([o_name, d_name, volume])
 
 
 
@@ -89,7 +94,7 @@ def export_od_by_route(net: 'Network', output_folder=None) -> None:
         directory as returned by os.getcwd().
     """
     
-    if net.od is None:
+    if net.od_pairs is None:
         print("Network does not contain any OD.")
         return
 
@@ -104,7 +109,7 @@ def export_od_by_route(net: 'Network', output_folder=None) -> None:
         list_writer = csv.writer(list_f)
         list_writer.writerow(["o_node", "d_node", "route", "volume"])
 
-        for od in net.od:
+        for od in net.od_pairs:
             o_name = net.node(od.origin).name
             d_name = net.node(od.destination).name
             for route in od.routes:
