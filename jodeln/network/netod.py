@@ -14,16 +14,10 @@ class NetODpair():
         node ID of the OD origin.
     destination : int
         node ID of the OD destination.
-    seed_total_volume : float
-        Volume for this OD pair within the seed OD matrix.
-    est_total_volume : float
-        Volume for this OD pair within the estimated OD matrix.
-    routes : List[route]
-        List of all possible routes from origin to destination to include in the
-        OD optimization. One OD can contain multiple routes.
+    routes : list[NetRoute]
+        List of all possible routes from origin to destination. One OD can 
+        contain multiple routes.
     """
     origin: int
     destination: int
-    seed_total_volume: float
-    est_total_volume: float
     routes: list['NetRoute']

@@ -35,13 +35,15 @@ def objective_fn_prep_net_geh(net: 'Network'):
 
 
 
-def objective_fn_prep_odsse(net: 'Network'):
+def objective_fn_prep_odsse(net: 'Network', od_seed: dict[tuple[int, int], float]):
     """Estimate maximum sum of sq error between seed and final od.
 
     Parameters
     ----------
     net : Network
-        Network containing OD seed volumes. 
+        Network containing OD seed volumes.
+    od_seed : dict[tuple[int, int], float]
+        Seed OD Matrix.
 
     Returns
     -------
@@ -50,10 +52,10 @@ def objective_fn_prep_odsse(net: 'Network'):
     """
     multiplier = 5
     odsse = 0
-    for od in net.od:
+    for od in net.od_pairs:
         for route in od.routes:
-            vol1 = od.seed_total_volume * route.target_ratio * multiplier
-            odsse += (vol1 - route.seed_volume) * (vol1 - route.seed_volume)
+            route_vol = od_seed[(od.origin, od.destination)] * route.target_ratio * multiplier
+            odsse += (route_vol - route.seed_volume) * (route_vol - route.seed_volume)
 
     return odsse
 
@@ -77,7 +79,7 @@ def objective_fn_prep_route_ratios(net: 'Network'):
 
     total_sum = 0
 
-    for od in net.od:
+    for od in net.od_pairs:
         target_ratios = [route.target_ratio for route in od.routes]
         tgt_rel_diffs = [route.target_rel_diff for route in od.routes]
 
@@ -106,15 +108,29 @@ def objective_fn_prep_route_ratios(net: 'Network'):
 
 
 
-def estimate_od(net: 'Network', od_mat, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
+def estimate_od(
+        net: 'Network', 
+        od_seed: dict[tuple[int, int], float], 
+        od_estimated: dict[tuple[int, int], float], 
+        weight_total_geh=None, 
+        weight_odsse=None, 
+        weight_route_ratio=None) -> list[float]:
     """Estimate an OD matrix based on a seed matrix and target volumes within 
-    the network links/turns.
+    the network links/turns. 
+    
+    Estimated matrix is directly saved in the 'od_estimated' variable.
 
     Uses a cma-es optimization algorithm to iteratively manipulate the seed matrix
     until the target volumes are met.
 
     Parameters
     ----------
+    net : Network
+    od_seed : dict[tuple[int, int], float]
+        OD matrix to use as an initial seed in the optimization process.
+    od_estimated : dict[tuple[int, int], float]
+        Resultin estimated OD. This variable is mutated directly by the 
+        optimization process.
     weight_total_geh : float, optional
         Objective function weight of the sum of all GEH values in the network.
     weight_odsse : float, optional
@@ -137,18 +153,18 @@ def estimate_od(net: 'Network', od_mat, weight_total_geh=None, weight_odsse=None
 
     # Associate each route with a variable in the cma-es optimizer 
     p_counter = 0
-    for od in net.od:
+    for od in net.od_pairs:
         for route in od.routes:
             route.opt_var_index = p_counter
             p_counter += 1
 
-    net.init_seed_volumes(od_mat)
+    net.init_seed_volumes(od_seed)
 
     estimated_max_net_geh = objective_fn_prep_net_geh(net)
     if estimated_max_net_geh <= 0:
         estimated_max_net_geh = 1
     
-    estimated_max_odsse = objective_fn_prep_odsse(net) 
+    estimated_max_odsse = objective_fn_prep_odsse(net, od_seed) 
     if estimated_max_odsse <= 0:
         estimated_max_odsse = 1
 
@@ -174,20 +190,23 @@ def estimate_od(net: 'Network', od_mat, weight_total_geh=None, weight_odsse=None
         ratio_sse = 0
 
         # calculate route volume based on estimated x values.
-        for od in net.od:
-            od.est_total_volume = 0
+        for od in net.od_pairs:
+            od_seed_total_vol = od_seed[(od.origin, od.destination)]
+            od_est_total_vol = 0
             for route in od.routes:
                 # mulitplier m = x * x to ensure m is positive
                 m = x[route.opt_var_index] * x[route.opt_var_index]
-                vol1 = od.seed_total_volume * route.target_ratio * m
-                odsse += (vol1 - route.seed_volume) * (vol1 - route.seed_volume)
-                route.assigned_volume = vol1
-                od.est_total_volume += vol1
+                est_route_vol = od_seed_total_vol * route.target_ratio * m
+                odsse += (est_route_vol - route.seed_volume) * (est_route_vol - route.seed_volume)
+                route.assigned_volume = est_route_vol
+                od_est_total_vol += est_route_vol
+            
+            od_estimated[(od.origin, od.destination)] = od_est_total_vol
             
             # update route ratios
             for route in od.routes:
-                if od.est_total_volume > 0:
-                    route.assigned_ratio = route.assigned_volume / od.est_total_volume
+                if od_est_total_vol > 0:
+                    route.assigned_ratio = route.assigned_volume / od_est_total_vol
                 else:
                     route.assigned_ratio = 1
                 

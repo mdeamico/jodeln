@@ -54,7 +54,7 @@ def export_node_sequences(net: 'Network', output_folder=None) -> None:
         Folder to export the node file, by default None indicates the current working
         directory as returned by os.getcwd().
     """
-    if net.od is None:
+    if net.od_pairs is None:
         print("Network does not contain any OD.")
         return
 
@@ -73,7 +73,7 @@ def export_node_sequences(net: 'Network', output_folder=None) -> None:
         turn_writer.writerow(["o_node", "d_node", "route", "a_node", "b_node", "c_node"])
         link_writer.writerow(["o_node", "d_node", "route", "a_node", "b_node"])
 
-        for od in net.od:
+        for od in net.od_pairs:
             o_name = net.node(od.origin).name
             d_name = net.node(od.destination).name
 
@@ -126,7 +126,7 @@ def export_route_list(net: 'Network', output_folder=None) -> None:
         directory as returned by os.getcwd().
     """
     
-    if net.od is None:
+    if net.od_pairs is None:
         print("Network does not contain any OD.")
         return
 
@@ -140,7 +140,7 @@ def export_route_list(net: 'Network', output_folder=None) -> None:
         
         list_writer = csv.writer(list_f)
 
-        for od in net.od:
+        for od in net.od_pairs:
             for route in od.routes:
                 list_writer.writerow([str(net.node(x).name) for x in route.nodes])
 

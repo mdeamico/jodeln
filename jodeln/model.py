@@ -30,7 +30,7 @@ class Model():
     
     These methods are the API for a view/controller to interact with the data.
     """
-    __slots__ = ['net', 'od_seed']
+    __slots__ = ['net', 'od_seed', 'od_estimated']
 
     def __init__(self):
         """Initialize Model with an empty network and empty OD Seed Matrix.
@@ -44,6 +44,9 @@ class Model():
         
         #: dict: Seed OD matrix loaded from csv.
         self.od_seed = None
+
+        #: dict: Estimated OD matrix
+        self.od_estimated = None
 
     def load(self, node_file=None, links_file=None, od_seed_file=None, turns_file=None, od_routes_file=None) -> None:
         """Populate network and od variables with user supplied data.
@@ -87,6 +90,7 @@ class Model():
 
         if od_seed_file is not None:
             self.od_seed = od_read.od_from_csv(od_seed_file, self.net)
+            self.od_estimated = dict.fromkeys(self.od_seed.keys(), 0)
 
         if turns_file is not None:
             net_read.import_turns(turns_file, self.net)
@@ -121,13 +125,20 @@ class Model():
         if self.od_seed is None or self.net is None:
             return
 
-        res = odme.estimate_od(self.net, self.od_seed, weight_total_geh, weight_odsse, weight_route_ratio)
+        res = odme.estimate_od(
+                self.net, 
+                self.od_seed, 
+                self.od_estimated, 
+                weight_total_geh, 
+                weight_odsse, 
+                weight_route_ratio)
+        
         return res
 
     def export_od(self, output_folder=None) -> None:
         """Write estimated OD to csv."""
         output_folder = _clean_folder_path(output_folder)
-        od_write.export_od_as_list(self.net, output_folder)
+        od_write.export_od_as_list(self.net, self.od_estimated, output_folder)
 
     def export_turns(self, output_folder=None) -> None:
         """Write turns to csv."""
@@ -167,7 +178,7 @@ class Model():
         """Return basic OD information for each route."""
         routes: list[RouteInfo] = []
         
-        for od in self.net.od:
+        for od in self.net.od_pairs:
             o_name = self.net.node(od.origin).name
             d_name = self.net.node(od.destination).name
 

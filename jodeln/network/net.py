@@ -30,7 +30,7 @@ class Network():
         nodes within the Network graph.
     turns : Dict[int, TurnData]
         Turns within the Network graph.
-    od : List[NetODpair]
+    od_pairs : List[NetODpair]
         OD data for the network.
     total_geh : float
         Grand total of summing all the GEH values of the links and turns. 
@@ -39,12 +39,12 @@ class Network():
         Scalar to convert node x,y position to real-world coordinates. Required
         to ensure the network is displayed legibly in the GUI.
     """
-    __slots__ = ['_graph', '_turns', 'n_links', 'od', 'total_geh', 'coord_scale']
+    __slots__ = ['_graph', '_turns', 'n_links', 'od_pairs', 'total_geh', 'coord_scale']
 
     def __init__(self):
         self._graph: dict[int, NetNode] = {}
         self._turns: dict[tuple[int, int, int], TurnData] = {}
-        self.od: list[NetODpair] = []
+        self.od_pairs: list[NetODpair] = []
         self.total_geh: float = 0
         self.coord_scale: float = 1
 
@@ -159,13 +159,11 @@ class Network():
                 if len(node_seq) == 0:
                     continue
                 
-                od = NetODpair(
-                        origin=i,
-                        destination=j, 
-                        seed_total_volume=0, 
-                        est_total_volume=0, 
-                        routes=[NetRoute(nodes=node_seq, name="")])
-                self.od.append(od)
+                od_pair = NetODpair(
+                            origin=i,
+                            destination=j, 
+                            routes=[NetRoute(nodes=node_seq, name="")])
+                self.od_pairs.append(od_pair)
         
         # Update route names
         self.set_route_names()
@@ -209,9 +207,8 @@ class Network():
         od_mat : Dict
             OD matrix, imported from csv. See od_read.py.
         """
-        for od in self.od:
+        for od in self.od_pairs:
             od_volume = od_mat[(od.origin, od.destination)]
-            od.seed_total_volume = od_volume
             for route in od.routes:
                 route.seed_volume = od_volume * route.target_ratio
                 route.assigned_volume = route.seed_volume
@@ -234,7 +231,7 @@ class Network():
             t.assigned_volume = 0
         
         # assign link & turn volumes
-        for od in self.od:
+        for od in self.od_pairs:
             for route in od.routes:
                 n_route_nodes = len(route.nodes)
                 
@@ -270,7 +267,7 @@ class Network():
         unique to their respective routes.
         """
         
-        for od in self.od:
+        for od in self.od_pairs:
             # gather all the links on all routes from o to d
             od_links = []
             for route in od.routes:
