@@ -30,7 +30,7 @@ class Model():
     
     These methods are the API for a view/controller to interact with the data.
     """
-    __slots__ = ['net', 'od_seed', 'od_estimated']
+    __slots__ = ['net', 'od_seed', 'od_estimated', 'od_diff']
 
     def __init__(self):
         """Initialize Model with an empty network and empty OD Seed Matrix.
@@ -47,6 +47,9 @@ class Model():
 
         #: dict: Estimated OD matrix
         self.od_estimated = None
+
+        #: dict: Difference matrix = od_estimated - od_seed
+        self.od_diff = None
 
     def load(self, node_file=None, links_file=None, od_seed_file=None, turns_file=None, od_routes_file=None) -> None:
         """Populate network and od variables with user supplied data.
@@ -91,6 +94,8 @@ class Model():
         if od_seed_file is not None:
             self.od_seed = od_read.od_from_csv(od_seed_file, self.net)
             self.od_estimated = dict.fromkeys(self.od_seed.keys(), 0)
+            self.od_diff = dict.fromkeys(self.od_seed.keys(), 0)
+            self.compute_od_diff()
 
         if turns_file is not None:
             net_read.import_turns(turns_file, self.net)
@@ -99,6 +104,11 @@ class Model():
             net_read.import_routes(od_routes_file, self.net)
 
         return True
+
+    def compute_od_diff(self):
+        """Calculate difference between Estimated and Seed OD matrices."""
+        for k in self.od_estimated:
+            self.od_diff[k] = self.od_estimated[k] - self.od_seed[k]
 
     def estimate_od(self, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
         """Estimate an OD matrix that attempts to meet various network volume targets.
@@ -159,6 +169,10 @@ class Model():
         """Export the nodes along each route. One row per route."""
         output_folder = _clean_folder_path(output_folder)
         net_write.export_route_list(self.net, output_folder)
+
+    def get_node_name(self, node: int) -> str:
+        """Return the name of the node."""
+        return self.net.node(node).name
 
     def get_nodes(self) -> list['NetNode']:
         """Return a list of nodes in the network."""
