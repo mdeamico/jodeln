@@ -86,23 +86,10 @@ class MainWindow(QMainWindow):
     def show_dialog_od_view(self) -> None:
         self.dialog_od_view.show()
 
-        origins = set([o for (o, _) in self.model.od_seed.keys()])
-        destinations = set([d for (_, d) in self.model.od_seed.keys()])
-
-        origins = list(origins)
-        destinations = list(destinations)
-
-        o_names = [self.model.get_node_name(o) for o in origins]
-        d_names = [self.model.get_node_name(d) for d in origins]
-
         self.dialog_od_view.load_od_data(
             self.model.od_seed,
             self.model.od_estimated,
-            self.model.od_diff,
-            origins,
-            destinations,
-            o_names,
-            d_names
+            self.model.od_diff
         )
 
 

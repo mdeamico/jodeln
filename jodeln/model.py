@@ -9,6 +9,7 @@ from network import net_read, net_write
 
 from od import od_read, od_write
 from od import od_estimation as odme
+from od.od_matrix import ODMatrix, create_od_from_source
 
 if TYPE_CHECKING:
     from .network.netnode import NetNode
@@ -42,14 +43,14 @@ class Model():
         # as turns, volume targets, and OD info.
         self.net = None
         
-        #: dict: Seed OD matrix loaded from csv.
-        self.od_seed = None
+        #: ODMatrix: Seed OD matrix loaded from csv.
+        self.od_seed: ODMatrix = None
 
-        #: dict: Estimated OD matrix
-        self.od_estimated = None
+        #: ODMatrix: Estimated OD matrix
+        self.od_estimated: ODMatrix = None
 
-        #: dict: Difference matrix = od_estimated - od_seed
-        self.od_diff = None
+        #: ODMatrix: Difference matrix = od_estimated - od_seed
+        self.od_diff: ODMatrix = None
 
     def load(self, node_file=None, links_file=None, od_seed_file=None, turns_file=None, od_routes_file=None) -> None:
         """Populate network and od variables with user supplied data.
@@ -93,8 +94,8 @@ class Model():
 
         if od_seed_file is not None:
             self.od_seed = od_read.od_from_csv(od_seed_file, self.net)
-            self.od_estimated = dict.fromkeys(self.od_seed.keys(), 0)
-            self.od_diff = dict.fromkeys(self.od_seed.keys(), 0)
+            self.od_estimated = create_od_from_source(self.od_seed)
+            self.od_diff = create_od_from_source(self.od_seed)
             self.compute_od_diff()
 
         if turns_file is not None:
@@ -107,8 +108,8 @@ class Model():
 
     def compute_od_diff(self):
         """Calculate difference between Estimated and Seed OD matrices."""
-        for k in self.od_estimated:
-            self.od_diff[k] = self.od_estimated[k] - self.od_seed[k]
+        for k in self.od_estimated.volume:
+            self.od_diff.volume[k] = self.od_estimated.volume[k] - self.od_seed.volume[k]
 
     def estimate_od(self, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
         """Estimate an OD matrix that attempts to meet various network volume targets.
