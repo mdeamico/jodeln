@@ -46,6 +46,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.pbShowExportDialog)
 
+        self.pbODView = QPushButton(self.centralwidget)
+        self.pbODView.setObjectName(u"pbODView")
+
+        self.horizontalLayout.addWidget(self.pbODView)
+
         self.pbShowODEstimation = QPushButton(self.centralwidget)
         self.pbShowODEstimation.setObjectName(u"pbShowODEstimation")
 
@@ -162,6 +167,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Jodeln", None))
         self.pbShowDialogOpen.setText(QCoreApplication.translate("MainWindow", u"Open", None))
         self.pbShowExportDialog.setText(QCoreApplication.translate("MainWindow", u"Export", None))
+        self.pbODView.setText(QCoreApplication.translate("MainWindow", u"View OD", None))
         self.pbShowODEstimation.setText(QCoreApplication.translate("MainWindow", u"OD Estimation", None))
         self.filterToggle.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Origin", None))

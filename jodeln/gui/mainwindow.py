@@ -12,6 +12,7 @@ from gui import schematic_scene, od_tablemodel
 from gui.dialog_open import DialogOpen
 from gui.dialog_export import DialogExport
 from gui.dialog_odme import DialogODME, CallbackOdmeParameters
+from gui.dialog_od_view import DialogODView
 
 from typing import TYPE_CHECKING
 
@@ -42,13 +43,18 @@ class MainWindow(QMainWindow):
         # Dialog ODME
         self.dialog_odme = DialogODME(cb_odme=self.estimate_od)
 
+        # Dialog OD View
+        self.dialog_od_view = DialogODView()
+
         # Connect push buttons to slot functions
         self.ui.pbShowDialogOpen.clicked.connect(self.show_dialog_open)
         self.ui.pbShowExportDialog.clicked.connect(self.show_dialog_export)
         self.ui.pbShowODEstimation.clicked.connect(self.show_dialog_odme)
+        self.ui.pbODView.clicked.connect(self.show_dialog_od_view)
 
         # Disable buttons that should only be used after loading a network
         self.ui.pbShowExportDialog.setEnabled(False)
+        self.ui.pbODView.setEnabled(False)
         self.ui.pbShowODEstimation.setEnabled(False)
 
         # Setup graphics view
@@ -76,6 +82,28 @@ class MainWindow(QMainWindow):
 
     def show_dialog_odme(self) -> None:
         self.dialog_odme.show()
+
+    def show_dialog_od_view(self) -> None:
+        self.dialog_od_view.show()
+
+        origins = set([o for (o, _) in self.model.od_seed.keys()])
+        destinations = set([d for (_, d) in self.model.od_seed.keys()])
+
+        origins = list(origins)
+        destinations = list(destinations)
+
+        o_names = [self.model.get_node_name(o) for o in origins]
+        d_names = [self.model.get_node_name(d) for d in origins]
+
+        self.dialog_od_view.load_od_data(
+            self.model.od_seed,
+            self.model.od_estimated,
+            self.model.od_diff,
+            origins,
+            destinations,
+            o_names,
+            d_names
+        )
 
 
     def load(self) -> None:
@@ -123,6 +151,7 @@ class MainWindow(QMainWindow):
         self.schematic_scene.load_routes(routes)
 
         self.ui.pbShowExportDialog.setEnabled(True)
+        self.ui.pbODView.setEnabled(True)
         self.ui.pbShowODEstimation.setEnabled(True)
 
     def estimate_od(self, parms: CallbackOdmeParameters) -> None:

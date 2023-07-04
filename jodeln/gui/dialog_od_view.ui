@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ODView</class>
+ <widget class="QMainWindow" name="ODView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>819</width>
+    <height>528</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>OD Matrix</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabSeed">
+       <attribute name="title">
+        <string>Seed Matrix</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="MatrixView" name="mv1" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabEst">
+       <attribute name="title">
+        <string>Estimated Matrix</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="MatrixView" name="mv2" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabDiff">
+       <attribute name="title">
+        <string>Diff Matrix</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="MatrixView" name="mv3" native="true"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>819</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuODME">
+    <property name="title">
+     <string>Estimate OD</string>
+    </property>
+    <addaction name="actionFratar"/>
+   </widget>
+   <addaction name="menuODME"/>
+  </widget>
+  <action name="actionFratar">
+   <property name="text">
+    <string>Bi-proportional matrix factoring (Fratar Method)</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MatrixView</class>
+   <extends>QWidget</extends>
+   <header>gui.widget_matrixview</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
