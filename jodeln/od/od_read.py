@@ -6,10 +6,12 @@ from collections import OrderedDict
 
 from typing import TYPE_CHECKING
 
+from od.od_matrix import ODMatrix
+
 if TYPE_CHECKING:
     from ..network.net import Network
 
-def od_from_csv(od_csv, net: 'Network') -> dict[tuple[int, int], float]:
+def od_from_csv(od_csv, net: 'Network') -> ODMatrix:
     """Creates an OD object from a csv OD matrix.
     
     csv is a square OD matrix (n rows = n columns), zones are ordered the same in the rows
@@ -61,4 +63,28 @@ def od_from_csv(od_csv, net: 'Network') -> dict[tuple[int, int], float]:
         for i, v in enumerate(volumes):
             od[(o_node_key, zone_node_keys[i])] = float(v)
 
-    return od
+    origins = set()
+    destinations = set()
+
+    for (o, d), v in od.items():
+        origins.add(o)
+        destinations.add(d)
+
+    names_o = [net.node(o).name for o in origins]
+    names_d = [net.node(d).name for d in destinations]
+
+    # Temporary targets set to zero. TODO: read targets from a user-input file
+    targets_o = dict.fromkeys(origins, 0)
+    targets_d = dict.fromkeys(destinations, 0)
+
+    od_matrix = ODMatrix(
+        volume=od,
+        origins=list(origins),
+        destinations=list(destinations),
+        names_o=names_o,
+        names_d=names_d,
+        targets_o=targets_o,
+        targets_d=targets_d
+    )
+
+    return od_matrix

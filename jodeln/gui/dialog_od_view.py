@@ -13,10 +13,10 @@ class DialogODView(QMainWindow):
         self.ui.tabWidget.currentChanged.connect(self.tab_changed)
         self.ui.actionFratar.triggered.connect(self.fratar_factor)
 
-    def load_od_data(self, od_seed, od_estimated, od_diff, origins, destinations, o_names, d_names):        
-        self.ui.mv1.load_od_data(od_seed, origins, destinations, o_names, d_names)
-        self.ui.mv2.load_od_data(od_estimated, origins, destinations, o_names, d_names)
-        self.ui.mv3.load_od_data(od_diff, origins, destinations, o_names, d_names)
+    def load_od_data(self, od_seed, od_estimated, od_diff):
+        self.ui.mv1.load_od_data(od_seed)
+        self.ui.mv2.load_od_data(od_estimated)
+        self.ui.mv3.load_od_data(od_diff)
 
         
     def tab_changed(self, index):

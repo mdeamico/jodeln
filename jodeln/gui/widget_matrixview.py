@@ -4,10 +4,15 @@ from PySide2.QtCore import Qt
 from gui.ui_widget_matrixview import Ui_MatrixView
 from gui.MarginTableModel import OriginMarginModel, DestinationMarginModel
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from od.od_matrix import ODMatrix
+
 class TableModel(QtCore.QAbstractTableModel):
     def __init__(self):
         super().__init__()
-        self._data = None
+        self._data: 'ODMatrix' = None
         self.n_rows = 0
         self.n_cols = 0
         self.origins = None
@@ -20,12 +25,12 @@ class TableModel(QtCore.QAbstractTableModel):
         if role == Qt.DisplayRole:
             o = self.origins[index.row()]
             d = self.destinations[index.column()]
-            return self._data[(o, d)]
+            return self._data.volume[(o, d)]
         
         if role == Qt.ForegroundRole:
             o = self.origins[index.row()]
             d = self.destinations[index.column()]
-            if self._data[(o, d)] == 0:
+            if self._data.volume[(o, d)] == 0:
                 return QtGui.QColor('grey')
         
         if role == Qt.BackgroundRole:
@@ -35,10 +40,10 @@ class TableModel(QtCore.QAbstractTableModel):
 
     def headerData(self, section: int, orientation: Qt.Orientation, role: int):
         if orientation == Qt.Vertical and role == Qt.DisplayRole:
-            return self.o_names[section]
+            return self.names_o[section]
         
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
-            return self.d_names[section]
+            return self.names_d[section]
         
         return super().headerData(section, orientation, role)
 
@@ -48,14 +53,14 @@ class TableModel(QtCore.QAbstractTableModel):
     def columnCount(self, index):
         return self.n_cols
     
-    def load_data(self, od_mat, origins, destinations, o_names, d_names):
+    def load_data(self, od_mat: 'ODMatrix'):
         self._data = od_mat
         
-        self.origins = origins
-        self.destinations = destinations
+        self.origins = od_mat.origins
+        self.destinations = od_mat.destinations
 
-        self.o_names = o_names
-        self.d_names = d_names
+        self.names_o = od_mat.names_o
+        self.names_d = od_mat.names_d
 
         self.n_rows = len(self.origins)
         self.n_cols = len(self.destinations)
@@ -111,36 +116,41 @@ class MatrixView(QtWidgets.QWidget):
 
         self.ui.tvMarginD.verticalHeader().setFixedWidth(self.ui.tvMatrix.verticalHeader().size().width())
 
-    def load_od_data(self, od_mat, origins, destinations, o_names, d_names):
+    def load_od_data(self, od_mat: 'ODMatrix'):
         
-        self.od_table.load_data(od_mat, origins, destinations, o_names, d_names)
+        self.od_table.load_data(od_mat)
         self.ui.tvMatrix.setModel(self.od_table)
 
-        o_sums, d_sums = margin_sums(od_mat, origins, destinations)
-        o_sums = [v for _, v in o_sums.items()]
-        d_sums = [v for _, v in d_sums.items()]
+        # Temporary Targets. TODO: get real targets from user input.
+        targets_o = [10 * v for _, v in od_mat.sums_o.items()]
+        targets_d = [10 * v for _, v in od_mat.sums_d.items()]
 
-        o_targets = [10 * v for v in o_sums]
-        d_targets = [10 * v for v in d_sums]
+        diffs_o = []
+        diffs_d = []
 
-        o_diffs = [s - t for s, t in zip(o_sums, o_targets)]
-        d_diffs = [s - t for s, t in zip(d_sums, d_targets)]
+        # Compute diff between margin sums and temporary targets. 
+        # TODO: compute diff using real targets from user input.
+        for i, (k, s) in enumerate(od_mat.sums_o.items()):
+            diffs_o.append(s - targets_o[i])
+
+        for i, (k, s) in enumerate(od_mat.sums_d.items()):
+            diffs_d.append(s - targets_d[i])
 
         row_margin = {
-            'zone_names': o_names,
-            'sums': o_sums,
-            'targets': o_targets,
-            'diff': o_diffs,
+            'zone_names': od_mat.names_o,
+            'sums': [s for _, s in od_mat.sums_o.items()],
+            'targets': targets_o,
+            'diff': diffs_o,
         }
 
         self.row_margins.load_data(row_margin)
         self.ui.tvMarginO.setModel(self.row_margins)
 
         col_margin = {
-            'zone_names': d_names,
-            'sums': d_sums,
-            'targets': d_targets,
-            'diff': d_diffs,
+            'zone_names': od_mat.names_d,
+            'sums': [s for _, s in od_mat.sums_d.items()],
+            'targets': targets_d,
+            'diff': diffs_d,
         }
 
         self.col_margins.load_data(col_margin)
@@ -158,15 +168,4 @@ class MatrixView(QtWidgets.QWidget):
         self.ui.hsbar.setMaximum(self.ui.tvMatrix.horizontalScrollBar().maximum())
 
         return super().resizeEvent(event)
-
-def margin_sums(od_mat, origins, destinations):
-    pass
-    origin_sums = dict.fromkeys(origins, 0)
-    destination_sums = dict.fromkeys(destinations, 0)
-
-    for (o, d), v in od_mat.items():
-        origin_sums[o] += v
-        destination_sums[d] += v
-
-    return (origin_sums, destination_sums)
     
