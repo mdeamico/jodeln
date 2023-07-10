@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
         self.dialog_odme = DialogODME(cb_odme=self.estimate_od)
 
         # Dialog OD View
-        self.dialog_od_view = DialogODView()
+        self.dialog_od_view = DialogODView(self.model)
 
         # Connect push buttons to slot functions
         self.ui.pbShowDialogOpen.clicked.connect(self.show_dialog_open)
@@ -85,12 +85,7 @@ class MainWindow(QMainWindow):
 
     def show_dialog_od_view(self) -> None:
         self.dialog_od_view.show()
-
-        self.dialog_od_view.load_od_data(
-            self.model.od_seed,
-            self.model.od_estimated,
-            self.model.od_diff
-        )
+        self.dialog_od_view.load_od_data()
 
 
     def load(self) -> None:

@@ -121,15 +121,13 @@ class MatrixView(QtWidgets.QWidget):
         self.od_table.load_data(od_mat)
         self.ui.tvMatrix.setModel(self.od_table)
 
-        # Temporary Targets. TODO: get real targets from user input.
-        targets_o = [10 * v for _, v in od_mat.sums_o.items()]
-        targets_d = [10 * v for _, v in od_mat.sums_d.items()]
+        targets_o = [v for _, v in od_mat.targets_o.items()]
+        targets_d = [v for _, v in od_mat.targets_d.items()]
 
         diffs_o = []
         diffs_d = []
 
-        # Compute diff between margin sums and temporary targets. 
-        # TODO: compute diff using real targets from user input.
+        # Compute diff between margin sums and targets. 
         for i, (k, s) in enumerate(od_mat.sums_o.items()):
             diffs_o.append(s - targets_o[i])
 
@@ -158,6 +156,9 @@ class MatrixView(QtWidgets.QWidget):
 
         # Update GUI now that data is shown in the OD table. 
         self.set_header_size()
+        self.od_table.layoutChanged.emit()
+        self.row_margins.layoutChanged.emit()
+        self.col_margins.layoutChanged.emit()
 
         
     def resizeEvent(self, event) -> None:
