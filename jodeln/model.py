@@ -53,7 +53,7 @@ class Model():
         #: ODMatrix: Difference matrix = od_estimated - od_seed
         self.od_diff: ODMatrix = None
 
-    def load(self, node_file=None, links_file=None, od_seed_file=None, turns_file=None, od_routes_file=None) -> None:
+    def load(self, node_file=None, links_file=None, od_seed_file=None, turns_file=None, od_routes_file=None) -> bool:
         """Populate network and od variables with user supplied data.
 
         Parameters
