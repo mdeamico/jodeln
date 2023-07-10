@@ -1,7 +1,6 @@
 from PySide2.QtWidgets import (
     QMainWindow, 
-    QAbstractItemView, 
-    QDialogButtonBox)
+    QAbstractItemView)
 
 from PySide2.QtGui import QPainter
 from PySide2.QtCore import Qt
@@ -11,17 +10,27 @@ from gui.ui_mainwindow import Ui_MainWindow
 from gui import schematic_scene, od_tablemodel
 from gui.dialog_open import DialogOpen
 from gui.dialog_export import DialogExport
-from gui.dialog_odme import DialogODME, CallbackOdmeParameters
+from gui.dialog_odme import DialogODME
 from gui.dialog_od_view import DialogODView
 
-from typing import TYPE_CHECKING
+from typing import Protocol, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..model import Model
+    from ..network.netnode import NetNode
+    from ..network.netlink import NetLinkData
+    from ..model import RouteInfo
+
+class Model(Protocol):
+    def get_nodes(self) -> list['NetNode']:
+        ...
+    def get_links(self) -> list['NetLinkData']:
+        ...
+    def get_routes(self) -> list['RouteInfo']:
+        ...
 
 class MainWindow(QMainWindow):
     """Main window presented to the user when the program first starts."""
-    def __init__(self, model: 'Model'):
+    def __init__(self, model: Model):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -29,21 +38,10 @@ class MainWindow(QMainWindow):
         # Connect MainWindow view/controller to model
         self.model = model
 
-        # Dialog Open
-        self.dialog_open = DialogOpen()
-        self.dialog_open.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.load)
-
-        # Dialog Export
-        self.dialog_export = DialogExport(
-            cb_export_links_and_turns_by_od=self.model.export_node_sequence,
-            cb_export_routes=self.model.export_route_list,
-            cb_export_turns=self.model.export_turns
-        )
-
-        # Dialog ODME
-        self.dialog_odme = DialogODME(cb_odme=self.estimate_od)
-
-        # Dialog OD View
+        # Save persistent references to dialogs
+        self.dialog_open = DialogOpen(self.model, cb_post_load=self.show_network)
+        self.dialog_export = DialogExport(self.model)
+        self.dialog_odme = DialogODME(self.model)
         self.dialog_od_view = DialogODView(self.model)
 
         # Connect push buttons to slot functions
@@ -88,18 +86,9 @@ class MainWindow(QMainWindow):
         self.dialog_od_view.load_od_data()
 
 
-    def load(self) -> None:
-        """Load nodes, links, etc from user inputs."""
-        file_paths = self.dialog_open.get_data()
+    def show_network(self) -> None:
+        """Shows the nodes, links, etc from the loaded network."""
         
-        load_successful = self.model.load(node_file=file_paths.nodes,
-                                          links_file=file_paths.links,
-                                          od_seed_file=file_paths.seed_od,
-                                          turns_file=file_paths.turns,
-                                          od_routes_file=file_paths.routes)
-        if not load_successful:
-            return
-
         self.schematic_scene.load_network(self.model.get_nodes(), 
                                           self.model.get_links())
 
@@ -136,15 +125,6 @@ class MainWindow(QMainWindow):
         self.ui.pbODView.setEnabled(True)
         self.ui.pbShowODEstimation.setEnabled(True)
 
-    def estimate_od(self, parms: CallbackOdmeParameters) -> None:
-        """Run OD matrix estimation."""
-        self.model.estimate_od(
-            weight_total_geh=parms.weight_GEH,
-            weight_odsse=parms.weight_odsse,
-            weight_route_ratio=parms.weight_route_ratio)
-        
-        self.model.export_od(parms.export_path)
-        self.model.export_od_by_route(parms.export_path)
 
     def on_od_table_selection(self, selected, deselected) -> None:
         """Function called when an item in the OD Table is selected.

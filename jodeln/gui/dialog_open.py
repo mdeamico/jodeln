@@ -3,6 +3,18 @@ from PySide2.QtWidgets import QWidget, QFileDialog
 from gui.ui_dialog_open import Ui_Dialog
 from dataclasses import dataclass
 
+from typing import Protocol, Callable
+
+class Model(Protocol):
+    def load(self, 
+             node_file=None, 
+             links_file=None, 
+             od_seed_file=None, 
+             turns_file=None, 
+             od_routes_file=None) -> bool:
+        ...
+
+
 @dataclass(slots=True)
 class FilePathCache():
     """Contains file paths stored in the line edit widgets."""
@@ -15,11 +27,14 @@ class FilePathCache():
 
 class DialogOpen(QWidget):
     """Dialog to open network files (node file, link file, etc)."""
-    def __init__(self):
+    def __init__(self, model: Model, cb_post_load: Callable):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         
+        self.model = model
+        self.post_load_fn = cb_post_load
+
         self.data = FilePathCache("", "", "", "", "")
 
         self.ui.pbOpenNodes.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leNodes, "Load Nodes"))
@@ -46,6 +61,20 @@ class DialogOpen(QWidget):
 
     def accept(self) -> None:
         """User clicks 'ok'."""
+
+        file_paths = self.get_data()
+        
+        load_successful = self.model.load(node_file=file_paths.nodes,
+                                          links_file=file_paths.links,
+                                          od_seed_file=file_paths.seed_od,
+                                          turns_file=file_paths.turns,
+                                          od_routes_file=file_paths.routes)
+        
+        if not load_successful:
+            print("Load not successful.")
+            return
+        
+        self.post_load_fn()
         self.close()
 
     def reject(self) -> None:
