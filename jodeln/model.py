@@ -10,6 +10,7 @@ from network import net_read, net_write
 from od import od_read, od_write
 from od import od_estimation as odme
 from od.od_matrix import ODMatrix, create_od_from_source
+from od.od_fratar import fratar
 
 if TYPE_CHECKING:
     from .network.netnode import NetNode
@@ -94,8 +95,16 @@ class Model():
 
         if od_seed_file is not None:
             self.od_seed = od_read.od_from_csv(od_seed_file, self.net)
-            self.od_estimated = create_od_from_source(self.od_seed)
-            self.od_diff = create_od_from_source(self.od_seed)
+
+            # FIXME: Load fake targets. TODO: get real targets from user.         
+            for k, v in self.od_seed.sums_o.items():
+                self.od_seed.targets_o[k] = v * 10
+
+            for k, v in self.od_seed.sums_d.items():
+                self.od_seed.targets_d[k] = v * 10
+
+            self.od_estimated = create_od_from_source(self.od_seed, copy_targets=True)
+            self.od_diff = create_od_from_source(self.od_seed, copy_targets=True)
             self.compute_od_diff()
 
         if turns_file is not None:
@@ -110,6 +119,11 @@ class Model():
         """Calculate difference between Estimated and Seed OD matrices."""
         for k in self.od_estimated.volume:
             self.od_diff.volume[k] = self.od_estimated.volume[k] - self.od_seed.volume[k]
+
+    def estimate_od_fratar(self):
+        print(f"Running Fratar Factoring")
+        self.od_estimated = fratar(self.od_seed)
+        self.compute_od_diff()
 
     def estimate_od(self, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
         """Estimate an OD matrix that attempts to meet various network volume targets.
