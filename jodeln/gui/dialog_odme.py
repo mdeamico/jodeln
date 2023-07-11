@@ -6,7 +6,7 @@ from gui.ui_dialog_odme import Ui_Dialog
 from typing import Protocol
 
 class Model(Protocol):
-    def estimate_od(self, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
+    def estimate_od_cmaes(self, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
         ...
     def export_od(self, output_folder=None) -> None:
         ...
@@ -47,7 +47,7 @@ class DialogODME(QWidget):
 
     def estimate_od(self) -> None:
         """Run OD matrix estimation."""
-        self.model.estimate_od(
+        self.model.estimate_od_cmaes(
                 weight_total_geh=float(self.ui.leWeightGEH.text()),
                 weight_odsse=float(self.ui.leWeightODSSE.text()),
                 weight_route_ratio=float(self.ui.leWeightRouteRatio.text())

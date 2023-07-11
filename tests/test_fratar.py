@@ -5,7 +5,7 @@ Test suite for Model.py
 import unittest
 
 from context import jodeln
-from jodeln.od import od_fratar
+from jodeln.od import odme_fratar
 from jodeln.od.od_matrix import ODMatrix
 
 volumes = {
@@ -38,7 +38,7 @@ class TestFratar(unittest.TestCase):
 
 
     def test_fratar(self):
-        res = od_fratar.fratar(sample_od)
+        res = odme_fratar.estimate_od(sample_od)
         print(res.volume)
         print(res.sums_o)
         print(res.sums_d)
