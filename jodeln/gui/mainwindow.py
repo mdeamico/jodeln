@@ -10,7 +10,6 @@ from gui.ui_mainwindow import Ui_MainWindow
 from gui import schematic_scene, od_tablemodel
 from gui.dialog_open import DialogOpen
 from gui.dialog_export import DialogExport
-from gui.dialog_odme import DialogODME
 from gui.dialog_od_view import DialogODView
 
 from typing import Protocol, TYPE_CHECKING
@@ -41,19 +40,16 @@ class MainWindow(QMainWindow):
         # Save persistent references to dialogs
         self.dialog_open = DialogOpen(self.model, cb_post_load=self.show_network)
         self.dialog_export = DialogExport(self.model)
-        self.dialog_odme = DialogODME(self.model)
         self.dialog_od_view = DialogODView(self.model)
 
         # Connect push buttons to slot functions
         self.ui.pbShowDialogOpen.clicked.connect(self.show_dialog_open)
         self.ui.pbShowExportDialog.clicked.connect(self.show_dialog_export)
-        self.ui.pbShowODEstimation.clicked.connect(self.show_dialog_odme)
         self.ui.pbODView.clicked.connect(self.show_dialog_od_view)
 
         # Disable buttons that should only be used after loading a network
         self.ui.pbShowExportDialog.setEnabled(False)
         self.ui.pbODView.setEnabled(False)
-        self.ui.pbShowODEstimation.setEnabled(False)
 
         # Setup graphics view
         self.schematic_scene = schematic_scene.SchematicScene()
@@ -78,12 +74,9 @@ class MainWindow(QMainWindow):
     def show_dialog_export(self) -> None:
         self.dialog_export.show()
 
-    def show_dialog_odme(self) -> None:
-        self.dialog_odme.show()
-
     def show_dialog_od_view(self) -> None:
-        self.dialog_od_view.show()
         self.dialog_od_view.load_od_data()
+        self.dialog_od_view.show()
 
 
     def show_network(self) -> None:
@@ -123,7 +116,6 @@ class MainWindow(QMainWindow):
 
         self.ui.pbShowExportDialog.setEnabled(True)
         self.ui.pbODView.setEnabled(True)
-        self.ui.pbShowODEstimation.setEnabled(True)
 
 
     def on_od_table_selection(self, selected, deselected) -> None:

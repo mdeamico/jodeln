@@ -20,8 +20,12 @@ class Ui_ODView(object):
         if not ODView.objectName():
             ODView.setObjectName(u"ODView")
         ODView.resize(819, 528)
-        self.actionFratar = QAction(ODView)
-        self.actionFratar.setObjectName(u"actionFratar")
+        self.actionODME_fratar = QAction(ODView)
+        self.actionODME_fratar.setObjectName(u"actionODME_fratar")
+        self.actionODME_cmaes = QAction(ODView)
+        self.actionODME_cmaes.setObjectName(u"actionODME_cmaes")
+        self.actionODME_leastsq = QAction(ODView)
+        self.actionODME_leastsq.setObjectName(u"actionODME_leastsq")
         self.centralwidget = QWidget(ODView)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout_3 = QGridLayout(self.centralwidget)
@@ -75,7 +79,9 @@ class Ui_ODView(object):
         ODView.setMenuBar(self.menuBar)
 
         self.menuBar.addAction(self.menuODME.menuAction())
-        self.menuODME.addAction(self.actionFratar)
+        self.menuODME.addAction(self.actionODME_fratar)
+        self.menuODME.addAction(self.actionODME_leastsq)
+        self.menuODME.addAction(self.actionODME_cmaes)
 
         self.retranslateUi(ODView)
 
@@ -87,7 +93,9 @@ class Ui_ODView(object):
 
     def retranslateUi(self, ODView):
         ODView.setWindowTitle(QCoreApplication.translate("ODView", u"OD Matrix", None))
-        self.actionFratar.setText(QCoreApplication.translate("ODView", u"Bi-proportional matrix factoring (Fratar Method)", None))
+        self.actionODME_fratar.setText(QCoreApplication.translate("ODView", u"Bi-proportional matrix factoring (Fratar Method)", None))
+        self.actionODME_cmaes.setText(QCoreApplication.translate("ODView", u"CMA-ES Method", None))
+        self.actionODME_leastsq.setText(QCoreApplication.translate("ODView", u"Least Squares Method", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabSeed), QCoreApplication.translate("ODView", u"Seed Matrix", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabEst), QCoreApplication.translate("ODView", u"Estimated Matrix", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabDiff), QCoreApplication.translate("ODView", u"Diff Matrix", None))

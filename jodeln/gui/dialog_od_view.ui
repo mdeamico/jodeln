@@ -74,13 +74,25 @@
     <property name="title">
      <string>Estimate OD</string>
     </property>
-    <addaction name="actionFratar"/>
+    <addaction name="actionODME_fratar"/>
+    <addaction name="actionODME_leastsq"/>
+    <addaction name="actionODME_cmaes"/>
    </widget>
    <addaction name="menuODME"/>
   </widget>
-  <action name="actionFratar">
+  <action name="actionODME_fratar">
    <property name="text">
     <string>Bi-proportional matrix factoring (Fratar Method)</string>
+   </property>
+  </action>
+  <action name="actionODME_cmaes">
+   <property name="text">
+    <string>CMA-ES Method</string>
+   </property>
+  </action>
+  <action name="actionODME_leastsq">
+   <property name="text">
+    <string>Least Squares Method</string>
    </property>
   </action>
  </widget>

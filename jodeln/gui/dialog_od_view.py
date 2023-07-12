@@ -4,9 +4,11 @@ from PySide2.QtWidgets import QMainWindow
 from PySide2.QtCore import QSize
 
 from gui.ui_dialog_od_view import Ui_ODView
+from gui.dialog_odme import DialogODME
 from od.od_matrix import ODMatrix
 
 from typing import Protocol
+
 
 class Model(Protocol):
     def estimate_od_fratar(self):
@@ -30,8 +32,14 @@ class DialogODView(QMainWindow):
 
         self.model = model
 
+        self.dialog_odme = DialogODME(model)
+
         self.ui.tabWidget.currentChanged.connect(self.tab_changed)
-        self.ui.actionFratar.triggered.connect(self.fratar_factor)
+
+        self.ui.actionODME_fratar.triggered.connect(self.odme_fratar_factor)
+        self.ui.actionODME_leastsq.triggered.connect(self.odme_leastsq)
+        self.ui.actionODME_cmaes.triggered.connect(self.odme_cmaes)
+        
 
     def load_od_data(self):
         self.ui.mv1.load_od_data(self.model.od_seed)
@@ -48,7 +56,13 @@ class DialogODView(QMainWindow):
         self.resize(QSize(self.size().width() + 1, self.size().height() + 1))
         self.resize(QSize(self.size().width() - 1, self.size().height() - 1))
 
-    def fratar_factor(self):
+    def odme_fratar_factor(self):
         self.model.estimate_od_fratar()
         self.ui.mv2.load_od_data(self.model.od_estimated)
         self.ui.mv3.load_od_data(self.model.od_diff)
+
+    def odme_leastsq(self):
+        pass
+
+    def odme_cmaes(self):
+        self.dialog_odme.show()

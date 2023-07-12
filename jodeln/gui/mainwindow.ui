@@ -55,14 +55,7 @@
       <item>
        <widget class="QPushButton" name="pbODView">
         <property name="text">
-         <string>View OD</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbShowODEstimation">
-        <property name="text">
-         <string>OD Estimation</string>
+         <string>View and Estimate OD</string>
         </property>
        </widget>
       </item>
