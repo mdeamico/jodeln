@@ -14,6 +14,7 @@ from .netturns import TurnData
 
 if TYPE_CHECKING:
     from .netnode import NetNodeData
+    from ..od.od_matrix import ODMatrix
     
 
 class Network():
@@ -199,16 +200,16 @@ class Network():
             t.geh = turn_geh
             self.total_geh += turn_geh
 
-    def init_seed_volumes(self, od_mat) -> None:
+    def init_seed_volumes(self, od_mat: 'ODMatrix') -> None:
         """Assign route, link, and turn seed volumes based on an od matrix.
 
         Parameters
         ----------
-        od_mat : Dict
+        od_mat : ODMatrix
             OD matrix, imported from csv. See od_read.py.
         """
         for od in self.od_pairs:
-            od_volume = od_mat[(od.origin, od.destination)]
+            od_volume = od_mat.volume[(od.origin, od.destination)]
             for route in od.routes:
                 route.seed_volume = od_volume * route.target_ratio
                 route.assigned_volume = route.seed_volume

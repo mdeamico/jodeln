@@ -8,9 +8,9 @@ from typing import TYPE_CHECKING
 from network import net_read, net_write
 
 from od import od_read, od_write
-from od import od_estimation as odme
 from od.od_matrix import ODMatrix, create_od_from_source
-from od.od_fratar import fratar
+from od import odme_fratar
+from od import odme_cmaes
 
 if TYPE_CHECKING:
     from .network.netnode import NetNode
@@ -122,10 +122,10 @@ class Model():
 
     def estimate_od_fratar(self):
         print(f"Running Fratar Factoring")
-        self.od_estimated = fratar(self.od_seed)
+        self.od_estimated = odme_fratar.estimate_od(self.od_seed)
         self.compute_od_diff()
 
-    def estimate_od(self, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
+    def estimate_od_cmaes(self, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
         """Estimate an OD matrix that attempts to meet various network volume targets.
         
         By default the ODME objective function weights are None. Passing None 
@@ -150,13 +150,15 @@ class Model():
         if self.od_seed is None or self.net is None:
             return
 
-        res = odme.estimate_od(
+        res = odme_cmaes.estimate_od(
                 self.net, 
                 self.od_seed, 
                 self.od_estimated, 
                 weight_total_geh, 
                 weight_odsse, 
                 weight_route_ratio)
+        
+        self.compute_od_diff()
         
         return res
 

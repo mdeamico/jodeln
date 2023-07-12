@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..network.net import Network
+    from .od_matrix import ODMatrix
 
 def objective_fn_prep_net_geh(net: 'Network'):
     """ Prepare optimization objective function by estimating maximum network GEH.
@@ -35,14 +36,14 @@ def objective_fn_prep_net_geh(net: 'Network'):
 
 
 
-def objective_fn_prep_odsse(net: 'Network', od_seed: dict[tuple[int, int], float]):
+def objective_fn_prep_odsse(net: 'Network', od_seed: 'ODMatrix'):
     """Estimate maximum sum of sq error between seed and final od.
 
     Parameters
     ----------
     net : Network
         Network containing OD seed volumes.
-    od_seed : dict[tuple[int, int], float]
+    od_seed : ODMatrix
         Seed OD Matrix.
 
     Returns
@@ -54,7 +55,7 @@ def objective_fn_prep_odsse(net: 'Network', od_seed: dict[tuple[int, int], float
     odsse = 0
     for od in net.od_pairs:
         for route in od.routes:
-            route_vol = od_seed[(od.origin, od.destination)] * route.target_ratio * multiplier
+            route_vol = od_seed.volume[(od.origin, od.destination)] * route.target_ratio * multiplier
             odsse += (route_vol - route.seed_volume) * (route_vol - route.seed_volume)
 
     return odsse
@@ -110,8 +111,8 @@ def objective_fn_prep_route_ratios(net: 'Network'):
 
 def estimate_od(
         net: 'Network', 
-        od_seed: dict[tuple[int, int], float], 
-        od_estimated: dict[tuple[int, int], float], 
+        od_seed: 'ODMatrix', 
+        od_estimated: 'ODMatrix', 
         weight_total_geh=None, 
         weight_odsse=None, 
         weight_route_ratio=None) -> list[float]:
@@ -126,10 +127,10 @@ def estimate_od(
     Parameters
     ----------
     net : Network
-    od_seed : dict[tuple[int, int], float]
+    od_seed : ODMatrix
         OD matrix to use as an initial seed in the optimization process.
-    od_estimated : dict[tuple[int, int], float]
-        Resultin estimated OD. This variable is mutated directly by the 
+    od_estimated : ODMatrix
+        Resulting estimated OD. This variable is mutated directly by the 
         optimization process.
     weight_total_geh : float, optional
         Objective function weight of the sum of all GEH values in the network.
@@ -191,7 +192,7 @@ def estimate_od(
 
         # calculate route volume based on estimated x values.
         for od in net.od_pairs:
-            od_seed_total_vol = od_seed[(od.origin, od.destination)]
+            od_seed_total_vol = od_seed.volume[(od.origin, od.destination)]
             od_est_total_vol = 0
             for route in od.routes:
                 # mulitplier m = x * x to ensure m is positive
@@ -201,7 +202,7 @@ def estimate_od(
                 route.assigned_volume = est_route_vol
                 od_est_total_vol += est_route_vol
             
-            od_estimated[(od.origin, od.destination)] = od_est_total_vol
+            od_estimated.volume[(od.origin, od.destination)] = od_est_total_vol
             
             # update route ratios
             for route in od.routes:

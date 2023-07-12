@@ -8,9 +8,10 @@ import csv
 
 if TYPE_CHECKING:
     from ..network.net import Network
+    from ..od.od_matrix import ODMatrix
 
 
-def export_od_as_list(net: 'Network', od_mat: dict[tuple[int, int], float], output_folder=None) -> None:
+def export_od_as_list(net: 'Network', od_mat: 'ODMatrix', output_folder=None) -> None:
     """Save the estimated OD to a csv file with one row per OD pair.
     
     csv columns are:
@@ -30,6 +31,8 @@ def export_od_as_list(net: 'Network', od_mat: dict[tuple[int, int], float], outp
     ----------
     net : Network
         Network containing OD to export.
+    od_mat : ODMatrix
+        OD matrix to export
     output_folder : str, optional
         Folder to export OD file, by default None indicates the current working
         directory as returned by os.getcwd().
@@ -57,7 +60,7 @@ def export_od_as_list(net: 'Network', od_mat: dict[tuple[int, int], float], outp
         for od in net.od_pairs:
             o_name = net.node(od.origin).name
             d_name = net.node(od.destination).name
-            volume = od_mat[(od.origin, od.destination)]
+            volume = od_mat.volume[(od.origin, od.destination)]
 
             list_writer.writerow([o_name, d_name, volume])
 

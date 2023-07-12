@@ -29,7 +29,7 @@ class TestModel(unittest.TestCase):
                    links_file=os.path.join(net_path, "links.csv"),
                    od_seed_file=os.path.join(net_path, "seed_matrix.csv"))
         
-        res = model.estimate_od(1, 1, 1)
+        res = model.estimate_od_cmaes(1, 1, 1)
 
         print(f"\nestimated od: {model.od_estimated}\n")
 

@@ -25,7 +25,7 @@ class TableModel(QtCore.QAbstractTableModel):
         if role == Qt.DisplayRole:
             o = self.origins[index.row()]
             d = self.destinations[index.column()]
-            return self._data.volume[(o, d)]
+            return f"{self._data.volume[(o, d)]:.2f}"
         
         if role == Qt.ForegroundRole:
             o = self.origins[index.row()]

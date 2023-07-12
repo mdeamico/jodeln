@@ -17,7 +17,7 @@ class ODAxis(Enum):
     ORIGIN = 0
     DESTINATION = 1
 
-def fratar(od_seed: ODMatrix) -> ODMatrix:
+def estimate_od(od_seed: ODMatrix) -> ODMatrix:
 
     # Limit number of Fratar factoring iterations
     MAX_ITERATIONS = 10
