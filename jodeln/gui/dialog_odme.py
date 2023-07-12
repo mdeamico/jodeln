@@ -55,6 +55,7 @@ class DialogODME(QWidget):
         
         self.model.export_od(self.ui.leExportFolder.text())
         self.model.export_od_by_route(self.ui.leExportFolder.text())
+        self.close()
 
     def on_pbExportFolder_click(self) -> None:
         """Open a standard file dialog for selecting the export folder."""
