@@ -31,7 +31,7 @@ class TestModel(unittest.TestCase):
         
         res = model.estimate_od_cmaes(1, 1, 1)
 
-        print(f"\nestimated od: {model.od_estimated}\n")
+        print(f"\nestimated od: {model.od_estimated.volume}\n")
 
         print(f"\nres (before taking abs value): {res}\n")
         odme_res = [round(abs(x), 4) for x in res]

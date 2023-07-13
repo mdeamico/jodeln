@@ -7,14 +7,18 @@ from typing import TYPE_CHECKING
 
 from network import net_read, net_write
 
-from od import od_read, od_write
+from od import od_read, od_write, odme_fratar, odme_cmaes, odme_leastsq
 from od.od_matrix import ODMatrix, create_od_from_source
-from od import odme_fratar
-from od import odme_cmaes
 
 if TYPE_CHECKING:
     from .network.netnode import NetNode
     from .network.netlink import NetLinkData
+    from .network.net import Network
+
+# Type Aliases
+LinkKey = tuple[int, int]
+TurnKey = tuple[int, int, int]
+ZonePairKey = tuple[int, int]
 
 @dataclass(slots=True)
 class RouteInfo:
@@ -42,7 +46,7 @@ class Model():
 
         #: Network: Object containing network graph of nodes and links, as well 
         # as turns, volume targets, and OD info.
-        self.net = None
+        self.net: Network = None
         
         #: ODMatrix: Seed OD matrix loaded from csv.
         self.od_seed: ODMatrix = None
@@ -124,6 +128,17 @@ class Model():
         print(f"Running Fratar Factoring")
         self.od_estimated = odme_fratar.estimate_od(self.od_seed)
         self.compute_od_diff()
+
+    def estimate_od_leastsq(self, seed_od_weight: float):
+        diagnostics, self.od_estimated = odme_leastsq.estimate_od(
+                                            self.od_seed, 
+                                            self.net, 
+                                            self.select_link(only_target_links=True),
+                                            self.select_turn(only_target_turns=True),
+                                            seed_od_weight)
+        self.compute_od_diff()
+
+        return diagnostics
 
     def estimate_od_cmaes(self, weight_total_geh=None, weight_odsse=None, weight_route_ratio=None):
         """Estimate an OD matrix that attempts to meet various network volume targets.
@@ -224,6 +239,81 @@ class Model():
                 routes.append(basic_info)
 
         return routes
+
+    def select_link(self, only_target_links=False) -> dict[LinkKey, dict[ZonePairKey, float]]:
+        """Return zone pairs that flow through each network link."""
+
+        select_link: dict[LinkKey, dict[ZonePairKey, float]] = \
+            self._init_select_element("link", only_target_links)
+        
+        for od in self.net.od_pairs:
+            zone_pair_key = (od.origin, od.destination)
+            for route in od.routes:
+                route_ratio = route.target_ratio
+                n_route_nodes = len(route.nodes)
+
+                if n_route_nodes <= 1:
+                    # route is O == D
+                    continue
+
+                # route has 2 or more nodes
+                for x in range(0, n_route_nodes - 1):
+                    i = route.nodes[x]
+                    j = route.nodes[x + 1]
+                    if (i, j) not in select_link: continue
+                    select_link[(i, j)].setdefault(zone_pair_key, 0)
+                    select_link[(i, j)][zone_pair_key] += route_ratio
+
+        return select_link  
+
+
+    def select_turn(self, only_target_turns=False) -> dict[TurnKey, dict[ZonePairKey, float]]:
+        """Return zone pairs that flow through each network turn."""
+
+        select_turn: dict[TurnKey, dict[ZonePairKey, float]] = \
+            self._init_select_element("turn", only_target_turns)
+
+        for od in self.net.od_pairs:
+            zone_pair_key = (od.origin, od.destination)
+            for route in od.routes:
+                route_ratio = route.target_ratio
+                n_route_nodes = len(route.nodes)
+
+                if n_route_nodes <= 2:
+                    # Need at least 3 nodes in a sequence to have turns
+                    continue
+
+                # route has 3 or more nodes
+                for x in range(0, n_route_nodes - 2):
+                    i = route.nodes[x]
+                    j = route.nodes[x + 1]
+                    k = route.nodes[x + 2]
+                    if (i, j, k) not in select_turn: continue
+                    select_turn[(i, j, k)].setdefault(zone_pair_key, 0)
+                    select_turn[(i, j, k)][zone_pair_key] += route_ratio
+
+        return select_turn 
+
+    def _init_select_element(self, element: str = "link", only_elements_with_targets=False) -> dict:
+        select_element = {}
+        
+        if element == "link":
+            elements = self.net.links(True)
+        elif element == "turn":
+            elements = self.net.turns(True)
+        else:
+            raise Exception(f"Unknown element {element}. Expected 'link' or 'turn'.")
+
+        if only_elements_with_targets:
+            for key, element in elements:
+                if element.target_volume == -1:
+                    continue
+                select_element[key] = {}
+        else:
+            for key, _ in elements:
+                select_element[key] = {}
+
+        return select_element
 
 
 def _clean_file_path(file_path: str) -> str:
