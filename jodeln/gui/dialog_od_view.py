@@ -5,6 +5,7 @@ from PySide2.QtCore import QSize
 
 from gui.ui_dialog_od_view import Ui_ODView
 from gui.dialog_odme import DialogODME
+from gui.dialog_odme_leastsq import DialogODME_LeastSq
 from od.od_matrix import ODMatrix
 
 from typing import Protocol
@@ -33,6 +34,7 @@ class DialogODView(QMainWindow):
         self.model = model
 
         self.dialog_odme = DialogODME(model)
+        self.dialog_odme_leastsq = DialogODME_LeastSq(model, self.load_od_data)
 
         self.ui.tabWidget.currentChanged.connect(self.tab_changed)
 
@@ -62,7 +64,7 @@ class DialogODView(QMainWindow):
         self.ui.mv3.load_od_data(self.model.od_diff)
 
     def odme_leastsq(self):
-        pass
+        self.dialog_odme_leastsq.show()
 
     def odme_cmaes(self):
         self.dialog_odme.show()

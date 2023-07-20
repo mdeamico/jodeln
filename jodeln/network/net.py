@@ -136,7 +136,7 @@ class Network():
                     self._turns[(i, j, k)] = TurnData(key=(i, j, k),
                                                      name=f'{i}_{j}_{k}',
                                                      seed_volume=0,
-                                                     target_volume=0,
+                                                     target_volume=-1,
                                                      assigned_volume=0,
                                                      geh=0)
 
@@ -322,6 +322,11 @@ class Network():
         for link in self.links():
             new_shape_points = [(x * self.coord_scale, y * self.coord_scale) for x, y in link.shape_points]
             link.shape_points = new_shape_points
+
+           
+                    
+    
+    
 
 
 def _dijkstra(net: Network, source: int):
