@@ -11,7 +11,8 @@ class Model(Protocol):
              links_file=None, 
              od_seed_file=None, 
              turns_file=None, 
-             od_routes_file=None) -> bool:
+             od_routes_file=None,
+             zone_targets_file=None) -> bool:
         ...
 
 
@@ -23,6 +24,7 @@ class FilePathCache():
     turns: str
     routes: str
     seed_od: str
+    zone_targts: str
 
 
 class DialogOpen(QWidget):
@@ -35,13 +37,14 @@ class DialogOpen(QWidget):
         self.model = model
         self.post_load_fn = cb_post_load
 
-        self.data = FilePathCache("", "", "", "", "")
+        self.data = FilePathCache("", "", "", "", "", "")
 
         self.ui.pbOpenNodes.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leNodes, "Load Nodes"))
         self.ui.pbOpenLinks.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leLinks, "Load Links"))
         self.ui.pbOpenTurns.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leTurns, "Load Turns"))
         self.ui.pbOpenRoutes.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leRoutes, "Load Routes"))
         self.ui.pbOpenSeedOD.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leSeedOD, "Load Seed OD"))
+        self.ui.pbOpenZoneTargets.clicked.connect(lambda: self.on_pbOpenClick(self.ui.leZoneTargets, "Load OD Zone Targets"))
 
     def store_data(self) -> None:
         """Stores current list edit text in self.data.
@@ -57,7 +60,8 @@ class DialogOpen(QWidget):
                     self.ui.leLinks.text(),
                     self.ui.leTurns.text(),
                     self.ui.leRoutes.text(),
-                    self.ui.leSeedOD.text())
+                    self.ui.leSeedOD.text(),
+                    self.ui.leZoneTargets.text())
 
     def accept(self) -> None:
         """User clicks 'ok'."""
@@ -68,7 +72,8 @@ class DialogOpen(QWidget):
                                           links_file=file_paths.links,
                                           od_seed_file=file_paths.seed_od,
                                           turns_file=file_paths.turns,
-                                          od_routes_file=file_paths.routes)
+                                          od_routes_file=file_paths.routes,
+                                          zone_targets_file=file_paths.zone_targts)
         
         if not load_successful:
             print("Load not successful.")
@@ -84,6 +89,7 @@ class DialogOpen(QWidget):
         self.ui.leTurns.setText(self.data.turns)
         self.ui.leRoutes.setText(self.data.routes)
         self.ui.leSeedOD.setText(self.data.seed_od)
+        self.ui.leZoneTargets.setText(self.data.zone_targts)
         self.close()
     
     def on_pbOpenClick(self, line_edit, title) -> None:

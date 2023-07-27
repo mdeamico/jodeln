@@ -57,7 +57,13 @@ class Model():
         #: ODMatrix: Difference matrix = od_estimated - od_seed
         self.od_diff: ODMatrix = None
 
-    def load(self, node_file=None, links_file=None, od_seed_file=None, turns_file=None, od_routes_file=None) -> bool:
+    def load(self, 
+             node_file=None, 
+             links_file=None, 
+             od_seed_file=None, 
+             turns_file=None, 
+             od_routes_file=None,
+             zone_targets_file=None) -> bool:
         """Populate network and od variables with user supplied data.
 
         Parameters
@@ -72,6 +78,8 @@ class Model():
             File path to turn targets, by default None.
         od_routes_file : str, optional
             File path to OD routes, by default None.
+        zone_targets_file : str, optional
+            File path to OD zone targets, by default None.
 
         Returns
         -------
@@ -84,6 +92,7 @@ class Model():
         od_seed_file = _clean_file_path(od_seed_file)
         turns_file = _clean_file_path(turns_file)
         od_routes_file = _clean_file_path(od_routes_file)
+        zone_targets_file = _clean_file_path(zone_targets_file)
 
         if self.net is None:
             if node_file is None or links_file is None:
@@ -97,27 +106,80 @@ class Model():
             # can't continue loading OD or turns without a Network
             return False
 
-        if od_seed_file is not None:
-            self.od_seed = od_read.od_from_csv(od_seed_file, self.net)
-
-            # FIXME: Load fake targets. TODO: get real targets from user.         
-            for k, v in self.od_seed.sums_o.items():
-                self.od_seed.targets_o[k] = v * 10
-
-            for k, v in self.od_seed.sums_d.items():
-                self.od_seed.targets_d[k] = v * 10
-
-            self.od_estimated = create_od_from_source(self.od_seed, copy_targets=True)
-            self.od_diff = create_od_from_source(self.od_seed, copy_targets=True)
-            self.compute_od_diff()
-
         if turns_file is not None:
             net_read.import_turns(turns_file, self.net)
 
         if od_routes_file is not None:
             net_read.import_routes(od_routes_file, self.net)
 
+        if od_seed_file is not None:
+            self.od_seed = od_read.od_from_csv(od_seed_file, self.net)
+            self.init_od_seed_targets()
+            
+            self.od_estimated = create_od_from_source(self.od_seed, copy_targets=True)
+            self.od_diff = create_od_from_source(self.od_seed, copy_targets=True)
+            self.compute_od_diff()
+
+        if zone_targets_file is not None:
+            if self.od_seed is not None:
+                od_read.import_zone_targets(zone_targets_file, self.od_seed)
+                self.od_estimated.targets_o = self.od_seed.targets_o
+                self.od_estimated.targets_d = self.od_seed.targets_d
+
         return True
+
+    def init_od_seed_targets(self):
+        """Init zone targets based on incoming/outgoing link targets."""
+
+        # ----------------------------------------------------
+        # Check link targets.
+        # ----------------------------------------------------
+        # If link_target == -1, then check turn targets.
+        # Lists of flagged zones to check for turn targets.
+        check_origin_turns = []
+        check_destination_turns = []
+
+        # Origin Link Targets
+        for i in self.od_seed.origins:
+            self.od_seed.targets_o[i] = 0
+            for j in self.net.node(i).neighbors:
+                link = self.net.link(i, j)
+                if link.target_volume > 0:
+                    self.od_seed.targets_o[i] += link.target_volume
+                else:
+                    check_origin_turns.append(i)
+
+        # Destination Link Targets
+        for j in self.od_seed.destinations:
+            self.od_seed.targets_d[j] = 0
+            for i in self.net.node(j).up_neighbors:
+                link = self.net.link(i, j)
+                if link.target_volume > 0:
+                    self.od_seed.targets_d[j] += link.target_volume
+                else:
+                    check_destination_turns.append(j)
+
+        # ---------------------------------------------------------
+        # Check turn targets at flagged origins and destinations.
+        # ---------------------------------------------------------
+        # Origin Turn Targets
+        for i in check_origin_turns:
+            self.od_seed.targets_o[i] = 0
+            for j in self.net.node(i).neighbors:
+                for k in self.net.node(j).neighbors:
+                    turn = self.net.turn(i, j, k)
+                    if turn.target_volume > 0:
+                        self.od_seed.targets_o[i] += turn.target_volume  
+
+        # Destination Turn Targets
+        for k in check_destination_turns:
+            self.od_seed.targets_d[k] = 0
+            for j in self.net.node(k).up_neighbors:
+                for i in self.net.node(j).up_neighbors:
+                    turn = self.net.turn(i, j, k)
+                    if turn.target_volume > 0:
+                        self.od_seed.targets_d[k] += turn.target_volume
+
 
     def compute_od_diff(self):
         """Calculate difference between Estimated and Seed OD matrices."""

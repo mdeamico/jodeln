@@ -66,6 +66,7 @@ def od_from_csv(od_csv, net: 'Network') -> ODMatrix:
     origins = set()
     destinations = set()
 
+    # Assumes matrix has square dimensions.
     for (o, d), v in od.items():
         origins.add(o)
         destinations.add(d)
@@ -73,7 +74,7 @@ def od_from_csv(od_csv, net: 'Network') -> ODMatrix:
     names_o = [net.node(o).name for o in origins]
     names_d = [net.node(d).name for d in destinations]
 
-    # Temporary targets set to zero. TODO: read targets from a user-input file
+    # Targets set to zero. Actual targets are obtained from a separate input file.
     targets_o = dict.fromkeys(origins, 0)
     targets_d = dict.fromkeys(destinations, 0)
 
@@ -88,3 +89,29 @@ def od_from_csv(od_csv, net: 'Network') -> ODMatrix:
     )
 
     return od_matrix
+
+
+def import_zone_targets(zone_targets_csv, od_matrix: ODMatrix) -> None:
+    """Import zone total target volumes for origin/destinations into the ODMatrix."""
+    with open(zone_targets_csv, newline='') as f:
+        reader = csv.reader(f)
+        next(reader)
+        for row in reader:
+            node_name, zone_type, target_volume = row
+            target_volume = float(target_volume)
+            
+            if zone_type == "o":
+                od_zone_names = od_matrix.names_o
+                od_targets = od_matrix.targets_o
+                od_nodes = od_matrix.origins
+            elif zone_type == "d":
+                od_zone_names = od_matrix.names_d
+                od_targets = od_matrix.targets_d
+                od_nodes = od_matrix.destinations
+            else:
+                raise Exception(f"Unknown zone type: {zone_type}. Expected 'o' or 'd'.")
+            
+            zone_i = od_zone_names.index(node_name)
+            zone_node = od_nodes[zone_i]
+            od_targets[zone_node] = target_volume
+            
