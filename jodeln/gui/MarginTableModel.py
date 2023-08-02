@@ -55,11 +55,11 @@ class MarginTableModel(ABC, metaclass=QABCMeta):
             zone_coord = self.get_zone_coord(index)
             
             if stat_coord == 0:
-                return self._data['diff'][zone_coord]
+                return f"{self._data['diff'][zone_coord]:.1f}"
             if stat_coord == 1:
-                return self._data['targets'][zone_coord]
+                return f"{self._data['targets'][zone_coord]:.1f}"
             if stat_coord == 2:
-                return self._data['sums'][zone_coord]
+                return f"{self._data['sums'][zone_coord]:.1f}"
         
         if (role == Qt.ForegroundRole) and (self.get_stat_coord(index) == 1):
             return QtGui.QColor('purple')
