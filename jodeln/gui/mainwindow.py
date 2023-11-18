@@ -26,6 +26,8 @@ class Model(Protocol):
         ...
     def get_routes(self) -> list['RouteInfo']:
         ...
+    def has_od(self) -> bool:
+        ...
 
 class MainWindow(QMainWindow):
     """Main window presented to the user when the program first starts."""
@@ -55,6 +57,9 @@ class MainWindow(QMainWindow):
         self.schematic_scene = schematic_scene.SchematicScene()
         self.ui.gvSchematic.setScene(self.schematic_scene)
         self.ui.gvSchematic.setRenderHints(QPainter.Antialiasing)
+
+        # Flip y coordinates to make y coordinates increasing from bottom to top.
+        self.ui.gvSchematic.scale(1, -1)
         
         # Set table behaviors
         self.ui.tblOD.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -81,7 +86,7 @@ class MainWindow(QMainWindow):
 
     def show_network(self) -> None:
         """Shows the nodes, links, etc from the loaded network."""
-        
+        self.reset()
         self.schematic_scene.load_network(self.model.get_nodes(), 
                                           self.model.get_links())
 
@@ -98,9 +103,6 @@ class MainWindow(QMainWindow):
             init_rect, 
             Qt.KeepAspectRatio)
 
-        # Flip y coordinates to make y coordinates increasing from bottom to top.
-        self.ui.gvSchematic.scale(1, -1)
-
         routes = self.model.get_routes()
         self.od_table_model = od_tablemodel.ODTableModel(routes)
 
@@ -115,8 +117,16 @@ class MainWindow(QMainWindow):
         self.schematic_scene.load_routes(routes)
 
         self.ui.pbShowExportDialog.setEnabled(True)
-        self.ui.pbODView.setEnabled(True)
+        
+        self.ui.pbODView.setEnabled(self.model.has_od())
 
+
+    def reset(self):
+        """Reset schematic scene and OD table to an empty state."""
+        self.schematic_scene = schematic_scene.SchematicScene()
+        self.ui.gvSchematic.setScene(self.schematic_scene)
+        self.ui.tblOD.setModel(None)
+        
 
     def on_od_table_selection(self, selected, deselected) -> None:
         """Function called when an item in the OD Table is selected.

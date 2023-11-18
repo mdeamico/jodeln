@@ -86,7 +86,8 @@ class Model():
         bool
             True if load was successful, otherwise False.
         """
-
+        self.reset()
+        
         node_file = _clean_file_path(node_file)
         links_file = _clean_file_path(links_file)
         od_seed_file = _clean_file_path(od_seed_file)
@@ -127,6 +128,16 @@ class Model():
                 self.od_estimated.targets_d = self.od_seed.targets_d
 
         return True
+
+    def reset(self):
+        """Reset network and OD to empty state."""
+        self.net = None
+        self.od_seed = None
+        self.od_estimated = None
+        self.od_diff = None
+
+    def has_od(self) -> bool:
+        return self.od_seed is not None
 
     def init_od_seed_targets(self):
         """Init zone targets based on incoming/outgoing link targets."""
