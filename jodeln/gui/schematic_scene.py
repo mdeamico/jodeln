@@ -56,6 +56,7 @@ class SchematicScene(QGraphicsScene):
         super().__init__()
         self.links: dict[tuple[int, int], LinkItem] = {}
         self.route_nodes: dict[tuple[int, int, str], list[int]] = {}
+        self.nodes: list[NodeItem] = []
 
     def load_network(self, nodes: list[NodeData], links: list[LinkData]) -> None:
         """Transfer network node and link data from the Model to the SchematicScene. 
@@ -67,8 +68,10 @@ class SchematicScene(QGraphicsScene):
         links : List[LinkData]
             List of basic data for each link: key, list of points
         """
-        for node in nodes:
-            self.addItem(NodeItem(node.x, node.y, node.name))
+        for n in nodes:
+            new_node_item = NodeItem(n.x, n.y, n.name)
+            self.nodes.append(new_node_item)
+            self.addItem(new_node_item)
         
         for link in links:
             new_link_item = LinkItem(link.shape_points)
@@ -106,6 +109,21 @@ class SchematicScene(QGraphicsScene):
             i = route_nodes[x]
             j = route_nodes[x + 1]
             self.links[(i, j)].is_on_selected_path = is_selected
+
+    def scale_node_labels(self, value):
+        for n in self.nodes:
+            n.node_label.set_size_multiplier(value / 10.0)
+        self.update()
+
+    def scale_nodes(self, value):
+        for n in self.nodes:
+            n.set_diameter(value)
+        self.update()
+
+    def zoom(self, lod):
+        for n in self.nodes:
+            n.set_label_pos(lod)
+        self.update()
 
     def mousePressEvent(self, event: 'PySide2.QtWidgets.QGraphicsSceneMouseEvent') -> None:
         return super().mousePressEvent(event)

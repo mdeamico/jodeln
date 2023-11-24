@@ -11,6 +11,7 @@ from gui import schematic_scene, od_tablemodel
 from gui.dialog_open import DialogOpen
 from gui.dialog_export import DialogExport
 from gui.dialog_od_view import DialogODView
+from gui.dialog_settings import DialogSettings
 
 from typing import Protocol, TYPE_CHECKING
 
@@ -43,20 +44,23 @@ class MainWindow(QMainWindow):
         self.dialog_open = DialogOpen(self.model, cb_post_load=self.show_network)
         self.dialog_export = DialogExport(self.model)
         self.dialog_od_view = DialogODView(self.model)
+        self.dialog_settings = DialogSettings()
 
-        # Connect push buttons to slot functions
-        self.ui.pbShowDialogOpen.clicked.connect(self.show_dialog_open)
-        self.ui.pbShowExportDialog.clicked.connect(self.show_dialog_export)
-        self.ui.pbODView.clicked.connect(self.show_dialog_od_view)
+        # Connect actions to functions
+        self.ui.actionOpen.triggered.connect(self.show_dialog_open)
+        self.ui.actionExport.triggered.connect(self.show_dialog_export)
+        self.ui.actionSettings.triggered.connect(self.show_dialog_settings)
+        self.ui.actionEstimate_OD.triggered.connect(self.show_dialog_od_view)
 
-        # Disable buttons that should only be used after loading a network
-        self.ui.pbShowExportDialog.setEnabled(False)
-        self.ui.pbODView.setEnabled(False)
+        # Disable actions that should only be used after loading a network
+        self.ui.actionExport.setEnabled(False)
+        self.ui.actionEstimate_OD.setEnabled(False)
 
         # Setup graphics view
         self.schematic_scene = schematic_scene.SchematicScene()
         self.ui.gvSchematic.setScene(self.schematic_scene)
         self.ui.gvSchematic.setRenderHints(QPainter.Antialiasing)
+        self.ui.gvSchematic.setRenderHint(QPainter.SmoothPixmapTransform)
 
         # Flip y coordinates to make y coordinates increasing from bottom to top.
         self.ui.gvSchematic.scale(1, -1)
@@ -70,6 +74,9 @@ class MainWindow(QMainWindow):
 
         self.ui.filterToggle.clicked.connect(self.collapse_filter_section)
         self.ui.frame.setVisible(False)
+
+        # Connect settings slots
+        # self.dialog_settings.ui.sldNodeScale.valueChanged.connect(lambda x: print(f"x = {x}"))
         
         
     def show_dialog_open(self) -> None:
@@ -83,6 +90,8 @@ class MainWindow(QMainWindow):
         self.dialog_od_view.load_od_data()
         self.dialog_od_view.show()
 
+    def show_dialog_settings(self) -> None:
+        self.dialog_settings.show()
 
     def show_network(self) -> None:
         """Shows the nodes, links, etc from the loaded network."""
@@ -102,6 +111,8 @@ class MainWindow(QMainWindow):
         self.ui.gvSchematic.fitInView(
             init_rect, 
             Qt.KeepAspectRatio)
+        
+        self.ui.gvSchematic.update_item_pos()
 
         routes = self.model.get_routes()
         self.od_table_model = od_tablemodel.ODTableModel(routes)
@@ -116,9 +127,8 @@ class MainWindow(QMainWindow):
 
         self.schematic_scene.load_routes(routes)
 
-        self.ui.pbShowExportDialog.setEnabled(True)
-        
-        self.ui.pbODView.setEnabled(self.model.has_od())
+        self.ui.actionExport.setEnabled(True)
+        self.ui.actionEstimate_OD.setEnabled(self.model.has_od())
 
 
     def reset(self):
@@ -126,6 +136,8 @@ class MainWindow(QMainWindow):
         self.schematic_scene = schematic_scene.SchematicScene()
         self.ui.gvSchematic.setScene(self.schematic_scene)
         self.ui.tblOD.setModel(None)
+        self.dialog_settings.ui.spnNodeLabelSize.valueChanged.connect(self.schematic_scene.scale_node_labels)
+        self.dialog_settings.ui.spnNodeSize.valueChanged.connect(self.schematic_scene.scale_nodes)
         
 
     def on_od_table_selection(self, selected, deselected) -> None:

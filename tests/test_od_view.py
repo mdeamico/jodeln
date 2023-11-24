@@ -32,7 +32,7 @@ class MainTest(unittest.TestCase):
     def test_draw(self):
         net_folder = os.path.join(os.getcwd(), "tests", "networks", "net01")
         self.window.show()
-        QTest.mouseClick(self.window.ui.pbShowDialogOpen, Qt.LeftButton)
+        self.window.ui.actionOpen.trigger()
         self.window.dialog_open.ui.leLinks.setText(os.path.join(net_folder, "links.csv"))
         self.window.dialog_open.ui.leNodes.setText(os.path.join(net_folder, "nodes.csv"))
         self.window.dialog_open.ui.leSeedOD.setText(os.path.join(net_folder, "seed_matrix.csv"))
