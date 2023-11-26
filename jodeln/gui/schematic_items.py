@@ -6,6 +6,7 @@ from PySide2.QtGui import QPainter, QPen, QColor, QPainterPath, QFont, QPolygonF
 from PySide2.QtWidgets import QStyleOptionGraphicsItem, QWidget
 from PySide2.QtCore import Qt
 
+from .node_label import NodeLabel
 
 class LinkItem(QGraphicsItem):
     """GraphicsItem for network links.
@@ -50,9 +51,24 @@ class NodeItem(QGraphicsItem):
         self.x = x
         self.y = y
         self.name = name
-        self.diameter = 5
+        self.diameter = 10.0
         self.pen_width = 1
+        self.lod = 1.0
+
+        self.node_label = NodeLabel(self, self.name)
+        self.set_label_pos()
     
+    def set_label_pos(self, lod=1) -> None:
+        self.lod = lod
+        self.label_offset_x = self.diameter * 0.55 / lod
+        self.label_offset_y = self.diameter * 0.55 / lod
+        self.node_label.setPos(self.x + self.label_offset_x, self.y + self.label_offset_y)
+
+    def set_diameter(self, diameter=10.0) -> None:
+        self.prepareGeometryChange()
+        self.diameter = diameter
+        self.set_label_pos(self.lod)
+
     def boundingRect(self) -> QRectF:
         return QRectF(self.x - self.diameter / 2 - self.pen_width, 
                       self.y - self.diameter / 2 - self.pen_width,
@@ -61,39 +77,17 @@ class NodeItem(QGraphicsItem):
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: Optional[QWidget]) -> None:
 
-        # Draw a circle for the node
         pen = QPen(Qt.gray)
         pen.setWidth(2)
         pen.setCosmetic(True)
-
-        # Combine ideas from these code samples to draw items at a fixed size:
-        # https://stackoverflow.com/questions/1222914/qgraphicsview-and-qgraphicsitem-don%C2%B4t-scale-item-when-scaling-the-view-rect
-        # https://www.qtcentre.org/threads/28691-Scale-independent-QGraphicsItem
-
-        object_rect = self.boundingRect()
-        mapped_rect = painter.transform().mapRect(object_rect)
-        
-        width_ratio = object_rect.width() / mapped_rect.width()
-
-        scale_factor = max(1, width_ratio)
-
         painter.setPen(pen)
         painter.setBrush(Qt.gray)
 
-        scaled_diameter = self.diameter * scale_factor
+        lod = option.levelOfDetailFromTransform(painter.worldTransform())
+        self.lod = lod
+        painter.scale(1 / lod, 1 / lod)
 
-        painter.drawEllipse((self.x - scaled_diameter / 2), 
-                            (self.y - scaled_diameter / 2), 
-                            scaled_diameter,
-                            scaled_diameter)
-
-        # Draw text for the node name
-        label_path = QPainterPath()
-        label_font = QFont("Calibri", 10 * scale_factor)
-        label_path.addText(self.x, -self.y - self.diameter / 2, label_font, self.name)
-        painter.scale(1.0, -1.0)
-        
-        painter.setBrush(Qt.blue)
-        painter.setPen(Qt.NoPen)
-        painter.drawPath(label_path)
-        
+        painter.drawEllipse((self.x * lod) - self.diameter / 2.0, 
+                            (self.y * lod) - self.diameter / 2.0, 
+                            self.diameter,
+                            self.diameter)

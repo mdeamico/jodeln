@@ -20,50 +20,34 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(926, 483)
+        MainWindow.resize(986, 675)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setMaximumSize(QSize(16777215, 16777215))
+        self.actionOpen = QAction(MainWindow)
+        self.actionOpen.setObjectName(u"actionOpen")
+        self.actionSettings = QAction(MainWindow)
+        self.actionSettings.setObjectName(u"actionSettings")
+        self.actionExport = QAction(MainWindow)
+        self.actionExport.setObjectName(u"actionExport")
+        self.actionEstimate_OD = QAction(MainWindow)
+        self.actionEstimate_OD.setObjectName(u"actionEstimate_OD")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
         self.centralwidget.setSizePolicy(sizePolicy)
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.pbShowDialogOpen = QPushButton(self.centralwidget)
-        self.pbShowDialogOpen.setObjectName(u"pbShowDialogOpen")
-
-        self.horizontalLayout.addWidget(self.pbShowDialogOpen)
-
-        self.pbShowExportDialog = QPushButton(self.centralwidget)
-        self.pbShowExportDialog.setObjectName(u"pbShowExportDialog")
-
-        self.horizontalLayout.addWidget(self.pbShowExportDialog)
-
-        self.pbODView = QPushButton(self.centralwidget)
-        self.pbODView.setObjectName(u"pbODView")
-
-        self.horizontalLayout.addWidget(self.pbODView)
-
-
-        self.verticalLayout_2.addLayout(self.horizontalLayout)
-
-        self.line = QFrame(self.centralwidget)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.HLine)
-        self.line.setFrameShadow(QFrame.Sunken)
-
-        self.verticalLayout_2.addWidget(self.line)
-
         self.splitter = QSplitter(self.centralwidget)
         self.splitter.setObjectName(u"splitter")
+        self.splitter.setStyleSheet(u"QSplitter::handle {\n"
+"         image: url(:/theme/splitter_handle.png);\n"
+"}")
         self.splitter.setOrientation(Qt.Horizontal)
+        self.splitter.setHandleWidth(8)
         self.layoutWidget = QWidget(self.splitter)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.verticalLayout = QVBoxLayout(self.layoutWidget)
@@ -152,6 +136,14 @@ class Ui_MainWindow(object):
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.toolBar = QToolBar(MainWindow)
+        self.toolBar.setObjectName(u"toolBar")
+        MainWindow.addToolBar(Qt.TopToolBarArea, self.toolBar)
+
+        self.toolBar.addAction(self.actionOpen)
+        self.toolBar.addAction(self.actionSettings)
+        self.toolBar.addAction(self.actionExport)
+        self.toolBar.addAction(self.actionEstimate_OD)
 
         self.retranslateUi(MainWindow)
 
@@ -160,13 +152,24 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Jodeln", None))
-        self.pbShowDialogOpen.setText(QCoreApplication.translate("MainWindow", u"Open", None))
-        self.pbShowExportDialog.setText(QCoreApplication.translate("MainWindow", u"Export", None))
-        self.pbODView.setText(QCoreApplication.translate("MainWindow", u"View and Estimate OD", None))
+        self.actionOpen.setText(QCoreApplication.translate("MainWindow", u"Open", None))
+#if QT_CONFIG(tooltip)
+        self.actionOpen.setToolTip(QCoreApplication.translate("MainWindow", u"Open Network", None))
+#endif // QT_CONFIG(tooltip)
+        self.actionSettings.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
+#if QT_CONFIG(tooltip)
+        self.actionSettings.setToolTip(QCoreApplication.translate("MainWindow", u"Settings", None))
+#endif // QT_CONFIG(tooltip)
+        self.actionExport.setText(QCoreApplication.translate("MainWindow", u"Export", None))
+        self.actionEstimate_OD.setText(QCoreApplication.translate("MainWindow", u"Estimate OD", None))
+#if QT_CONFIG(tooltip)
+        self.actionEstimate_OD.setToolTip(QCoreApplication.translate("MainWindow", u"View and Estimate OD", None))
+#endif // QT_CONFIG(tooltip)
         self.filterToggle.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Origin", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Destination", None))
         self.pbFilterApply.setText(QCoreApplication.translate("MainWindow", u"Apply Filter", None))
         self.pbFilterClear.setText(QCoreApplication.translate("MainWindow", u"Clear Filter", None))
+        self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 

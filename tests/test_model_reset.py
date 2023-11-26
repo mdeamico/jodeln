@@ -32,7 +32,7 @@ class MainTest(unittest.TestCase):
     def test_reset(self):
         net_folder = os.path.join(os.getcwd(), "tests", "networks", "net01")
         self.window.show()
-        QTest.mouseClick(self.window.ui.pbShowDialogOpen, Qt.LeftButton)
+        self.window.ui.actionOpen.trigger()
         self.window.dialog_open.ui.leLinks.setText(os.path.join(net_folder, "links.csv"))
         self.window.dialog_open.ui.leNodes.setText(os.path.join(net_folder, "nodes.csv"))
         QTest.mouseClick(self.window.dialog_open.ui.buttonBox.button(QDialogButtonBox.Ok), Qt.LeftButton)

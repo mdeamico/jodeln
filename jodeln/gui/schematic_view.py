@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QGraphicsView
+from PySide2.QtWidgets import QGraphicsView, QStyleOptionGraphicsItem
 import PySide2.QtCore
 
 from typing import TYPE_CHECKING
@@ -13,6 +13,10 @@ class SchematicView(QGraphicsView):
         self.setDragMode(QGraphicsView.ScrollHandDrag)
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
     
+    def update_item_pos(self):
+        lod = QStyleOptionGraphicsItem.levelOfDetailFromTransform(self.transform())
+        self.scene().zoom(lod)
+
     def wheelEvent(self, event: 'PySide2.QtGui.QWheelEvent') -> None:
 
         # Zoom to point under mouse cursor.
@@ -25,7 +29,10 @@ class SchematicView(QGraphicsView):
         zoom_factor = 1.1
         if event.angleDelta().y() <= 0:
             zoom_factor = 0.9
-        
+    
+        lod = QStyleOptionGraphicsItem.levelOfDetailFromTransform(self.transform())
+        self.scene().zoom(lod)
+
         self.scale(zoom_factor, zoom_factor)
         self.setTransformationAnchor(previous_anchor)
 
